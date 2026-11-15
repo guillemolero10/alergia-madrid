@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/guillemolero10/alergia-madrid/docs/esquema/estado_actual.schema.json",
+  "title": "estado_actual.json (AlergIA Madrid)",
+  "description": "Estado del aire, polen y viento. Las horas van en ISO 8601 con el desfase de Europe/Madrid y marcan el final de la hora medida. La capa `polen` es opcional hasta la tarea 5.",
+  "type": "object",
+  "required": ["version", "generado", "modo", "fecha_referencia", "capas", "observaciones", "riesgo", "viento"],
+  "additionalProperties": false,
+  "$defs": {
+    "nivel": {"enum": ["sin_dato", "bajo", "medio", "alto"]},
+    "instante": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{2}:\\d{2}$"},
+    "fecha": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
+    "capa": {
+      "type": "object",
+      "required": ["ultimo_dato", "fuente", "estado"],
+      "additionalProperties": false,
+      "properties": {
+        "ultimo_dato": {"oneOf": [{"$ref": "#/$defs/instante"}, {"$ref": "#/$defs/fecha"}]},
+        "fuente": {"type": "string", "minLength": 1},
+        "estado": {"enum": ["ok", "antiguo", "error"]}
+      }
+    },
+    "observacion": {
+      "type": "object",
+      "required": ["lugar", "variable", "valor", "unidad", "hora", "fuente", "nivel"],
+      "additionalProperties": false,
+      "properties": {
+        "lugar": {"type": "string", "pattern": "^(est:\\d{8}|cap:[A-Z0-9]+|mun:\\d{5})$"},
+        "variable": {"type": "string", "pattern": "^(no2|o3|pm10|pm25|polen_[a-z0-9_]+)$"},
+        "valor": {"type": "number", "minimum": 0},
+        "unidad": {"type": "string"},
+        "hora": {"oneOf": [{"$ref": "#/$defs/instante"}, {"$ref": "#/$defs/fecha"}]},
+        "fuente": {"type": "string"},
+        "nivel": {"$ref": "#/$defs/nivel"},
+        "regla": {"enum": ["1h", "media8h", "media24h", "diario"]},
+        "valor_regla": {"type": ["number", "null"]},
+        "provisional": {"type": "boolean"},
+        "serie": {
+          "type": "array",
+          "minItems": 24,
+          "maxItems": 24,
+          "items": {"type": ["number", "null"]}
+        }
+      }
+    },
+    "riesgo": {
+      "type": "object",
+      "required": ["lugar", "nivel", "nivel_aire", "nivel_polen", "peor_variable", "captador", "polen_antiguedad_dias"],
+      "additionalProperties": false,
+      "properties": {
+        "lugar": {"type": "string", "pattern": "^est:\\d{8}$"},
+        "nivel": {"$ref": "#/$defs/nivel"},
+        "nivel_aire": {"$ref": "#/$defs/nivel"},
+        "nivel_polen": {"$ref": "#/$defs/nivel"},
+        "peor_variable": {"type": ["string", "null"]},
+        "captador": {"type": ["string", "null"]},
+        "polen_antiguedad_dias": {"type": ["integer", "null"], "minimum": 0}
+      }
+    },
+    "viento": {
+      "type": "object",
+      "required": ["lat", "lon", "velocidad_kmh", "direccion_grados"],
+      "additionalProperties": false,
+      "properties": {
+        "lat": {"type": "number"},
+        "lon": {"type": "number"},
+        "velocidad_kmh": {"type": "number", "minimum": 0},
+        "direccion_grados": {"type": "integer", "minimum": 0, "maximum": 359}
+      }
+    }
+  },
+  "properties": {
+    "version": {"const": 1},
+    "generado": {"$ref": "#/$defs/instante"},
+    "modo": {"enum": ["tiempo_real", "historico"]},
+    "fecha_referencia": {"$ref": "#/$defs/instante"},
+    "capas": {
+      "type": "object",
+      "required": ["aire", "viento"],
+      "additionalProperties": false,
+      "properties": {
+        "aire": {"$ref": "#/$defs/capa"},
+        "polen": {"$ref": "#/$defs/capa"},
+        "viento": {"$ref": "#/$defs/capa"}
+      }
+    },
+    "observaciones": {"type": "array", "items": {"$ref": "#/$defs/observacion"}},
+    "riesgo": {"type": "array", "items": {"$ref": "#/$defs/riesgo"}},
+    "viento": {"type": "array", "items": {"$ref": "#/$defs/viento"}}
+  }
+}

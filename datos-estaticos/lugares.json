@@ -1,0 +1,964 @@
+{
+  "generado": "2026-11-15",
+  "fuentes": {
+    "estaciones": "https://datos.comunidad.madrid/catalogo/dataset/calidad_aire_estaciones (CC BY 4.0)",
+    "captadores": "https://datos.comunidad.madrid/catalogo/dataset/captadores_polen (CC BY 4.0)",
+    "captador_activo": "https://datos.comunidad.madrid/catalogo/dataset/mediciones_polen: con datos no vacios en 2026",
+    "madrid_capital": "coordenada aproximada introducida a mano (Puerta del Sol); no hay estacion de la Comunidad en la capital"
+  },
+  "estaciones": [
+    {
+      "id": "est:28005002",
+      "nombre": "Alcalá de Henares",
+      "municipio": "Alcalá de Henares",
+      "lat": 40.479328,
+      "lon": -3.377949,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm25",
+        "so2"
+      ],
+      "captador": "cap:ALCA",
+      "dist_captador_km": 0.64
+    },
+    {
+      "id": "est:28006004",
+      "nombre": "Alcobendas",
+      "municipio": "Alcobendas",
+      "lat": 40.540351,
+      "lon": -3.645253,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:ALCO",
+      "dist_captador_km": 0.68
+    },
+    {
+      "id": "est:28007004",
+      "nombre": "Alcorcón",
+      "municipio": "Alcorcón",
+      "lat": 40.341909,
+      "lon": -3.835735,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm25"
+      ],
+      "captador": "cap:GETA",
+      "dist_captador_km": 9.39
+    },
+    {
+      "id": "est:28009001",
+      "nombre": "Algete",
+      "municipio": "Algete",
+      "lat": 40.599819,
+      "lon": -3.503286,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm25"
+      ],
+      "captador": "cap:ALCO",
+      "dist_captador_km": 14.13
+    },
+    {
+      "id": "est:28013002",
+      "nombre": "Aranjuez",
+      "municipio": "Aranjuez",
+      "lat": 40.033272,
+      "lon": -3.591411,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:ARAN",
+      "dist_captador_km": 0.65
+    },
+    {
+      "id": "est:28014002",
+      "nombre": "Arganda del Rey",
+      "municipio": "Arganda del Rey",
+      "lat": 40.300694,
+      "lon": -3.458831,
+      "tipo": "industrial",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:COSL",
+      "dist_captador_km": 16.63
+    },
+    {
+      "id": "est:28016001",
+      "nombre": "El Atazar",
+      "municipio": "El Atazar",
+      "lat": 40.909019,
+      "lon": -3.467903,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm25",
+        "so2"
+      ],
+      "captador": "cap:ALCO",
+      "dist_captador_km": 43.62
+    },
+    {
+      "id": "est:28045002",
+      "nombre": "Colmenar Viejo",
+      "municipio": "Colmenar Viejo",
+      "lat": 40.664649,
+      "lon": -3.773865,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:ALCO",
+      "dist_captador_km": 16.99
+    },
+    {
+      "id": "est:28047002",
+      "nombre": "Collado Villalba",
+      "municipio": "Collado Villalba",
+      "lat": 40.633089,
+      "lon": -4.01425,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm25",
+        "so2"
+      ],
+      "captador": "cap:VILL",
+      "dist_captador_km": 2.59
+    },
+    {
+      "id": "est:28049003",
+      "nombre": "Coslada",
+      "municipio": "Coslada",
+      "lat": 40.43066,
+      "lon": -3.542461,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm25"
+      ],
+      "captador": "cap:COSL",
+      "dist_captador_km": 2.02
+    },
+    {
+      "id": "est:28058004",
+      "nombre": "Fuenlabrada",
+      "municipio": "Fuenlabrada",
+      "lat": 40.281505,
+      "lon": -3.800946,
+      "tipo": "industrial",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:GETA",
+      "dist_captador_km": 6.58
+    },
+    {
+      "id": "est:28065014",
+      "nombre": "Getafe",
+      "municipio": "Getafe",
+      "lat": 40.314577,
+      "lon": -3.716879,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm25"
+      ],
+      "captador": "cap:GETA",
+      "dist_captador_km": 1.46
+    },
+    {
+      "id": "est:28067001",
+      "nombre": "Guadalix de la Sierra",
+      "municipio": "Guadalix de la Sierra",
+      "lat": 40.780633,
+      "lon": -3.702147,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:ALCO",
+      "dist_captador_km": 26.8
+    },
+    {
+      "id": "est:28074007",
+      "nombre": "Leganés",
+      "municipio": "Leganés",
+      "lat": 40.339762,
+      "lon": -3.754508,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm25",
+        "pm1"
+      ],
+      "captador": "cap:GETA",
+      "dist_captador_km": 3.76
+    },
+    {
+      "id": "est:28080003",
+      "nombre": "Majadahonda",
+      "municipio": "Majadahonda",
+      "lat": 40.446103,
+      "lon": -3.868994,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:ROZA",
+      "dist_captador_km": 8.81
+    },
+    {
+      "id": "est:28092005",
+      "nombre": "Móstoles",
+      "municipio": "Móstoles",
+      "lat": 40.324225,
+      "lon": -3.876772,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm1",
+        "so2"
+      ],
+      "captador": "cap:GETA",
+      "dist_captador_km": 12.28
+    },
+    {
+      "id": "est:28102001",
+      "nombre": "Orusco de Tajuña",
+      "municipio": "Orusco de Tajuña",
+      "lat": 40.287556,
+      "lon": -3.221094,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "so2"
+      ],
+      "captador": "cap:ALCA",
+      "dist_captador_km": 24.9
+    },
+    {
+      "id": "est:28106001",
+      "nombre": "Parla",
+      "municipio": "Parla",
+      "lat": 40.245917,
+      "lon": -3.771389,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm25"
+      ],
+      "captador": "cap:GETA",
+      "dist_captador_km": 7.85
+    },
+    {
+      "id": "est:28115003",
+      "nombre": "Pozuelo de Alarcón",
+      "municipio": "Pozuelo de Alarcón",
+      "lat": 40.446611,
+      "lon": -3.808,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm25"
+      ],
+      "captador": "cap:FACF",
+      "dist_captador_km": 6.92
+    },
+    {
+      "id": "est:28120001",
+      "nombre": "Rascafría",
+      "municipio": "Rascafría",
+      "lat": 40.8251,
+      "lon": -3.9612,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm25"
+      ],
+      "captador": "cap:VILL",
+      "dist_captador_km": 19.29
+    },
+    {
+      "id": "est:28123002",
+      "nombre": "Rivas-Vaciamadrid",
+      "municipio": "Rivas-Vaciamadrid",
+      "lat": 40.359706,
+      "lon": -3.542903,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:COSL",
+      "dist_captador_km": 7.64
+    },
+    {
+      "id": "est:28127004",
+      "nombre": "Las Rozas de Madrid",
+      "municipio": "Las Rozas de Madrid",
+      "lat": 40.500639,
+      "lon": -3.885583,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:ROZA",
+      "dist_captador_km": 2.59
+    },
+    {
+      "id": "est:28133002",
+      "nombre": "San Martín de Valdeiglesias",
+      "municipio": "San Martín de Valdeiglesias",
+      "lat": 40.367758,
+      "lon": -4.398117,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:VILL",
+      "dist_captador_km": 46.25
+    },
+    {
+      "id": "est:28134002",
+      "nombre": "San Sebastián de los Reyes",
+      "municipio": "San Sebastián de los Reyes",
+      "lat": 40.569722,
+      "lon": -3.635667,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10"
+      ],
+      "captador": "cap:ALCO",
+      "dist_captador_km": 3.34
+    },
+    {
+      "id": "est:28148004",
+      "nombre": "Torrejón de Ardoz",
+      "municipio": "Torrejón de Ardoz",
+      "lat": 40.449541,
+      "lon": -3.477645,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm25"
+      ],
+      "captador": "cap:COSL",
+      "dist_captador_km": 7.88
+    },
+    {
+      "id": "est:28161001",
+      "nombre": "Valdemoro",
+      "municipio": "Valdemoro",
+      "lat": 40.185241,
+      "lon": -3.680265,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm25"
+      ],
+      "captador": "cap:GETA",
+      "dist_captador_km": 14.6
+    },
+    {
+      "id": "est:28171001",
+      "nombre": "Villa del Prado",
+      "municipio": "Villa del Prado",
+      "lat": 40.247937,
+      "lon": -4.27515,
+      "tipo": "fondo",
+      "mide": [
+        "no2",
+        "o3",
+        "pm10",
+        "pm25",
+        "so2"
+      ],
+      "captador": "cap:ROZA",
+      "dist_captador_km": 44.78
+    },
+    {
+      "id": "est:28180001",
+      "nombre": "Villarejo de Salvanés",
+      "municipio": "Villarejo de Salvanés",
+      "lat": 40.167228,
+      "lon": -3.276569,
+      "tipo": "trafico",
+      "mide": [
+        "no2",
+        "o3",
+        "pm25"
+      ],
+      "captador": "cap:ARAN",
+      "dist_captador_km": 31.27
+    }
+  ],
+  "captadores": [
+    {
+      "id": "cap:ALCA",
+      "nombre": "Alcalá de Henares",
+      "localidad": "Alcalá de Henares",
+      "lat": 40.480415,
+      "lon": -3.370529,
+      "activo": true
+    },
+    {
+      "id": "cap:ALCO",
+      "nombre": "Alcobendas",
+      "localidad": "Alcobendas",
+      "lat": 40.542595,
+      "lon": -3.652715,
+      "activo": true
+    },
+    {
+      "id": "cap:ALER",
+      "nombre": "Madrid-Barrio Salamanca",
+      "localidad": "Madrid",
+      "lat": 40.436624,
+      "lon": -3.677603,
+      "activo": true
+    },
+    {
+      "id": "cap:ARAN",
+      "nombre": "Aranjuez",
+      "localidad": "Aranjuez",
+      "lat": 40.031765,
+      "lon": -3.598762,
+      "activo": true
+    },
+    {
+      "id": "cap:AYTM",
+      "nombre": "Madrid-Arganzuela",
+      "localidad": "Madrid",
+      "lat": 40.402487,
+      "lon": -3.695461,
+      "activo": true
+    },
+    {
+      "id": "cap:COSL",
+      "nombre": "Coslada",
+      "localidad": "Coslada",
+      "lat": 40.426248,
+      "lon": -3.565569,
+      "activo": true
+    },
+    {
+      "id": "cap:FACF",
+      "nombre": "Madrid-Ciudad Universitaria",
+      "localidad": "Madrid",
+      "lat": 40.445393,
+      "lon": -3.726293,
+      "activo": true
+    },
+    {
+      "id": "cap:GETA",
+      "nombre": "Getafe",
+      "localidad": "Getafe",
+      "lat": 40.31018,
+      "lon": -3.733128,
+      "activo": true
+    },
+    {
+      "id": "cap:LEGA",
+      "nombre": "Leganés",
+      "localidad": "Leganés",
+      "lat": 40.328373,
+      "lon": -3.765614,
+      "activo": false
+    },
+    {
+      "id": "cap:ROZA",
+      "nombre": "Las Rozas",
+      "localidad": "Las Rozas de Madrid",
+      "lat": 40.523734,
+      "lon": -3.889936,
+      "activo": true
+    },
+    {
+      "id": "cap:VILL",
+      "nombre": "Collado Villalba",
+      "localidad": "Moralzarzal",
+      "lat": 40.654306,
+      "lon": -4.001604,
+      "activo": true
+    }
+  ],
+  "municipios": [
+    {
+      "id": "mun:28005",
+      "nombre": "Alcalá de Henares",
+      "alias": [
+        "alcala de henares",
+        "alcala"
+      ],
+      "lat": 40.479328,
+      "lon": -3.377949,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 0.64,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28006",
+      "nombre": "Alcobendas",
+      "alias": [
+        "alcobendas"
+      ],
+      "lat": 40.540351,
+      "lon": -3.645253,
+      "estacion": "est:28006004",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 0.68,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28007",
+      "nombre": "Alcorcón",
+      "alias": [
+        "alcorcon"
+      ],
+      "lat": 40.341909,
+      "lon": -3.835735,
+      "estacion": "est:28007004",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:GETA",
+      "dist_captador_km": 9.39,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28009",
+      "nombre": "Algete",
+      "alias": [
+        "algete"
+      ],
+      "lat": 40.599819,
+      "lon": -3.503286,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 14.13,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28013",
+      "nombre": "Aranjuez",
+      "alias": [
+        "aranjuez"
+      ],
+      "lat": 40.033272,
+      "lon": -3.591411,
+      "estacion": "est:28013002",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 0.65,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28014",
+      "nombre": "Arganda del Rey",
+      "alias": [
+        "arganda del rey",
+        "arganda"
+      ],
+      "lat": 40.300694,
+      "lon": -3.458831,
+      "estacion": "est:28014002",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:COSL",
+      "dist_captador_km": 16.63,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28016",
+      "nombre": "El Atazar",
+      "alias": [
+        "el atazar",
+        "atazar"
+      ],
+      "lat": 40.909019,
+      "lon": -3.467903,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 43.62,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28045",
+      "nombre": "Colmenar Viejo",
+      "alias": [
+        "colmenar viejo",
+        "colmenar"
+      ],
+      "lat": 40.664649,
+      "lon": -3.773865,
+      "estacion": "est:28045002",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 16.99,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28047",
+      "nombre": "Collado Villalba",
+      "alias": [
+        "collado villalba",
+        "villalba"
+      ],
+      "lat": 40.633089,
+      "lon": -4.01425,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:VILL",
+      "dist_captador_km": 2.59,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28049",
+      "nombre": "Coslada",
+      "alias": [
+        "coslada"
+      ],
+      "lat": 40.43066,
+      "lon": -3.542461,
+      "estacion": "est:28049003",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:COSL",
+      "dist_captador_km": 2.02,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28058",
+      "nombre": "Fuenlabrada",
+      "alias": [
+        "fuenlabrada"
+      ],
+      "lat": 40.281505,
+      "lon": -3.800946,
+      "estacion": "est:28058004",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:GETA",
+      "dist_captador_km": 6.58,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28065",
+      "nombre": "Getafe",
+      "alias": [
+        "getafe"
+      ],
+      "lat": 40.314577,
+      "lon": -3.716879,
+      "estacion": "est:28065014",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:GETA",
+      "dist_captador_km": 1.46,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28067",
+      "nombre": "Guadalix de la Sierra",
+      "alias": [
+        "guadalix de la sierra",
+        "guadalix"
+      ],
+      "lat": 40.780633,
+      "lon": -3.702147,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 26.8,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28074",
+      "nombre": "Leganés",
+      "alias": [
+        "leganes"
+      ],
+      "lat": 40.339762,
+      "lon": -3.754508,
+      "estacion": "est:28074007",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:GETA",
+      "dist_captador_km": 3.76,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28079",
+      "nombre": "Madrid",
+      "alias": [
+        "madrid",
+        "madrid capital",
+        "la capital"
+      ],
+      "lat": 40.4168,
+      "lon": -3.7038,
+      "estacion": "est:28115003",
+      "dist_estacion_km": 9.42,
+      "captador": "cap:AYTM",
+      "dist_captador_km": 1.74,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28080",
+      "nombre": "Majadahonda",
+      "alias": [
+        "majadahonda"
+      ],
+      "lat": 40.446103,
+      "lon": -3.868994,
+      "estacion": "est:28080003",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 8.81,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28092",
+      "nombre": "Móstoles",
+      "alias": [
+        "mostoles"
+      ],
+      "lat": 40.324225,
+      "lon": -3.876772,
+      "estacion": "est:28092005",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:GETA",
+      "dist_captador_km": 12.28,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28102",
+      "nombre": "Orusco de Tajuña",
+      "alias": [
+        "orusco de tajuna",
+        "orusco"
+      ],
+      "lat": 40.287556,
+      "lon": -3.221094,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 24.9,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28106",
+      "nombre": "Parla",
+      "alias": [
+        "parla"
+      ],
+      "lat": 40.245917,
+      "lon": -3.771389,
+      "estacion": "est:28106001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:GETA",
+      "dist_captador_km": 7.85,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28115",
+      "nombre": "Pozuelo de Alarcón",
+      "alias": [
+        "pozuelo de alarcon",
+        "pozuelo"
+      ],
+      "lat": 40.446611,
+      "lon": -3.808,
+      "estacion": "est:28115003",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:FACF",
+      "dist_captador_km": 6.92,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28120",
+      "nombre": "Rascafría",
+      "alias": [
+        "rascafria",
+        "puerto de cotos",
+        "cotos"
+      ],
+      "lat": 40.8251,
+      "lon": -3.9612,
+      "estacion": "est:28120001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:VILL",
+      "dist_captador_km": 19.29,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28123",
+      "nombre": "Rivas-Vaciamadrid",
+      "alias": [
+        "rivas-vaciamadrid",
+        "rivas"
+      ],
+      "lat": 40.359706,
+      "lon": -3.542903,
+      "estacion": "est:28123002",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:COSL",
+      "dist_captador_km": 7.64,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28127",
+      "nombre": "Las Rozas de Madrid",
+      "alias": [
+        "las rozas de madrid",
+        "rozas",
+        "las rozas"
+      ],
+      "lat": 40.500639,
+      "lon": -3.885583,
+      "estacion": "est:28127004",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 2.59,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28133",
+      "nombre": "San Martín de Valdeiglesias",
+      "alias": [
+        "san martin de valdeiglesias",
+        "san martin"
+      ],
+      "lat": 40.367758,
+      "lon": -4.398117,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:VILL",
+      "dist_captador_km": 46.25,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28134",
+      "nombre": "San Sebastián de los Reyes",
+      "alias": [
+        "san sebastian de los reyes",
+        "sanse"
+      ],
+      "lat": 40.569722,
+      "lon": -3.635667,
+      "estacion": "est:28134002",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 3.34,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28148",
+      "nombre": "Torrejón de Ardoz",
+      "alias": [
+        "torrejon de ardoz",
+        "torrejon"
+      ],
+      "lat": 40.449541,
+      "lon": -3.477645,
+      "estacion": "est:28148004",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:COSL",
+      "dist_captador_km": 7.88,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28161",
+      "nombre": "Valdemoro",
+      "alias": [
+        "valdemoro"
+      ],
+      "lat": 40.185241,
+      "lon": -3.680265,
+      "estacion": "est:28161001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:GETA",
+      "dist_captador_km": 14.6,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28171",
+      "nombre": "Villa del Prado",
+      "alias": [
+        "villa del prado"
+      ],
+      "lat": 40.247937,
+      "lon": -4.27515,
+      "estacion": "est:28171001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 44.78,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28180",
+      "nombre": "Villarejo de Salvanés",
+      "alias": [
+        "villarejo de salvanes",
+        "villarejo"
+      ],
+      "lat": 40.167228,
+      "lon": -3.276569,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 0.0,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 31.27,
+      "cobertura_aire": "buena"
+    }
+  ]
+}

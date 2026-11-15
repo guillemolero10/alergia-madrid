@@ -1,0 +1,319 @@
+{
+  "generado": "2026-11-15",
+  "niveles": "bajo | medio | alto (sin_dato aparte)",
+  "aire": {
+    "fuente": {
+      "norma": "Orden TEC/351/2019 (Indice Nacional de Calidad del Aire), anexo sustituido por la Resolucion de 2-sep-2020 (BOE-A-2020-10426, BOE 10-sep-2020)",
+      "url": [
+        "https://www.boe.es/eli/es/o/2019/03/18/tec351",
+        "https://www.boe.es/diario_boe/txt.php?id=BOE-A-2020-10426"
+      ],
+      "consultado": "2026-11-15",
+      "agrupacion": "bajo = buena + razonablemente buena; medio = regular; alto = desfavorable o peor",
+      "regla": "bajo si valor <= bajo_max; medio si valor <= medio_max; alto si mayor"
+    },
+    "no2": {
+      "unidad": "ug/m3",
+      "promedio": "hora",
+      "promedio_texto": "media de la ultima hora",
+      "bajo_max": 90,
+      "medio_max": 120,
+      "bandas_inca": [
+        {
+          "categoria": "buena",
+          "max": 40
+        },
+        {
+          "categoria": "razonablemente_buena",
+          "max": 90
+        },
+        {
+          "categoria": "regular",
+          "max": 120
+        },
+        {
+          "categoria": "desfavorable",
+          "max": 230
+        },
+        {
+          "categoria": "muy_desfavorable",
+          "max": 340
+        },
+        {
+          "categoria": "extremadamente_desfavorable",
+          "max": 1000
+        }
+      ]
+    },
+    "o3": {
+      "unidad": "ug/m3",
+      "promedio": "media_movil_8h",
+      "promedio_texto": "media movil de las ultimas 8 horas",
+      "bajo_max": 100,
+      "medio_max": 130,
+      "bandas_inca": [
+        {
+          "categoria": "buena",
+          "max": 50
+        },
+        {
+          "categoria": "razonablemente_buena",
+          "max": 100
+        },
+        {
+          "categoria": "regular",
+          "max": 130
+        },
+        {
+          "categoria": "desfavorable",
+          "max": 240
+        },
+        {
+          "categoria": "muy_desfavorable",
+          "max": 380
+        },
+        {
+          "categoria": "extremadamente_desfavorable",
+          "max": 800
+        }
+      ]
+    },
+    "pm10": {
+      "unidad": "ug/m3",
+      "promedio": "media_movil_24h",
+      "promedio_texto": "media movil de las ultimas 24 horas",
+      "bajo_max": 40,
+      "medio_max": 50,
+      "bandas_inca": [
+        {
+          "categoria": "buena",
+          "max": 20
+        },
+        {
+          "categoria": "razonablemente_buena",
+          "max": 40
+        },
+        {
+          "categoria": "regular",
+          "max": 50
+        },
+        {
+          "categoria": "desfavorable",
+          "max": 100
+        },
+        {
+          "categoria": "muy_desfavorable",
+          "max": 150
+        },
+        {
+          "categoria": "extremadamente_desfavorable",
+          "max": 1200
+        }
+      ]
+    },
+    "pm25": {
+      "unidad": "ug/m3",
+      "promedio": "media_movil_24h",
+      "promedio_texto": "media movil de las ultimas 24 horas",
+      "bajo_max": 20,
+      "medio_max": 25,
+      "bandas_inca": [
+        {
+          "categoria": "buena",
+          "max": 10
+        },
+        {
+          "categoria": "razonablemente_buena",
+          "max": 20
+        },
+        {
+          "categoria": "regular",
+          "max": 25
+        },
+        {
+          "categoria": "desfavorable",
+          "max": 50
+        },
+        {
+          "categoria": "muy_desfavorable",
+          "max": 75
+        },
+        {
+          "categoria": "extremadamente_desfavorable",
+          "max": 800
+        }
+      ]
+    }
+  },
+  "polen": {
+    "fuente": "https://datos.comunidad.madrid/catalogo/dataset/mediciones_polen_historico (CC BY 4.0), CSV 2010-2019",
+    "metodo": "P75 y P90 por tipo sobre los dias con valor > 0, juntando todos los captadores; bajo < P75 <= medio < P90 <= alto",
+    "periodo": "2010-2019",
+    "unidad": "granos/m3",
+    "aproximacion_propia": true,
+    "tipos": {
+      "abedul": {
+        "nombre": "Abedul",
+        "p75": 2.0,
+        "p90": 5.0,
+        "n_dias_positivos": 2953
+      },
+      "aligustre": {
+        "nombre": "Aligustre",
+        "p75": 2.0,
+        "p90": 6.0,
+        "n_dias_positivos": 3277
+      },
+      "aliso": {
+        "nombre": "Aliso",
+        "p75": 4.0,
+        "p90": 8.0,
+        "n_dias_positivos": 4946
+      },
+      "arce": {
+        "nombre": "Arce",
+        "p75": 16.0,
+        "p90": 52.0,
+        "n_dias_positivos": 6183
+      },
+      "artemisia": {
+        "nombre": "Artemisia",
+        "p75": 2.0,
+        "p90": 3.0,
+        "n_dias_positivos": 4695
+      },
+      "castano": {
+        "nombre": "Castaño",
+        "p75": 4.0,
+        "p90": 8.0,
+        "n_dias_positivos": 5278
+      },
+      "compuestas": {
+        "nombre": "Compuestas",
+        "p75": 2.0,
+        "p90": 5.0,
+        "n_dias_positivos": 11445
+      },
+      "corylus": {
+        "nombre": "Corylus",
+        "p75": 1.0,
+        "p90": 2.0,
+        "n_dias_positivos": 1152
+      },
+      "cupresaceas_taxaceas": {
+        "nombre": "Cupresáceas/Taxáceas",
+        "p75": 20.0,
+        "p90": 100.3,
+        "n_dias_positivos": 27178
+      },
+      "ericaceae": {
+        "nombre": "Ericaceae",
+        "p75": 2.5,
+        "p90": 5.0,
+        "n_dias_positivos": 5527
+      },
+      "eucalipto": {
+        "nombre": "Eucalipto",
+        "p75": 2.0,
+        "p90": 4.0,
+        "n_dias_positivos": 2986
+      },
+      "fresno": {
+        "nombre": "Fresno",
+        "p75": 15.0,
+        "p90": 39.0,
+        "n_dias_positivos": 9347
+      },
+      "gramineas": {
+        "nombre": "Gramíneas",
+        "p75": 11.0,
+        "p90": 41.0,
+        "n_dias_positivos": 25926
+      },
+      "moreras": {
+        "nombre": "Moreras",
+        "p75": 23.0,
+        "p90": 70.0,
+        "n_dias_positivos": 5712
+      },
+      "olivo": {
+        "nombre": "Olivo",
+        "p75": 16.0,
+        "p90": 76.0,
+        "n_dias_positivos": 11341
+      },
+      "olmos": {
+        "nombre": "Olmos",
+        "p75": 20.0,
+        "p90": 66.0,
+        "n_dias_positivos": 7080
+      },
+      "otros": {
+        "nombre": "Otros",
+        "p75": 7.0,
+        "p90": 14.0,
+        "n_dias_positivos": 16358
+      },
+      "pinos": {
+        "nombre": "Pinos",
+        "p75": 12.0,
+        "p90": 45.0,
+        "n_dias_positivos": 22042
+      },
+      "plantago": {
+        "nombre": "Plantago",
+        "p75": 11.0,
+        "p90": 26.0,
+        "n_dias_positivos": 14281
+      },
+      "platano_de_paseo": {
+        "nombre": "Plátano de paseo",
+        "p75": 35.0,
+        "p90": 321.0,
+        "n_dias_positivos": 11008
+      },
+      "pni": {
+        "nombre": "PNI (Polen no identificado)",
+        "p75": 4.0,
+        "p90": 8.0,
+        "n_dias_positivos": 19955
+      },
+      "populus": {
+        "nombre": "Populus",
+        "p75": 32.0,
+        "p90": 83.0,
+        "n_dias_positivos": 6146
+      },
+      "quenopodiaceas_amarantaceas": {
+        "nombre": "Quenopodiáceas/Amarantáceas",
+        "p75": 5.0,
+        "p90": 9.0,
+        "n_dias_positivos": 15192
+      },
+      "quercus": {
+        "nombre": "Quercus",
+        "p75": 21.0,
+        "p90": 122.0,
+        "n_dias_positivos": 24015
+      },
+      "rumex": {
+        "nombre": "Rumex (Acederas)",
+        "p75": 6.0,
+        "p90": 15.0,
+        "n_dias_positivos": 10134
+      },
+      "sauces": {
+        "nombre": "Sauces",
+        "p75": 3.0,
+        "p90": 6.0,
+        "n_dias_positivos": 4724
+      },
+      "urticaceae": {
+        "nombre": "Urticaceae (Ortigas)",
+        "p75": 4.0,
+        "p90": 9.0,
+        "n_dias_positivos": 20872
+      }
+    }
+  }
+}
