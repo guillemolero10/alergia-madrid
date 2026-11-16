@@ -1,0 +1,55 @@
+name: datos
+
+on:
+  schedule:
+    - cron: "27 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: datos
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout de main (codigo)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+
+      - name: Checkout de datos (salida y cache)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: datos
+          path: datos
+
+      - name: Instalar uv (con cache de dependencias)
+        uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2 # v10.3.3
+        with:
+          enable-cache: true
+          cache-dependency-glob: pipeline/uv.lock
+
+      - name: Tests del pipeline
+        run: uv run --project pipeline pytest
+
+      # Si todas las fuentes fallan, el pipeline sale con codigo 1 y el job queda en rojo sin publicar nada.
+      - name: Ejecutar el pipeline
+        run: uv run --project pipeline python -m alergia.ejecutar --salida datos
+
+      # Segunda validacion contra docs/esquema/ y commit solo de la lista blanca (nunca los CSV de cache/).
+      - name: Validar y hacer commit en datos
+        run: uv run --project pipeline python -m alergia.publicar datos --commit --mensaje "datos ${{ github.run_id }}"
+
+      - name: Subir a la rama datos
+        working-directory: datos
+        run: |
+          if [ -n "$(git log origin/datos..HEAD --oneline)" ]; then
+            git push origin HEAD:datos
+          else
+            echo "sin cambios"
+          fi
