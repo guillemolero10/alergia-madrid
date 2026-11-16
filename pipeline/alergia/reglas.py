@@ -1,7 +1,7 @@
 """Reglas de riesgo: unico sitio donde se aplican los umbrales (la web y el chat solo leen niveles ya calculados).
 
 Aire: cortes del Indice Nacional de Calidad del Aire (BOE) leidos de `datos-estaticos/umbrales.json`.
-Polen: percentiles P75/P90 propios (2010-2019). Ver DATOS.md.
+Polen: cortes `medio_min`/`alto_min` por tipo (PALINOCAM, REA o percentil con suelo propio). Ver DATOS.md.
 """
 from __future__ import annotations
 
@@ -35,11 +35,11 @@ def nivel_aire(variable: str, valor: float | None, umbrales: dict) -> str:
     return "bajo" if valor <= u["bajo_max"] else ("medio" if valor <= u["medio_max"] else "alto")
 
 
-def nivel_polen(valor: float | None, p75: float, p90: float) -> str:
-    """bajo < P75 <= medio < P90 <= alto (valor diario en granos/m3)."""
+def nivel_polen(valor: float | None, medio_min: float, alto_min: float) -> str:
+    """bajo < medio_min <= medio < alto_min <= alto (valor diario en granos/m3)."""
     if valor is None:
         return "sin_dato"
-    return "bajo" if valor < p75 else ("medio" if valor < p90 else "alto")
+    return "bajo" if valor < medio_min else ("medio" if valor < alto_min else "alto")
 
 
 def maximo(niveles: list[str]) -> str:

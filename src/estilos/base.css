@@ -1,0 +1,221 @@
+/* Tokens de diseño y estilos comunes. Tema nocturno: el mapa es oscuro para que brillen los niveles y el viento. */
+
+:root {
+  color-scheme: dark;
+
+  --fondo: #0a0f1c;
+  --superficie: rgba(13, 19, 34, 0.84);
+  --superficie-solida: #0f1626;
+  --superficie-2: rgba(160, 185, 240, 0.07);
+  --superficie-3: rgba(160, 185, 240, 0.12);
+  --borde: rgba(150, 172, 222, 0.17);
+  --borde-fuerte: rgba(150, 172, 222, 0.34);
+
+  --tinta: #eaf0fb;
+  --tinta-2: #b1bdd6;
+  --tinta-3: #8695b3;
+  --acento: #9fd0ff;
+  --viento: #bee2ff;
+  --ambar: #ffc247;
+
+  /* Semáforo (el mismo que src/lib/riesgo.ts) */
+  --nivel-bajo: #34d8a6;
+  --nivel-medio: #ffc247;
+  --nivel-alto: #ff5a5f;
+  --nivel-sin-dato: #8b96ad;
+
+  --radio: 16px;
+  --radio-s: 10px;
+  --sombra: 0 18px 50px -14px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
+
+  --fuente-ui: "IBM Plex Sans Variable", "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fuente-titulo: "Bricolage Grotesque Variable", "Bricolage Grotesque", var(--fuente-ui);
+  --fuente-dato: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Geometría del layout (la usan el mapa y los paneles) */
+  --margen: 16px;
+  --ancho-columna: 304px;
+  --ancho-panel: 400px;
+  --alto-pie: 64px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --margen: 10px;
+    --alto-pie: 58px;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#raiz {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: var(--fuente-ui);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--acento);
+  text-underline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.solo-lectores {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Superficie flotante sobre el mapa */
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+}
+
+.dato {
+  font-family: var(--fuente-dato);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* Color por nivel: cualquier elemento con estas clases recibe `--c` */
+.nivel-bajo {
+  --c: var(--nivel-bajo);
+}
+.nivel-medio {
+  --c: var(--nivel-medio);
+}
+.nivel-alto {
+  --c: var(--nivel-alto);
+}
+.nivel-sin_dato {
+  --c: var(--nivel-sin-dato);
+}
+
+.chip-nivel {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 9px 2px 7px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+  color: var(--c);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.chip-nivel::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.chip-nivel.nivel-sin_dato {
+  color: var(--tinta-2);
+}
+
+.chip-nivel.nivel-sin_dato::before {
+  background: none;
+  border: 1.5px solid var(--c);
+}
+
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--borde-fuerte);
+  background: var(--superficie-2);
+  color: var(--tinta);
+  font-size: 13.5px;
+  font-weight: 550;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.boton:hover {
+  background: var(--superficie-3);
+  border-color: var(--acento);
+}
+
+.boton--icono {
+  width: 36px;
+  padding: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

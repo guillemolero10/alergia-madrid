@@ -33,4 +33,34 @@ POLEN_CLAVES = {
     "artemisia": "polen_artemisia",
 }
 
+# Los 25 tipos que se publican: slug normalizado del CSV (igual que en umbrales.json) -> variable de `observaciones`.
+# «Otros» y «PNI» (polen no identificado) no se publican.
+POLEN_TIPOS = {
+    "abedul": "polen_abedul",
+    "aligustre": "polen_aligustre",
+    "aliso": "polen_aliso",
+    "arce": "polen_arce",
+    "artemisia": "polen_artemisia",
+    "castano": "polen_castano",
+    "compuestas": "polen_compuestas",
+    "corylus": "polen_corylus",
+    "cupresaceas_taxaceas": "polen_cupresaceas",
+    "ericaceae": "polen_ericaceae",
+    "eucalipto": "polen_eucalipto",
+    "fresno": "polen_fresno",
+    "gramineas": "polen_gramineas",
+    "moreras": "polen_moreras",
+    "olivo": "polen_olivo",
+    "olmos": "polen_olmos",
+    "pinos": "polen_pinos",
+    "plantago": "polen_plantago",
+    "platano_de_paseo": "polen_platano",
+    "populus": "polen_populus",
+    "quenopodiaceas_amarantaceas": "polen_quenopodiaceas",
+    "quercus": "polen_quercus",
+    "rumex": "polen_rumex",
+    "sauces": "polen_sauces",
+    "urticaceae": "polen_urticaceae",
+}
+
 ANIOS_UMBRAL_POLEN = range(2010, 2020)  # 2010-2019, ambos incluidos

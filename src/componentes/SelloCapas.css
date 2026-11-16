@@ -1,0 +1,260 @@
+.sello {
+  padding: 12px 14px 6px;
+}
+
+.sello__titulo {
+  margin-bottom: 4px;
+  color: var(--tinta-3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.sello__capa {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  column-gap: 12px;
+  padding: 9px 0 10px;
+}
+
+.sello__capa + .sello__capa {
+  border-top: 1px solid var(--borde);
+}
+
+.sello__etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.sello__icono {
+  flex: none;
+  color: var(--tinta-2);
+}
+
+.sello__capa[data-capa="viento"] .sello__icono {
+  color: var(--viento);
+}
+
+.sello__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: 16px;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+}
+
+.sello__dato {
+  grid-column: 1 / -1;
+  margin-top: 1px;
+  padding-left: 27px;
+  color: var(--tinta-3);
+  font-size: 12.5px;
+}
+
+.sello__dato time {
+  color: var(--tinta);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+.sello__aviso {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 5px;
+  margin-left: 27px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--ambar) 40%, transparent);
+  background: color-mix(in srgb, var(--ambar) 12%, transparent);
+  color: var(--ambar);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.sello__aviso svg {
+  flex: none;
+  margin-top: 1.5px;
+}
+
+/* Interruptor accesible: es un checkbox con role="switch" */
+.interruptor {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  flex: none;
+  width: 38px;
+  height: 22px;
+  margin: 0;
+  border-radius: 999px;
+  border: 1px solid var(--borde-fuerte);
+  background: rgba(150, 172, 222, 0.12);
+  cursor: pointer;
+  transition:
+    background-color 0.18s,
+    border-color 0.18s;
+}
+
+.interruptor::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--tinta-3);
+  transition:
+    transform 0.18s cubic-bezier(0.3, 1.4, 0.5, 1),
+    background-color 0.18s;
+}
+
+.interruptor:checked {
+  border-color: var(--acento);
+  background: color-mix(in srgb, var(--acento) 30%, transparent);
+}
+
+.interruptor:checked::after {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+/* Amplía la zona táctil sin agrandar el dibujo */
+.interruptor::before {
+  content: "";
+  position: absolute;
+  inset: -11px -6px;
+}
+
+.interruptor:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.interruptor:focus-visible {
+  border-radius: 999px;
+}
+
+.interruptor--falso {
+  display: block;
+  opacity: 0.4;
+}
+
+.hueso {
+  display: inline-block;
+  width: 130px;
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, var(--superficie-2) 25%, var(--superficie-3) 50%, var(--superficie-2) 75%);
+  background-size: 200% 100%;
+  animation: hueso-brilla 1.4s linear infinite;
+}
+
+@keyframes hueso-brilla {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Móvil: las tres capas en una fila de fichas compactas */
+@media (max-width: 760px) {
+  .sello {
+    padding: 0;
+    border: 0;
+    background: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .sello__titulo {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .sello__lista {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .sello__capa,
+  .sello__capa + .sello__capa {
+    align-content: start;
+    column-gap: 4px;
+    padding: 7px 8px 7px 9px;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    background: var(--superficie);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .sello__capa.sello__capa--aviso,
+  .sello__capa + .sello__capa.sello__capa--aviso {
+    border-color: color-mix(in srgb, var(--ambar) 55%, transparent);
+  }
+
+  .sello__etiqueta {
+    gap: 6px;
+    min-height: 24px;
+  }
+
+  .sello__icono {
+    width: 15px;
+    height: 15px;
+  }
+
+  .sello__nombre {
+    font-size: 14.5px;
+  }
+
+  .interruptor {
+    width: 32px;
+    height: 20px;
+  }
+
+  .interruptor::after {
+    width: 14px;
+    height: 14px;
+  }
+
+  .interruptor:checked::after {
+    transform: translateX(12px);
+  }
+
+  .sello__dato {
+    padding-left: 0;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .sello__dato time {
+    display: block;
+    font-size: 12px;
+  }
+
+  .sello__aviso {
+    margin-left: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 10.5px;
+  }
+
+  .sello__aviso svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .hueso {
+    width: 70px;
+  }
+}

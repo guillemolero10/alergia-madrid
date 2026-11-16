@@ -1,10 +1,11 @@
-"""Genera `estado_actual.json`.
+"""Genera `estado_actual.json` y `pronostico.json`.
 
 Uso:  uv run --project pipeline python -m alergia.ejecutar --salida salida/
 
 Cada fuente va en su propio try con 2 reintentos. Si una falla se conserva lo anterior con `estado: error`.
 Nunca se escribe un JSON que no valide contra `docs/esquema/estado_actual.schema.json`, ni uno con menos capas
 que el anterior. Si fallan todas las fuentes, el proceso termina con codigo 1 y no escribe nada.
+`pronostico.json` va aparte: si su peticion o su validacion fallan se conserva el anterior y se avisa en el log.
 """
 from __future__ import annotations
 
@@ -19,12 +20,13 @@ from typing import Callable
 import httpx
 import jsonschema
 
-from . import aire, ckan, config, horas, openmeteo, reglas
+from . import aire, ckan, config, horas, openmeteo, polen, reglas
 
 ESQUEMA = config.RAIZ / "docs" / "esquema" / "estado_actual.schema.json"
+ESQUEMA_PRONOSTICO = config.RAIZ / "docs" / "esquema" / "pronostico.schema.json"
 AIRE_ANTIGUO = timedelta(hours=3)  # plan: aire con mas de 3 h de retraso -> `antiguo`
 VIENTO_ANTIGUO = timedelta(hours=2)  # plan: la web oculta las flechas con mas de 2 h
-FUENTE_POLEN = "ckan:mediciones_polen"
+POLEN_ANTIGUO = timedelta(days=reglas.POLEN_MAX_DIAS)  # plan: mas de 7 dias -> `antiguo`
 
 
 def log(msg: str) -> None:
@@ -48,12 +50,20 @@ def validar(estado: dict, esquema: Path = ESQUEMA) -> None:
 
 
 def cargar_previo(ruta: Path) -> dict | None:
+    """Estado anterior si existe y valida contra el esquema vigente; si existe pero no valida, se avisa en el log."""
     try:
         previo = json.loads(ruta.read_text(encoding="utf-8"))
-        validar(previo)
-        return previo
-    except (OSError, ValueError, jsonschema.ValidationError):
+    except FileNotFoundError:
         return None
+    except (OSError, ValueError) as e:
+        log(f"estado anterior ilegible, se ignora ({type(e).__name__})")
+        return None
+    try:
+        validar(previo)
+    except jsonschema.ValidationError as e:
+        log(f"estado anterior no valida contra el esquema, se ignora: {str(e.message)[:200]}")
+        return None
+    return previo
 
 
 def _max_hora(obs: list[dict]) -> str:
@@ -91,11 +101,23 @@ def generar(
             capas["aire"] = {**pcapas["aire"], "estado": "error"}
             obs_aire = [o for o in pobs if o["fuente"] == aire.FUENTE]
 
-    # --- Polen: lo implementa la tarea 5. Si el estado anterior ya lo traia, se conserva tal cual.
+    # --- Polen
     obs_polen: list[dict] = []
-    if "polen" in pcapas:
-        capas["polen"] = pcapas["polen"]
-        obs_polen = [o for o in pobs if o["fuente"] == FUENTE_POLEN]
+    hoy = ahora.astimezone(horas.MADRID).date()
+    try:
+        obs_polen, info = con_reintentos(lambda: polen.actualizar(c, salida / "cache", umbrales), dormir=dormir)
+        ultimo = max(o["hora"] for o in obs_polen)  # fechas ISO: el orden de texto es el cronologico
+        antiguo = hoy - date.fromisoformat(ultimo) > POLEN_ANTIGUO
+        capas["polen"] = {"ultimo_dato": ultimo, "fuente": polen.FUENTE, "estado": "antiguo" if antiguo else "ok"}
+        n_ok += 1
+        log(f"polen: {len(obs_polen)} observaciones, ultimo dato {ultimo} ({'descargado' if info['descargado'] else 'sin cambios'})")
+    except Exception as e:  # noqa: BLE001
+        log(f"polen: FALLO ({type(e).__name__}: {e})")
+        if "polen" in pcapas:
+            # Se conserva lo anterior, pero el estado se recalcula: `error` (la fuente fallo) o `antiguo` (>7 dias), nunca `ok`.
+            antiguo = hoy - date.fromisoformat(pcapas["polen"]["ultimo_dato"][:10]) > POLEN_ANTIGUO
+            capas["polen"] = {**pcapas["polen"], "estado": "antiguo" if antiguo else "error"}
+            obs_polen = [o for o in pobs if o["fuente"] == polen.FUENTE]
 
     # --- Viento
     viento: list[dict] = (previo or {}).get("viento", [])
@@ -121,7 +143,7 @@ def generar(
             e.get("captador"),
             [o for o in obs_aire if o["lugar"] == e["id"]],
             [o for o in obs_polen if o["lugar"] == e.get("captador")],
-            ahora.astimezone(horas.MADRID).date(),
+            hoy,
         )
         for e in lugares["estaciones"]
     ]
@@ -151,6 +173,24 @@ def publicar(estado: dict, salida: Path) -> None:
     tmp.replace(destino)
 
 
+def validar_pronostico(doc: dict, esquema: Path = ESQUEMA_PRONOSTICO) -> None:
+    jsonschema.validate(doc, json.loads(esquema.read_text(encoding="utf-8")))
+
+
+def generar_pronostico(c: httpx.Client, ahora: datetime, umbrales: dict, lugares: dict, dormir: Callable = time.sleep) -> dict:
+    return con_reintentos(lambda: openmeteo.pronostico(c, lugares["estaciones"], ahora, umbrales), dormir=dormir)
+
+
+def publicar_pronostico(doc: dict, salida: Path) -> None:
+    """Valida y escribe de forma atomica. Si no valida lanza la excepcion y no toca el fichero anterior."""
+    validar_pronostico(doc)
+    salida.mkdir(parents=True, exist_ok=True)
+    destino = salida / "pronostico.json"
+    tmp = destino.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
+    tmp.replace(destino)
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Genera estado_actual.json")
     ap.add_argument("--salida", type=Path, default=config.RAIZ / "salida")
@@ -159,7 +199,14 @@ def main(argv: list[str] | None = None) -> int:
     lugares = json.loads((config.ESTATICOS / "lugares.json").read_text(encoding="utf-8"))
     rejilla = openmeteo.cargar_rejilla()
     with ckan.cliente() as c:
-        estado = generar(a.salida, c, datetime.now(horas.MADRID), umbrales, lugares, rejilla)
+        ahora = datetime.now(horas.MADRID)
+        estado = generar(a.salida, c, ahora, umbrales, lugares, rejilla)
+        try:
+            doc = generar_pronostico(c, ahora, umbrales, lugares)
+            publicar_pronostico(doc, a.salida)
+            log(f"pronostico: {len(doc['zonas'])} zonas x {len(doc['horas'])} horas; escrito {a.salida / 'pronostico.json'}")
+        except Exception as e:  # noqa: BLE001 - el pronostico es independiente: se conserva el anterior
+            log(f"pronostico: FALLO, se conserva el anterior ({type(e).__name__}: {str(e).splitlines()[0][:200]})")
     if estado is None:
         log("todas las fuentes fallaron: no se escribe nada")
         return 1

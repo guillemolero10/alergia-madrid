@@ -1,0 +1,455 @@
+/* Mapa: lienzo de MapLibre, partículas de viento y marcadores (botones HTML colocados por MapLibre). */
+
+.mapa {
+  position: absolute;
+  inset: 0;
+  background: var(--fondo);
+}
+
+.mapa__lienzo {
+  position: absolute;
+  inset: 0;
+}
+
+.mapa__lienzo .maplibregl-canvas {
+  outline: none;
+}
+
+.mapa__lienzo .maplibregl-canvas:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: -4px;
+}
+
+.mapa__particulas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Viñeta: oscurece los bordes para que la vista se vaya a la Comunidad */
+.mapa::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 85% 80% at 50% 50%, transparent 55%, rgba(5, 8, 16, 0.55) 100%);
+}
+
+.mapa__rotulo-viento {
+  position: absolute;
+  z-index: 4;
+  transform: translate(-50%, calc(-100% - 14px));
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--borde);
+  background: rgba(8, 12, 24, 0.94);
+  color: var(--viento);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* --- marcadores --- */
+
+.ancla {
+  /* MapLibre le pone la transformación: aquí no se anima nada */
+  width: 0;
+  height: 0;
+  display: grid;
+  place-items: center;
+}
+
+.ancla--municipio {
+  z-index: 1;
+}
+.ancla--estacion {
+  z-index: 2;
+}
+/* Si dos estaciones se pisan, queda arriba la de más riesgo */
+.ancla--estacion:has(.nivel-medio) {
+  z-index: 3;
+}
+.ancla--estacion:has(.nivel-alto) {
+  z-index: 4;
+}
+.ancla:has(.marcador:hover),
+.ancla:has(.marcador:focus-visible),
+.ancla:has(.marcador[aria-pressed="true"]) {
+  z-index: 6;
+}
+
+.marcador {
+  /* `--c` (color del nivel) lo ponen las clases .nivel-* de base.css */
+  --tam: 13px;
+  --ritmo: 3.6s;
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  /* Zona de pulsación circular y contenida: en el área metropolitana las estaciones están a pocos píxeles
+     y una zona grande haría que se abriera la de al lado. */
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  animation: marcador-aparece 0.7s cubic-bezier(0.2, 1.3, 0.35, 1) both;
+  animation-delay: calc(var(--orden, 0) * 42ms + 150ms);
+}
+
+.marcador:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+@media (pointer: coarse) {
+  .marcador {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* El nivel también se lee en el tamaño y en el ritmo del pulso, no solo en el color */
+.marcador.nivel-bajo {
+  --tam: 14px;
+  --ritmo: 3.8s;
+}
+.marcador.nivel-medio {
+  --tam: 18px;
+  --ritmo: 2.5s;
+}
+.marcador.nivel-alto {
+  --tam: 22px;
+  --ritmo: 1.6s;
+}
+.marcador.nivel-sin_dato {
+  --tam: 13px;
+}
+.marcador.nivel-apagado {
+  --c: #55607a;
+  --tam: 8px;
+}
+
+.marcador > span {
+  grid-area: 1 / 1;
+}
+
+.marcador__nucleo {
+  width: var(--tam);
+  height: var(--tam);
+  border-radius: 50%;
+  background: radial-gradient(circle at 34% 30%, color-mix(in srgb, var(--c) 55%, #fff) 0%, var(--c) 62%);
+  box-shadow:
+    0 0 0 2px rgba(7, 11, 22, 0.92),
+    0 0 14px 2px color-mix(in srgb, var(--c) 70%, transparent);
+  transition:
+    transform 0.2s ease,
+    width 0.3s ease,
+    height 0.3s ease,
+    box-shadow 0.2s ease;
+}
+
+.marcador.nivel-sin_dato .marcador__nucleo {
+  background: rgba(10, 15, 28, 0.85);
+  box-shadow:
+    inset 0 0 0 2px var(--c),
+    0 0 0 2px rgba(7, 11, 22, 0.7);
+}
+
+.marcador.nivel-apagado .marcador__nucleo {
+  background: var(--c);
+  box-shadow: 0 0 0 2px rgba(7, 11, 22, 0.8);
+}
+
+.marcador__halo {
+  width: calc(var(--tam) * 3.1);
+  height: calc(var(--tam) * 3.1);
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--c) 50%, transparent) 0%, transparent 68%);
+  animation: marcador-late var(--ritmo) ease-in-out infinite;
+  animation-delay: calc(var(--orden, 0) * -0.41s);
+  pointer-events: none;
+}
+
+.marcador__onda {
+  width: var(--tam);
+  height: var(--tam);
+  border-radius: 50%;
+  border: 1.5px solid var(--c);
+  opacity: 0;
+  animation: marcador-onda var(--ritmo) cubic-bezier(0.2, 0.55, 0.4, 1) infinite;
+  animation-delay: calc(var(--orden, 0) * -0.41s);
+  pointer-events: none;
+}
+
+.marcador__onda--2 {
+  animation-delay: calc(var(--orden, 0) * -0.41s - var(--ritmo) / 2);
+}
+
+.marcador:hover .marcador__nucleo,
+.marcador:focus-visible .marcador__nucleo {
+  transform: scale(1.25);
+}
+
+.marcador[aria-pressed="true"] .marcador__nucleo {
+  transform: scale(1.3);
+  box-shadow:
+    0 0 0 2px rgba(7, 11, 22, 0.95),
+    0 0 0 4px #fff,
+    0 0 22px 6px color-mix(in srgb, var(--c) 80%, transparent);
+}
+
+/* Captador de polen: rombo. Queda por debajo de la estación y la enmarca cuando están pegados. */
+.marcador--captador {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+.marcador--captador .marcador__nucleo,
+.marcador--captador.nivel-sin_dato .marcador__nucleo {
+  width: 19px;
+  height: 19px;
+  border-radius: 3px;
+  transform: rotate(45deg);
+  background: color-mix(in srgb, var(--c) 16%, rgba(8, 12, 24, 0.55));
+  box-shadow:
+    inset 0 0 0 1.5px var(--c),
+    0 0 10px 0 color-mix(in srgb, var(--c) 35%, transparent);
+}
+
+.marcador--captador:hover .marcador__nucleo,
+.marcador--captador:focus-visible .marcador__nucleo {
+  transform: rotate(45deg) scale(1.2);
+}
+
+.marcador--captador[aria-pressed="true"] .marcador__nucleo {
+  transform: rotate(45deg) scale(1.25);
+  box-shadow:
+    inset 0 0 0 1.5px var(--c),
+    0 0 0 2px rgba(7, 11, 22, 0.95),
+    0 0 0 4px #fff;
+}
+
+.marcador--captador.nivel-apagado {
+  display: none;
+}
+
+/* Municipio sin estación propia (Madrid): anillo discontinuo, porque el dato es de la estación más cercana */
+.marcador--municipio .marcador__nucleo,
+.marcador--municipio.nivel-sin_dato .marcador__nucleo {
+  width: 22px;
+  height: 22px;
+  background: radial-gradient(circle, var(--c) 0 3.5px, rgba(8, 12, 24, 0.5) 4.5px);
+  border: 1.5px dashed var(--c);
+  box-shadow: 0 0 12px 0 color-mix(in srgb, var(--c) 40%, transparent);
+}
+
+.marcador--municipio[aria-pressed="true"] .marcador__nucleo {
+  box-shadow:
+    0 0 0 2px rgba(7, 11, 22, 0.95),
+    0 0 0 4px #fff;
+}
+
+.marcador__rotulo {
+  position: absolute;
+  bottom: calc(50% + var(--tam) / 2 + 10px);
+  left: 50%;
+  display: grid;
+  gap: 1px;
+  padding: 6px 11px 7px;
+  border-radius: 10px;
+  border: 1px solid var(--borde-fuerte);
+  background: rgba(8, 12, 24, 0.95);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.7);
+  color: var(--tinta-2);
+  font-family: var(--fuente-ui);
+  font-size: 12.5px;
+  line-height: 1.35;
+  text-align: left;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  pointer-events: none;
+}
+
+.marcador__rotulo strong {
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.marcador__rotulo span::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.marcador:focus-visible .marcador__rotulo {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Solo con ratón: en pantallas táctiles el «hover» se queda pegado tras tocar */
+@media (hover: hover) {
+  .marcador:hover .marcador__rotulo {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes marcador-aparece {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes marcador-late {
+  0%,
+  100% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+}
+
+@keyframes marcador-onda {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  80%,
+  100% {
+    transform: scale(3.4);
+    opacity: 0;
+  }
+}
+
+/* --- controles de MapLibre con el tema de la app --- */
+
+.mapa .maplibregl-ctrl-bottom-right {
+  z-index: 3;
+  right: calc(var(--margen) - 10px);
+  bottom: calc(var(--margen) - 10px);
+  transition: right 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.mapa .maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+  backdrop-filter: blur(16px);
+}
+
+.mapa .maplibregl-ctrl-group button {
+  width: 36px;
+  height: 36px;
+  background-color: transparent;
+}
+
+.mapa .maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--borde);
+}
+
+.mapa .maplibregl-ctrl-group button:hover {
+  background-color: var(--superficie-3);
+}
+
+.mapa .maplibregl-ctrl-group .maplibregl-ctrl-icon {
+  filter: invert(1) brightness(1.6);
+}
+
+.mapa .maplibregl-ctrl-attrib {
+  background: rgba(10, 15, 28, 0.78);
+  color: var(--tinta-3);
+  font-family: var(--fuente-ui);
+  font-size: 11px;
+}
+
+.mapa .maplibregl-ctrl-attrib a {
+  color: var(--tinta-2);
+}
+
+.mapa .maplibregl-ctrl-attrib.maplibregl-compact {
+  min-height: 24px;
+  border-radius: 12px;
+}
+
+.mapa .maplibregl-ctrl-attrib-button {
+  filter: invert(1);
+  opacity: 0.75;
+}
+
+/* --- sin WebGL: lista de estaciones --- */
+
+.mapa--sin-webgl {
+  overflow: auto;
+  padding: 190px var(--margen) 120px;
+}
+
+.mapa--sin-webgl::after {
+  display: none;
+}
+
+.mapa__fallo {
+  max-width: 44rem;
+  margin: 0 auto 16px;
+  color: var(--tinta-2);
+}
+
+.mapa__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 8px;
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.mapa__lista .boton {
+  width: 100%;
+  justify-content: flex-start;
+  border-radius: 12px;
+}
+
+/* Sin sitio para la leyenda y la atribución en la misma fila: los controles del mapa suben un piso */
+@media (max-width: 1240px) {
+  .mapa .maplibregl-ctrl-bottom-right {
+    bottom: calc(var(--alto-pie) + var(--margen) - 14px);
+  }
+}
+
+@media (max-width: 760px) {
+  /* En el móvil se hace zoom con los dedos: sobran los botones */
+  .mapa .maplibregl-ctrl-group {
+    display: none;
+  }
+
+  .mapa .maplibregl-ctrl-bottom-right {
+    bottom: calc(var(--alto-pie) + var(--margen) - 6px);
+  }
+}

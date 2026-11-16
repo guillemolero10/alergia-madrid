@@ -1,0 +1,366 @@
+/* Tira de leyenda (abajo, centrada) y diálogo «Niveles y fuentes». */
+
+.leyenda {
+  display: flex;
+  align-items: center;
+  gap: 6px 18px;
+  padding: 7px 8px 7px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.leyenda__niveles,
+.leyenda__simbolos {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.leyenda__nivel,
+.leyenda__simbolos li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--tinta-2);
+}
+
+.leyenda__nivel {
+  color: var(--tinta);
+  font-weight: 550;
+}
+
+.leyenda__punto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--c) 60%, transparent);
+}
+
+.leyenda__nivel.nivel-sin_dato {
+  color: var(--tinta-2);
+  font-weight: 400;
+}
+
+.leyenda__nivel.nivel-sin_dato .leyenda__punto {
+  background: none;
+  border: 2px solid var(--c);
+  box-shadow: none;
+}
+
+.leyenda__simbolos {
+  padding-left: 18px;
+  border-left: 1px solid var(--borde);
+}
+
+.leyenda__simbolos svg {
+  color: var(--tinta-3);
+}
+
+svg.leyenda__viento {
+  color: var(--viento);
+}
+
+.leyenda__boton {
+  min-height: 34px;
+  padding: 4px 13px 4px 10px;
+  font-size: 13px;
+}
+
+/* --- diálogo --- */
+
+.metodo {
+  width: min(680px, calc(100vw - 24px));
+  max-height: min(86dvh, 820px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 20px;
+  background: var(--superficie-solida);
+  color: var(--tinta);
+  box-shadow: 0 40px 120px -20px rgba(0, 0, 0, 0.85);
+}
+
+.metodo[open] {
+  display: flex;
+  animation: metodo-entra 0.28s cubic-bezier(0.2, 0.85, 0.25, 1);
+}
+
+.metodo::backdrop {
+  background: rgba(4, 7, 15, 0.66);
+  backdrop-filter: blur(3px);
+}
+
+.metodo__caja {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+
+.metodo__cabecera {
+  flex: none;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 18px 14px 24px;
+  border-bottom: 1px solid var(--borde);
+}
+
+.metodo__cabecera h2 {
+  margin-top: 2px;
+  font-family: var(--fuente-titulo);
+  font-size: 24px;
+  font-weight: 680;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.metodo__cuerpo {
+  overflow-y: auto;
+  padding: 16px 24px 24px;
+  color: var(--tinta-2);
+  font-size: 14px;
+  line-height: 1.5;
+  scrollbar-width: thin;
+  scrollbar-color: var(--borde-fuerte) transparent;
+}
+
+.metodo__entrada {
+  color: var(--tinta);
+  font-size: 15px;
+}
+
+.metodo__cuerpo h3 {
+  margin: 22px 0 6px;
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.metodo__niveles {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.metodo__niveles li {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  align-items: start;
+  gap: 12px;
+}
+
+.metodo__niveles .chip-nivel {
+  justify-self: start;
+}
+
+.metodo__tabla {
+  margin-top: 10px;
+  overflow-x: auto;
+  border: 1px solid var(--borde);
+  border-radius: 12px;
+}
+
+.metodo__tabla table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  white-space: nowrap;
+}
+
+.metodo__tabla th,
+.metodo__tabla td {
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.metodo__tabla thead th {
+  color: var(--tinta-3);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--superficie-2);
+}
+
+.metodo__tabla thead th[class^="nivel-"] {
+  color: var(--c);
+}
+
+.metodo__tabla tbody tr {
+  border-top: 1px solid var(--borde);
+}
+
+.metodo__tabla tbody th {
+  color: var(--tinta);
+  font-weight: 600;
+}
+
+.metodo__tabla td.dato {
+  color: var(--tinta);
+  font-size: 13px;
+}
+
+.metodo__detalle {
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.metodo__simbolos,
+.metodo__fuentes {
+  display: grid;
+  gap: 8px;
+}
+
+.metodo__simbolos li {
+  display: grid;
+  grid-template-columns: 22px 1fr;
+  align-items: start;
+  gap: 10px;
+}
+
+.metodo__simbolos svg {
+  margin-top: 1px;
+}
+
+.metodo__fuentes li {
+  padding-left: 14px;
+  border-left: 2px solid var(--borde-fuerte);
+}
+
+.simbolo {
+  justify-self: center;
+  margin-top: 4px;
+}
+
+.simbolo--estacion {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--nivel-bajo);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--nivel-bajo) 25%, transparent);
+}
+
+.simbolo--captador {
+  width: 12px;
+  height: 12px;
+  margin-top: 5px;
+  border-radius: 2px;
+  border: 1.5px solid var(--nivel-sin-dato);
+  transform: rotate(45deg);
+}
+
+.simbolo--municipio {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1.5px dashed var(--nivel-bajo);
+  background: radial-gradient(circle, var(--nivel-bajo) 0 2.5px, transparent 3.5px);
+}
+
+.metodo__nota {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--borde);
+  color: var(--tinta-3);
+  font-size: 12.5px;
+}
+
+@keyframes metodo-entra {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+}
+
+@media (max-width: 1080px) {
+  .leyenda__simbolos {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .leyenda {
+    gap: 8px;
+    padding: 5px 5px 5px 12px;
+    font-size: 12px;
+  }
+
+  .leyenda__niveles {
+    gap: 9px;
+  }
+
+  .leyenda__nivel {
+    gap: 5px;
+  }
+
+  .leyenda__punto {
+    width: 9px;
+    height: 9px;
+  }
+
+  .leyenda__boton {
+    width: 34px;
+    padding: 0;
+  }
+
+  .leyenda__boton span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .metodo {
+    max-height: 92dvh;
+    border-radius: 18px;
+  }
+
+  .metodo__cabecera {
+    padding: 16px 12px 12px 18px;
+  }
+
+  .metodo__cabecera h2 {
+    font-size: 21px;
+  }
+
+  .metodo__cuerpo {
+    padding: 14px 18px 20px;
+  }
+
+  .metodo__niveles li {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  /* Las tablas caben en 390 px: el texto puede partir línea y las cifras no */
+  .metodo__tabla table {
+    font-size: 12.5px;
+    white-space: normal;
+  }
+
+  .metodo__tabla th,
+  .metodo__tabla td {
+    padding: 7px 4px;
+  }
+
+  .metodo__tabla th:first-child {
+    padding-left: 10px;
+  }
+
+  .metodo__tabla thead th {
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+
+  .metodo__tabla td.dato {
+    font-size: 12px;
+    white-space: nowrap;
+  }
+}

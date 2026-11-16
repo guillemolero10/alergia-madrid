@@ -146,173 +146,310 @@
     }
   },
   "polen": {
-    "fuente": "https://datos.comunidad.madrid/catalogo/dataset/mediciones_polen_historico (CC BY 4.0), CSV 2010-2019",
-    "metodo": "P75 y P90 por tipo sobre los dias con valor > 0, juntando todos los captadores; bajo < P75 <= medio < P90 <= alto",
+    "fuente": "https://datos.comunidad.madrid/catalogo/dataset/mediciones_polen_historico (CC BY 4.0), CSV 2010-2019 (solo para P75/P90)",
+    "metodo": "Por tipo: bajo < medio_min <= medio < alto_min <= alto (valor diario). `metodo` de cada tipo: oficial_palinocam, clinico_rea o percentil_con_suelo (P75/P90 2010-2019 de dias > 0, juntando captadores, con suelo propio)",
     "periodo": "2010-2019",
     "unidad": "granos/m3",
-    "aproximacion_propia": true,
+    "suelo_propio": {
+      "medio": 10,
+      "alto": 30,
+      "nota": "criterio propio de AlergIA, solo para tipos sin umbral publicado"
+    },
     "tipos": {
       "abedul": {
         "nombre": "Abedul",
         "p75": 2.0,
         "p90": 5.0,
-        "n_dias_positivos": 2953
+        "n_dias_positivos": 2953,
+        "metodo": "clinico_rea",
+        "medio_min": 31,
+        "alto_min": 51,
+        "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15): Betula 1-30 / 31-50 / >50"
       },
       "aligustre": {
         "nombre": "Aligustre",
         "p75": 2.0,
         "p90": 6.0,
-        "n_dias_positivos": 3277
+        "n_dias_positivos": 3277,
+        "metodo": "clinico_rea",
+        "medio_min": 31,
+        "alto_min": 51,
+        "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15): Ligustrum 1-30 / 31-50 / >50"
       },
       "aliso": {
         "nombre": "Aliso",
         "p75": 4.0,
         "p90": 8.0,
-        "n_dias_positivos": 4946
+        "n_dias_positivos": 4946,
+        "metodo": "clinico_rea",
+        "medio_min": 31,
+        "alto_min": 51,
+        "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15): Alnus 1-30 / 31-50 / >50"
       },
       "arce": {
         "nombre": "Arce",
         "p75": 16.0,
         "p90": 52.0,
-        "n_dias_positivos": 6183
+        "n_dias_positivos": 6183,
+        "metodo": "oficial_palinocam",
+        "medio_min": 14,
+        "alto_min": 27,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "artemisia": {
         "nombre": "Artemisia",
         "p75": 2.0,
         "p90": 3.0,
-        "n_dias_positivos": 4695
+        "n_dias_positivos": 4695,
+        "metodo": "clinico_rea",
+        "medio_min": 26,
+        "alto_min": 51,
+        "fuente": "Criterios REA (grupo gramineas, llantenes, artemisa y cenizos: 1-25 / 26-50 / >50) segun el Ayuntamiento de Zaragoza: https://www.zaragoza.es/sede/servicio/informacion-polen/ (consultado 2026-11-15) (Artemisa)"
       },
       "castano": {
         "nombre": "Castaño",
         "p75": 4.0,
         "p90": 8.0,
-        "n_dias_positivos": 5278
+        "n_dias_positivos": 5278,
+        "metodo": "clinico_rea",
+        "medio_min": 31,
+        "alto_min": 51,
+        "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15): Castanea 1-30 / 31-50 / >50"
       },
       "compuestas": {
         "nombre": "Compuestas",
         "p75": 2.0,
         "p90": 5.0,
-        "n_dias_positivos": 11445
+        "n_dias_positivos": 11445,
+        "metodo": "percentil_con_suelo",
+        "medio_min": 10,
+        "alto_min": 30,
+        "fuente": "Criterio propio: P75/P90 de 2010-2019 (dias > 0) con suelo absoluto de 10 (medio) y 30 (alto) granos/m3; no hay umbral publicado para este tipo"
       },
       "corylus": {
         "nombre": "Corylus",
         "p75": 1.0,
         "p90": 2.0,
-        "n_dias_positivos": 1152
+        "n_dias_positivos": 1152,
+        "metodo": "clinico_rea",
+        "medio_min": 31,
+        "alto_min": 51,
+        "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15): Corylus 1-30 / 31-50 / >50"
       },
       "cupresaceas_taxaceas": {
         "nombre": "Cupresáceas/Taxáceas",
         "p75": 20.0,
         "p90": 100.3,
-        "n_dias_positivos": 27178
+        "n_dias_positivos": 27178,
+        "metodo": "oficial_palinocam",
+        "medio_min": 59,
+        "alto_min": 171,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto.",
+        "referencia_rea": {
+          "medio_min": 51,
+          "alto_min": 201,
+          "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15)"
+        }
       },
       "ericaceae": {
         "nombre": "Ericaceae",
         "p75": 2.5,
         "p90": 5.0,
-        "n_dias_positivos": 5527
+        "n_dias_positivos": 5527,
+        "metodo": "percentil_con_suelo",
+        "medio_min": 10,
+        "alto_min": 30,
+        "fuente": "Criterio propio: P75/P90 de 2010-2019 (dias > 0) con suelo absoluto de 10 (medio) y 30 (alto) granos/m3; no hay umbral publicado para este tipo"
       },
       "eucalipto": {
         "nombre": "Eucalipto",
         "p75": 2.0,
         "p90": 4.0,
-        "n_dias_positivos": 2986
+        "n_dias_positivos": 2986,
+        "metodo": "percentil_con_suelo",
+        "medio_min": 10,
+        "alto_min": 30,
+        "fuente": "Criterio propio: P75/P90 de 2010-2019 (dias > 0) con suelo absoluto de 10 (medio) y 30 (alto) granos/m3; no hay umbral publicado para este tipo"
       },
       "fresno": {
         "nombre": "Fresno",
         "p75": 15.0,
         "p90": 39.0,
-        "n_dias_positivos": 9347
+        "n_dias_positivos": 9347,
+        "metodo": "oficial_palinocam",
+        "medio_min": 20,
+        "alto_min": 33,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "gramineas": {
         "nombre": "Gramíneas",
         "p75": 11.0,
         "p90": 41.0,
-        "n_dias_positivos": 25926
+        "n_dias_positivos": 25926,
+        "metodo": "oficial_palinocam",
+        "medio_min": 26,
+        "alto_min": 53,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto.",
+        "referencia_rea": {
+          "medio_min": 26,
+          "alto_min": 51,
+          "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15)"
+        }
       },
       "moreras": {
         "nombre": "Moreras",
         "p75": 23.0,
         "p90": 70.0,
-        "n_dias_positivos": 5712
+        "n_dias_positivos": 5712,
+        "metodo": "oficial_palinocam",
+        "medio_min": 15,
+        "alto_min": 33,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "olivo": {
         "nombre": "Olivo",
         "p75": 16.0,
         "p90": 76.0,
-        "n_dias_positivos": 11341
+        "n_dias_positivos": 11341,
+        "metodo": "oficial_palinocam",
+        "medio_min": 34,
+        "alto_min": 74,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto.",
+        "referencia_rea": {
+          "medio_min": 51,
+          "alto_min": 201,
+          "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15)"
+        }
       },
       "olmos": {
         "nombre": "Olmos",
         "p75": 20.0,
         "p90": 66.0,
-        "n_dias_positivos": 7080
+        "n_dias_positivos": 7080,
+        "metodo": "oficial_palinocam",
+        "medio_min": 18,
+        "alto_min": 38,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "otros": {
         "nombre": "Otros",
         "p75": 7.0,
         "p90": 14.0,
-        "n_dias_positivos": 16358
+        "n_dias_positivos": 16358,
+        "metodo": "percentil_con_suelo",
+        "medio_min": 10,
+        "alto_min": 30,
+        "fuente": "Criterio propio: P75/P90 de 2010-2019 (dias > 0) con suelo absoluto de 10 (medio) y 30 (alto) granos/m3; no hay umbral publicado para este tipo"
       },
       "pinos": {
         "nombre": "Pinos",
         "p75": 12.0,
         "p90": 45.0,
-        "n_dias_positivos": 22042
+        "n_dias_positivos": 22042,
+        "metodo": "oficial_palinocam",
+        "medio_min": 54,
+        "alto_min": 88,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "plantago": {
         "nombre": "Plantago",
         "p75": 11.0,
         "p90": 26.0,
-        "n_dias_positivos": 14281
+        "n_dias_positivos": 14281,
+        "metodo": "oficial_palinocam",
+        "medio_min": 21,
+        "alto_min": 32,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto.",
+        "referencia_rea": {
+          "medio_min": 26,
+          "alto_min": 51,
+          "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15)"
+        }
       },
       "platano_de_paseo": {
         "nombre": "Plátano de paseo",
         "p75": 35.0,
         "p90": 321.0,
-        "n_dias_positivos": 11008
+        "n_dias_positivos": 11008,
+        "metodo": "oficial_palinocam",
+        "medio_min": 81,
+        "alto_min": 248,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto.",
+        "referencia_rea": {
+          "medio_min": 51,
+          "alto_min": 201,
+          "fuente": "Criterios REA (Manual de Calidad y Gestion de la Red Espanola de Aerobiologia) tal como los recoge el Gobierno Vasco, Informe polen 2004-2019, tabla de criterios: https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf (consultado 2026-11-15)"
+        }
       },
       "pni": {
         "nombre": "PNI (Polen no identificado)",
         "p75": 4.0,
         "p90": 8.0,
-        "n_dias_positivos": 19955
+        "n_dias_positivos": 19955,
+        "metodo": "percentil_con_suelo",
+        "medio_min": 10,
+        "alto_min": 30,
+        "fuente": "Criterio propio: P75/P90 de 2010-2019 (dias > 0) con suelo absoluto de 10 (medio) y 30 (alto) granos/m3; no hay umbral publicado para este tipo"
       },
       "populus": {
         "nombre": "Populus",
         "p75": 32.0,
         "p90": 83.0,
-        "n_dias_positivos": 6146
+        "n_dias_positivos": 6146,
+        "metodo": "oficial_palinocam",
+        "medio_min": 24,
+        "alto_min": 46,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "quenopodiaceas_amarantaceas": {
         "nombre": "Quenopodiáceas/Amarantáceas",
         "p75": 5.0,
         "p90": 9.0,
-        "n_dias_positivos": 15192
+        "n_dias_positivos": 15192,
+        "metodo": "oficial_palinocam",
+        "medio_min": 8,
+        "alto_min": 10,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "quercus": {
         "nombre": "Quercus",
         "p75": 21.0,
         "p90": 122.0,
-        "n_dias_positivos": 24015
+        "n_dias_positivos": 24015,
+        "metodo": "oficial_palinocam",
+        "medio_min": 55,
+        "alto_min": 164,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "rumex": {
         "nombre": "Rumex (Acederas)",
         "p75": 6.0,
         "p90": 15.0,
-        "n_dias_positivos": 10134
+        "n_dias_positivos": 10134,
+        "metodo": "oficial_palinocam",
+        "medio_min": 9,
+        "alto_min": 14,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       },
       "sauces": {
         "nombre": "Sauces",
         "p75": 3.0,
         "p90": 6.0,
-        "n_dias_positivos": 4724
+        "n_dias_positivos": 4724,
+        "metodo": "percentil_con_suelo",
+        "medio_min": 10,
+        "alto_min": 30,
+        "fuente": "Criterio propio: P75/P90 de 2010-2019 (dias > 0) con suelo absoluto de 10 (medio) y 30 (alto) granos/m3; no hay umbral publicado para este tipo"
       },
       "urticaceae": {
         "nombre": "Urticaceae (Ortigas)",
         "p75": 4.0,
         "p90": 9.0,
-        "n_dias_positivos": 20872
+        "n_dias_positivos": 20872,
+        "metodo": "oficial_palinocam",
+        "medio_min": 10,
+        "alto_min": 13,
+        "fuente": "Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid, series 2010-2019), Tabla 15 de «Informe de resultados del polen atmosferico medido en el centro del municipio de Madrid», Ayuntamiento de Madrid, nov-2025, p. 26: https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf (consultado 2026-11-15). Medio = P95 (P90 en CUPR, POAC, QUER); alto = P97 (P95 en esos tres); «muy alto» (P99) se agrupa en alto."
       }
     }
   }

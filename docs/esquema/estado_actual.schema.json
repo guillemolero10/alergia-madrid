@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/guillemolero10/alergia-madrid/docs/esquema/estado_actual.schema.json",
   "title": "estado_actual.json (AlergIA Madrid)",
-  "description": "Estado del aire, polen y viento. Las horas van en ISO 8601 con el desfase de Europe/Madrid y marcan el final de la hora medida. La capa `polen` es opcional hasta la tarea 5.",
+  "description": "Estado del aire, polen y viento. Las horas van en ISO 8601 con el desfase de Europe/Madrid y marcan el final de la hora medida.",
   "type": "object",
   "required": ["version", "generado", "modo", "fecha_referencia", "capas", "observaciones", "riesgo", "viento"],
   "additionalProperties": false,
@@ -76,7 +76,7 @@
     "fecha_referencia": {"$ref": "#/$defs/instante"},
     "capas": {
       "type": "object",
-      "required": ["aire", "viento"],
+      "required": ["aire", "polen", "viento"],
       "additionalProperties": false,
       "properties": {
         "aire": {"$ref": "#/$defs/capa"},

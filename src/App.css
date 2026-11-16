@@ -1,0 +1,438 @@
+/* Una sola pantalla: mapa a pantalla completa y, flotando encima, la columna de control (izquierda),
+   el panel de detalle (derecha; hoja inferior en el móvil), la leyenda (abajo) y los huecos del chat y de la fecha. */
+
+.app {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--fondo);
+}
+
+.lienzo {
+  position: absolute;
+  inset: 0;
+}
+
+.lienzo:focus {
+  outline: none;
+}
+
+.saltar {
+  position: absolute;
+  z-index: 50;
+  top: 8px;
+  left: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: var(--superficie-solida);
+  border: 1px solid var(--acento);
+  color: var(--tinta);
+  transform: translateY(-200%);
+}
+
+.saltar:focus {
+  transform: none;
+}
+
+/* --- columna superior izquierda --- */
+
+.superior {
+  position: absolute;
+  z-index: 10;
+  top: var(--margen);
+  left: var(--margen);
+  width: var(--ancho-columna);
+  display: grid;
+  gap: 10px;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px 12px 14px;
+}
+
+.logotipo {
+  flex: none;
+  color: var(--nivel-bajo);
+}
+
+.logotipo__onda {
+  opacity: 0.6;
+  transform-origin: center;
+  animation: logotipo-onda 3.2s ease-out infinite;
+}
+
+.logotipo__onda--2 {
+  opacity: 0.28;
+  animation-delay: -1.6s;
+}
+
+.marca__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: 23px;
+  font-weight: 720;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.marca__nombre span {
+  color: var(--nivel-bajo);
+}
+
+.marca__lema {
+  margin-top: 1px;
+  color: var(--tinta-3);
+  font-size: 12.5px;
+}
+
+/* A la derecha de la columna: resumen, hueco de la fecha y aviso de respaldo */
+.estado-global {
+  position: absolute;
+  top: 0;
+  left: calc(100% + var(--margen));
+  width: max-content;
+  max-width: calc(100vw - var(--ancho-columna) - 3 * var(--margen));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  transition: max-width 0.3s;
+}
+
+.app--con-panel .estado-global {
+  max-width: calc(100vw - var(--ancho-columna) - var(--ancho-panel) - 4 * var(--margen));
+}
+
+.resumen {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  min-height: 42px;
+  padding: 8px 16px 8px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.resumen strong {
+  font-weight: 600;
+}
+
+.resumen__barra {
+  display: flex;
+  gap: 2px;
+  width: 54px;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.resumen__barra span {
+  min-width: 3px;
+}
+
+.resumen__hora {
+  color: var(--tinta-3);
+  font-size: 12.5px;
+}
+
+.resumen__hora time {
+  color: var(--tinta-2);
+  font-family: var(--fuente-dato);
+  font-size: 12px;
+}
+
+.resumen__carga {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--borde-fuerte);
+  border-top-color: var(--acento);
+  animation: girar 0.8s linear infinite;
+}
+
+.hueco-fecha:empty,
+.hueco-chat:empty {
+  display: none;
+}
+
+.aviso-respaldo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 560px;
+  padding: 7px 8px 7px 14px;
+  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--ambar) 55%, transparent);
+  background: color-mix(in srgb, var(--ambar) 14%, rgba(13, 19, 34, 0.9));
+  box-shadow: var(--sombra);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffe1a3;
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.aviso-respaldo svg {
+  flex: none;
+  color: var(--ambar);
+}
+
+.aviso-respaldo strong {
+  color: #fff;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.aviso-respaldo .boton {
+  flex: none;
+  min-height: 30px;
+  padding: 3px 12px;
+  border-color: color-mix(in srgb, var(--ambar) 55%, transparent);
+  font-size: 12.5px;
+}
+
+/* --- pie: leyenda centrada en la parte libre del mapa --- */
+
+.pie {
+  position: absolute;
+  z-index: 10;
+  bottom: var(--margen);
+  left: 50%;
+  max-width: calc(100vw - 2 * var(--margen));
+  transform: translateX(-50%);
+  transition: left 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.app--con-panel .pie {
+  left: calc((100vw - var(--ancho-panel) - var(--margen)) / 2);
+}
+
+.app--con-panel .mapa .maplibregl-ctrl-bottom-right {
+  right: calc(var(--ancho-panel) + var(--margen) + 6px);
+}
+
+/* Con el panel abierto queda menos ancho: la leyenda se queda en los niveles y los controles suben */
+.app--con-panel .leyenda__simbolos {
+  display: none;
+}
+
+@media (max-width: 1680px) {
+  .app--con-panel .mapa .maplibregl-ctrl-bottom-right {
+    bottom: calc(var(--alto-pie) + var(--margen) - 14px);
+  }
+}
+
+/* Hueco del chat plegable (tarea 10): esquina inferior izquierda, bajo la columna de control */
+.hueco-chat {
+  position: absolute;
+  z-index: 15;
+  left: var(--margen);
+  bottom: var(--margen);
+  width: var(--ancho-columna);
+}
+
+/* --- carga y error --- */
+
+.esqueleto-mapa {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  background:
+    radial-gradient(60% 50% at 50% 50%, rgba(52, 216, 166, 0.07), transparent 70%),
+    linear-gradient(rgba(150, 172, 222, 0.045) 1px, transparent 1px) 0 0 / 56px 56px,
+    linear-gradient(90deg, rgba(150, 172, 222, 0.045) 1px, transparent 1px) 0 0 / 56px 56px,
+    var(--fondo);
+  color: var(--tinta-3);
+  font-size: 14px;
+}
+
+.esqueleto-mapa__radar {
+  position: relative;
+  width: 84px;
+  height: 84px;
+}
+
+.esqueleto-mapa__radar span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--nivel-bajo);
+  opacity: 0;
+  animation: radar 2.4s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+
+.esqueleto-mapa__radar span:nth-child(2) {
+  animation-delay: 0.8s;
+}
+
+.esqueleto-mapa__radar span:nth-child(3) {
+  animation-delay: 1.6s;
+}
+
+.fallo-datos {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--margen);
+}
+
+.fallo-datos__caja {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  max-width: 440px;
+  padding: 24px;
+}
+
+.fallo-datos__caja h2 {
+  font-family: var(--fuente-titulo);
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+
+.fallo-datos__caja p {
+  color: var(--tinta-2);
+}
+
+.fallo-datos__detalle {
+  color: var(--tinta-3) !important;
+  font-size: 11.5px;
+  overflow-wrap: anywhere;
+}
+
+@keyframes radar {
+  0% {
+    transform: scale(0.15);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes logotipo-onda {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.75;
+  }
+  100% {
+    transform: scale(1.08);
+    opacity: 0;
+  }
+}
+
+/* --- pantallas medianas: el resumen baja de tamaño --- */
+@media (max-width: 1080px) {
+  .resumen__hora {
+    display: none;
+  }
+}
+
+/* --- móvil --- */
+@media (max-width: 760px) {
+  .superior {
+    right: var(--margen);
+    width: auto;
+    gap: 6px;
+  }
+
+  .marca {
+    gap: 9px;
+    padding: 7px 12px 7px 10px;
+    border-radius: 14px;
+  }
+
+  .logotipo {
+    width: 26px;
+    height: 26px;
+  }
+
+  .marca__nombre {
+    font-size: 19px;
+  }
+
+  .marca__lema {
+    display: none;
+  }
+
+  .estado-global {
+    position: static;
+    width: auto;
+    max-width: none;
+  }
+
+  .app--con-panel .estado-global {
+    max-width: none;
+  }
+
+  .resumen {
+    min-height: 34px;
+    padding: 5px 12px 5px 10px;
+    font-size: 13px;
+  }
+
+  .resumen__hora {
+    display: none;
+  }
+
+  .aviso-respaldo {
+    flex-wrap: wrap;
+    max-width: none;
+    width: 100%;
+    padding: 7px 10px;
+    border-radius: 14px;
+    font-size: 12px;
+  }
+
+  .aviso-respaldo > span {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .aviso-respaldo strong {
+    white-space: normal;
+  }
+
+  /* En el móvil el aviso se queda en lo esencial: que son datos de respaldo y de cuándo */
+  .aviso-respaldo__detalle {
+    display: none;
+  }
+
+  /* Con la hoja abierta, las fichas de capas se retiran para dejar ver el mapa */
+  .app--con-panel .sello {
+    display: none;
+  }
+
+  .pie,
+  .app--con-panel .pie {
+    left: var(--margen);
+    right: var(--margen);
+    transform: none;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hueco-chat {
+    bottom: calc(var(--alto-pie) + var(--margen));
+    width: auto;
+  }
+
+  .app--con-panel .mapa .maplibregl-ctrl-bottom-right {
+    right: calc(var(--margen) - 10px);
+  }
+}

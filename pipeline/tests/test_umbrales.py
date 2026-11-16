@@ -46,10 +46,10 @@ def test_slug_y_acumulado_latin1():
 
 
 def test_nivel_polen():
-    assert cu.nivel_polen(None, 11, 41) == "sin_dato"
-    assert cu.nivel_polen(10.9, 11, 41) == "bajo"
-    assert cu.nivel_polen(11, 11, 41) == "medio"
-    assert cu.nivel_polen(41, 11, 41) == "alto"
+    assert cu.nivel_polen(None, 26, 53) == "sin_dato"
+    assert cu.nivel_polen(25.9, 26, 53) == "bajo"
+    assert cu.nivel_polen(26, 26, 53) == "medio"
+    assert cu.nivel_polen(53, 26, 53) == "alto"
 
 
 def test_gramineas_19_mayo_2026_es_alto():
@@ -58,9 +58,9 @@ def test_gramineas_19_mayo_2026_es_alto():
     filas = [f for f in ckan.leer_csv(DATOS / "polen_2026_recorte.csv") if f["fecha_lectura"].startswith("2026-05-19")]
     vs = [float(f["granos_de_polen_x_metro_cubico"]) for f in filas]
     media = sum(vs) / len(vs)
-    assert media > g["p90"]
-    assert cu.nivel_polen(media, g["p75"], g["p90"]) == "alto"
-    assert all(cu.nivel_polen(v, g["p75"], g["p90"]) in ("medio", "alto") for v in vs)
+    assert media > g["alto_min"]
+    assert cu.nivel_polen(media, g["medio_min"], g["alto_min"]) == "alto"
+    assert all(cu.nivel_polen(v, g["medio_min"], g["alto_min"]) in ("medio", "alto") for v in vs)
 
 
 def test_umbrales_json_completo():
@@ -68,4 +68,48 @@ def test_umbrales_json_completo():
     for s in config.POLEN_CLAVES:
         t = u["polen"]["tipos"][s]
         assert 0 < t["p75"] <= t["p90"] and t["n_dias_positivos"] > 100
+        assert 0 < t["medio_min"] <= t["alto_min"] and t["metodo"] and t["fuente"]
     assert u["polen"]["periodo"] == "2010-2019"
+
+
+def _t(s):
+    u = json.loads((config.ESTATICOS / "umbrales.json").read_text(encoding="utf-8"))
+    return u["polen"]["tipos"][s]
+
+
+def test_cortes_exactos_por_tipo():
+    esperado = {  # slug: (medio_min, alto_min, metodo)
+        "gramineas": (26, 53, "oficial_palinocam"),
+        "olivo": (34, 74, "oficial_palinocam"),
+        "cupresaceas_taxaceas": (59, 171, "oficial_palinocam"),
+        "platano_de_paseo": (81, 248, "oficial_palinocam"),
+        "artemisia": (26, 51, "clinico_rea"),
+        "abedul": (31, 51, "clinico_rea"),
+        "aliso": (31, 51, "clinico_rea"),
+        "compuestas": (10, 30, "percentil_con_suelo"),
+        "sauces": (10, 30, "percentil_con_suelo"),
+    }
+    for s, (m, a, met) in esperado.items():
+        t = _t(s)
+        assert (t["medio_min"], t["alto_min"], t["metodo"]) == (m, a, met), s
+        assert t["fuente"].startswith(("Umbrales vigentes", "Criterios REA", "Criterio propio")), s
+
+
+def test_pocos_granos_nunca_son_medio_ni_alto():
+    for s, t in json.loads((config.ESTATICOS / "umbrales.json").read_text(encoding="utf-8"))["polen"]["tipos"].items():
+        assert t["metodo"] in ("oficial_palinocam", "clinico_rea", "percentil_con_suelo")
+        for v in (1, 2, 3):
+            assert cu.nivel_polen(v, t["medio_min"], t["alto_min"]) == "bajo", (s, v)
+
+
+def test_suelo_propio_se_aplica_solo_si_supera_al_percentil():
+    from collections import defaultdict
+
+    vals = defaultdict(list, {"x": [1, 2, 2, 3, 40, 80, 80, 90, 95, 100]})
+    t = cu.umbrales_polen(vals, {"x": "X"})["x"]
+    assert t["metodo"] == "percentil_con_suelo"
+    assert t["medio_min"] == max(t["p75"], cu.SUELO_MEDIO) and t["alto_min"] == max(t["p90"], cu.SUELO_ALTO)
+    assert t["alto_min"] == t["p90"] > cu.SUELO_ALTO
+    pocos = defaultdict(list, {"y": [1, 1, 2, 2, 3, 3, 4, 5]})
+    t = cu.umbrales_polen(pocos, {"y": "Y"})["y"]
+    assert (t["medio_min"], t["alto_min"]) == (cu.SUELO_MEDIO, cu.SUELO_ALTO)

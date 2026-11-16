@@ -18,9 +18,10 @@ Todos los conjuntos del portal de datos abiertos de la Comunidad de Madrid usado
 | Red de Calidad del Aire. Estaciones (`calidad_aire_estaciones`) | Estaciones, coordenadas y magnitudes que mide cada una | https://datos.comunidad.madrid/catalogo/dataset/calidad_aire_estaciones |
 | Captadores de polen (`captadores_polen`) | Captadores, coordenadas y localidad | https://datos.comunidad.madrid/catalogo/dataset/captadores_polen |
 | Mediciones de polen (`mediciones_polen`) | Qué captadores tienen datos en el año en curso | https://datos.comunidad.madrid/catalogo/dataset/mediciones_polen |
-| Mediciones de polen, histórico (`mediciones_polen_historico`) | Percentiles 2010-2019 | https://datos.comunidad.madrid/catalogo/dataset/mediciones_polen_historico |
+| Mediciones de polen, histórico (`mediciones_polen_historico`) | P75/P90 2010-2019 (referencia y tipos sin umbral publicado) | https://datos.comunidad.madrid/catalogo/dataset/mediciones_polen_historico |
 | Calidad del aire, datos del día (`calidad_aire_datos_dia`) y datos horarios desde 2005 (`calidad_aire_datos_historico`) | Estructura y convención horaria (fichero de descripción en el propio conjunto) | https://datos.comunidad.madrid/catalogo/dataset/calidad_aire_datos_dia · https://datos.comunidad.madrid/catalogo/dataset/calidad_aire_datos_historico |
 | Open-Meteo (API de previsión), CC BY 4.0 | Viento actual en una rejilla de 42 puntos | https://open-meteo.com |
+| Open-Meteo Air Quality API (CAMS Europa), CC BY 4.0. «Generated using Copernicus Atmosphere Monitoring Service information 2026» | Aire y polen previstos a 48 h (`pronostico.json`) | https://open-meteo.com/en/docs/air-quality-api |
 | Orden TEC/351/2019 y Resolución de 2-sep-2020 (cortes del aire) | Umbrales de NO2, O3, PM10 y PM2,5 | https://www.boe.es/eli/es/o/2019/03/18/tec351 · https://www.boe.es/diario_boe/txt.php?id=BOE-A-2020-10426 |
 
 ## Umbrales de aire (BOE)
@@ -43,27 +44,33 @@ Notas:
 - Valores por encima del máximo de la última banda se consideran erróneos según el BOE.
 - El índice es de corto plazo y no sirve para comprobar el cumplimiento de la normativa (lo dice el propio anexo).
 
-## Umbrales de polen (propios)
+## Umbrales de polen
 
-No existen umbrales oficiales en cifras para la Comunidad de Madrid. Se calculan **P75 y P90 por tipo polínico** sobre los días con valor > 0 de **2010-2019**, juntando todos los captadores (CSV anuales de `mediciones_polen_historico`; interpolación lineal; vacío = sin dato, se ignora). Nivel diario: bajo < P75 ≤ medio < P90 ≤ alto. Son 27 tipos; los cinco que usa el mapa:
+Cada tipo tiene `medio_min` y `alto_min` en `umbrales.json` (granos/m³, valor diario): bajo < `medio_min` ≤ medio < `alto_min` ≤ alto. También guarda `metodo`, `fuente` y, como referencia, P75, P90 y días con valor > 0 (2010-2019). Hay tres métodos, por orden de prioridad (consultado el 15-nov-2026):
 
-| Tipo | P75 | P90 | Días con valor > 0 |
-|---|---|---|---|
-| Gramíneas | 11 | 41 | 25.926 |
-| Olivo | 16 | 76 | 11.341 |
-| Abedul | 2 | 5 | 2.953 |
-| Aliso | 4 | 8 | 4.946 |
-| Artemisia | 2 | 3 | 4.695 |
+1. **`oficial_palinocam` (15 tipos).** Umbrales vigentes de la Red PALINOCAM (Comunidad de Madrid), calculados como percentiles de las series 2010-2019 de todas las estaciones. Fuente: Tabla 15 de «Informe de resultados del polen atmosférico medido en el centro del municipio de Madrid» (Ayuntamiento de Madrid, nov-2025, p. 26): https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf . Medio = P95 (P90 en cupresáceas, gramíneas y quercus); alto = P97 (P95 en esos tres); el nivel «muy alto» (P99) de la Red se agrupa en `alto`. Son aerobiológicos (percentiles), no clínicos; la Red lo dice expresamente. La web de la Comunidad (https://www.comunidad.madrid/servicios/salud/polen) y los informes técnicos anuales de PALINOCAM no publican cifras de corte.
+2. **`clinico_rea` (6 tipos sin umbral PALINOCAM).** Categorías de la Red Española de Aerobiología (REA, «Manual de Calidad y Gestión»), que son umbrales de concentración para que un porcentaje bajo, medio o alto de la población sensible tenga síntomas. No he podido abrir el manual original; los valores salen de dos documentos oficiales que lo reproducen: Informe de polen 2004-2019 del Gobierno Vasco (https://www.euskadi.eus/contenidos/informacion/informes_polen/eu_def/adjuntos/Informe-polen-2004-2019.pdf, abedul, aliso, aligustre, castaño y corylus: 1-30 / 31-50 / > 50) y la página del Ayuntamiento de Zaragoza (https://www.zaragoza.es/sede/servicio/informacion-polen/, artemisa con gramíneas, llantén y cenizo: 1-25 / 26-50 / > 50). Se guardan como mínimos enteros (31 y 51; 26 y 51).
+3. **`percentil_con_suelo` (6 tipos: compuestas, ericáceas, eucalipto, sauces, «otros», PNI).** P75/P90 de 2010-2019 (días con valor > 0, todos los captadores) pero con un **suelo absoluto propio**: `medio_min = max(P75, 10)`, `alto_min = max(P90, 30)`. **Es criterio propio de AlergIA, no de ninguna autoridad.** El 10 coincide con el corte «medio» publicado más bajo de PALINOCAM para herbáceas (urticáceas 10; amarantos 8, romazas 9) y el 30 con el corte «alto» REA más bajo (urticáceas > 30). Garantiza que 1-3 granos nunca den medio o alto. Estos tipos no los usa el mapa principal.
 
-Comprobación: el 19-may-2026 (pico del año) la media de gramíneas entre captadores fue 204,8 granos/m³, muy por encima del P90 (41): nivel **alto**.
+| Tipo | Método | medio ≥ | alto ≥ | (P75 / P90 antiguos) |
+|---|---|---|---|---|
+| Gramíneas | PALINOCAM | 26 | 53 | 11 / 41 |
+| Olivo | PALINOCAM | 34 | 74 | 16 / 76 |
+| Cupresáceas | PALINOCAM | 59 | 171 | 20 / 100 |
+| Plátano de paseo | PALINOCAM | 81 | 248 | 35 / 321 |
+| Artemisia | REA | 26 | 51 | 2 / 3 |
+| Abedul | REA | 31 | 51 | 2 / 5 |
+| Aliso | REA | 31 | 51 | 4 / 8 |
+
+Comprobación: el 19-may-2026 (pico del año) la media de gramíneas entre captadores fue 204,8 granos/m³, muy por encima de 53: nivel **alto**, y todos los captadores salen medio o alto. Con los datos del 15-nov-2026 ninguna estación sale en medio o alto por 2-3 granos (máximo observado: 19 granos de cupresáceas, bajo).
 
 Limitaciones:
-- Es una aproximación propia: relativa a la distribución histórica de Madrid, no a síntomas clínicos. Un día «alto» es de los 10 % más cargados del histórico del tipo, no un umbral médico.
-- Se mezclan todos los captadores y toda la temporada; en tipos raros (abedul, corylus, artemisia) los cortes son valores enteros muy pequeños (2, 5...), así que el nivel es sensible a 1-2 granos.
-- Los días con valor 0 se excluyen: el percentil describe «cuánto es mucho cuando hay polen».
+- Los cortes PALINOCAM están calculados sobre la serie de la Red, no son umbrales de síntomas. Los REA son de ámbito nacional y la propia REA recomienda umbrales locales cuando se pueda.
+- PALINOCAM y REA difieren en algunos tipos (REA: olivo, cupresáceas y plátano 51 / 201; gramíneas 26 / 51). Donde hay PALINOCAM se usa este, por ser el de la Red que emite los datos; la referencia REA queda en `referencia_rea`.
+- Los valores pueden venir con decimales (p. ej. 3,5); los cortes REA se guardan como mínimos enteros (> 50 = 51), así que 50,5 cuenta como medio y 30,5 como bajo (la REA diría «> 50 = alto»; la diferencia solo afecta a valores con decimales entre 50 y 51).
 - Aplicar estos cortes al polen previsto por CAMS (Open-Meteo) es otra aproximación (modelo frente a captador).
 - Hasta junio el polen es diario; el resto del año es semanal con retraso de 2 a 6 días.
-- Si se calculan sobre 2026 (otro criterio) salen P75 = 12 y P90 = 65 para gramíneas: es de donde venía la referencia del plan, que no corresponde al periodo 2010-2019.
+- Hasta el 15-nov se usaban P75/P90 propios (gramíneas 11 / 41; artemisia 2 / 3): daban «medio» con 2 granos, clínicamente absurdo. Se descartó.
 
 ## Convención horaria de los CSV de aire
 

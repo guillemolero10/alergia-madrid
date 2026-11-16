@@ -111,11 +111,11 @@ Identificadores de lugar: `est:<código de 8 cifras>`, `cap:<código>`, `mun:<IN
 | O3 | media móvil 8 h (BOE 2020) | ≤ 100 | 101-130 | > 130 |
 | PM10 | media móvil 24 h | ≤ 40 | 41-50 | > 50 |
 | PM2,5 | media móvil 24 h | ≤ 20 | 21-25 | > 25 |
-| Polen (por tipo) | valor diario | < P75 | P75-P90 | ≥ P90 |
+| Polen (por tipo) | valor diario | < `medio_min` | `medio_min` a `alto_min` | ≥ `alto_min` (gramíneas 26 / 53; ver DATOS.md) |
 
 - Aire: bandas del Índice Nacional de Calidad del Aire (Orden TEC/351/2019 y su actualización de 2020), agrupadas así: bajo = buena y razonablemente buena; medio = regular; alto = desfavorable o peor. Coincide con las recomendaciones oficiales para población sensible. **Contrastado con el BOE en la tarea 3 (15-nov): los cortes coinciden con la Resolución de 2-sep-2020 (BOE-A-2020-10426), que además fija el O3 en media móvil de 8 h (criterio propio: 6 de 8 h válidas, el 75 %, como el de 12 h para PM). Bandas completas en `datos-estaticos/umbrales.json`.** Las guías de la OMS de 2021 se muestran como línea de referencia en el gráfico, no como regla, porque son medias de 24 h u 8 h y no sirven hora a hora.
 - La media móvil de PM exige 12 horas válidas o más; con menos, `sin_dato`. Para eso el pipeline guarda `cache/aire_48h.json`.
-- Polen: percentiles por tipo sobre los días con valor mayor que 0 de 2010-2019, juntando todos los captadores. Se declara como aproximación propia. Resultado de 2010-2019 para gramíneas (tarea 3): P75 = 11 y P90 = 41 (12 y 65 eran solo de 2026). El captador asignado es el **activo** más cercano (LEGA no tiene datos en 2026).
+- Polen (cambio del 15-nov): cortes por tipo con tres métodos: umbrales vigentes de PALINOCAM (15 tipos, p. ej. gramíneas 26 / 53, olivo 34 / 74), categorías REA (abedul, aliso, artemisia...) y, para el resto, percentil 2010-2019 con suelo propio (10 y 30 granos/m³, declarado como criterio propio). Con P75/P90 puros, 2 granos de artemisia daban «medio». Detalle y fuentes en DATOS.md. El captador asignado es el **activo** más cercano (LEGA no tiene datos en 2026).
 - Convención horaria (tarea 3): `hNN` es hora **UTC** y marca el final de la hora (deducido de los datos por el cambio de hora; la documentación no lo dice). Conversión en `pipeline/alergia/horas.py` (`fin_de_hora_iso`).
 - Al polen previsto por CAMS se le aplican los mismos cortes. Es otra aproximación (modelo frente a captador) y se declara.
 
@@ -131,6 +131,8 @@ Workflow `datos.yml`: `cron: "27 * * * *"` + `workflow_dispatch`, `concurrency` 
 | Pronóstico de aire y polen | `air-quality-api.open-meteo.com/v1/air-quality`, 28 coordenadas, `hourly=pm10,pm2_5,nitrogen_dioxide,ozone,grass_pollen,olive_pollen,birch_pollen,alder_pollen,mugwort_pollen&forecast_days=3` | Mismo recorte; media móvil de PM; niveles | Cada hora | Igual que el anterior |
 | Días históricos (`dias.py`) | Aire: `calidad_aire_datos_historico`, recurso `c28fc923-0591-4787-a133-17711249bfd5` (2026.csv, 8 MB). Polen: el mismo CSV del año. Viento: `archive-api.open-meteo.com/v1/archive`. Pronóstico: `air-quality` con `start_date` y `end_date` | Foto del día a las 14:00 con el esquema normal y `modo: historico`; añade la fecha a `dias/indice.json` | A mano (`workflow_dispatch` con la fecha) | Se aborta sin escribir |
 | Estáticos (`pipeline/estatico/`) | `calidad_aire_estaciones` (`c05f6436-…`), `captadores_polen` (`763f86ed-…`), `mediciones_polen_historico` 2010-2019 (un CSV por año), `calidad_aire_datos_historico` 2021-2025 | Emparejamiento por distancia haversine, percentiles y estadísticas mensuales | Una vez; se versiona el resultado | Se corrige a mano |
+
+Ajustes de la tarea 5 (15-nov): air-quality se pide con `past_days=1` (ventana previa para las medias de PM y O3 a primera hora) y `timeformat=unixtime` (48 h absolutas sin saltos en los cambios de hora). Slugs de polen en `config.POLEN_TIPOS` (`polen_cupresaceas`, `polen_platano`, `polen_quenopodiaceas`, `polen_urticaceae`, `polen_ericaceae`…). La capa `polen` es obligatoria en el esquema.
 
 Reglas generales: 2 reintentos con espera; cada fuente va en su propio `try`; **nunca se publica un JSON que no valide ni uno con menos capas que el anterior**; si fallan todas las fuentes, el workflow termina en rojo y GitHub avisa por correo. Consumo de Open-Meteo: unas 100 ubicaciones por hora, unas 2.400 al día (límite gratuito: 10.000).
 
