@@ -16,6 +16,7 @@ const BORDE = 0.07; // franja (fracción de la rejilla) donde las partículas se
 const VIDA_MIN = 50;
 const VIDA_MAX = 130;
 const TRAMOS = 3; // tramos de opacidad: se dibuja un trazo por tramo y no uno por partícula
+const TINTA_VIENTO = "75, 86, 101"; // #4b5665, el mismo gris pizarra que las flechas
 
 export interface ParticulasViento {
   ponerRejilla(rejilla: RejillaViento | null): void;
@@ -97,7 +98,7 @@ export function crearParticulasViento(mapa: MapaLibre, lienzo: HTMLCanvasElement
     ctx.globalCompositeOperation = "destination-out";
     ctx.fillStyle = `rgba(0, 0, 0, ${1 - Math.pow(1 - DESVANECE, paso)})`;
     ctx.fillRect(0, 0, ancho, alto);
-    ctx.globalCompositeOperation = "lighter";
+    ctx.globalCompositeOperation = "source-over";
     ctx.lineCap = "round";
 
     const trazos: Path2D[] = [];
@@ -137,8 +138,9 @@ export function crearParticulasViento(mapa: MapaLibre, lienzo: HTMLCanvasElement
     }
 
     for (let t = 0; t < TRAMOS; t++) {
-      ctx.strokeStyle = `rgba(190, 226, 255, ${0.24 + (0.4 * t) / (TRAMOS - 1)})`;
-      ctx.lineWidth = 1 + t * 0.35;
+      // Gris pizarra semitransparente: se lee sobre el papel crema sin competir con los niveles.
+      ctx.strokeStyle = `rgba(${TINTA_VIENTO}, ${0.3 + (0.32 * t) / (TRAMOS - 1)})`;
+      ctx.lineWidth = 1.1 + t * 0.35;
       ctx.stroke(trazos[t]!);
     }
   }

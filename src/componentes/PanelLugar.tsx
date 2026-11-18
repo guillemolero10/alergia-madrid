@@ -10,6 +10,7 @@ import { Minigrafica } from "./Minigrafica";
 interface PropsPanel {
   ficha: FichaLugar;
   ahora: Date;
+  historico?: boolean;
   onCerrar: () => void;
   /** Abre otro lugar relacionado (la estación más cercana o el captador). */
   onIrA: (id: string) => void;
@@ -23,7 +24,7 @@ const FRASE: Record<Nivel, string> = {
 };
 
 /** Detalle de un lugar. En escritorio es un panel a la derecha; en el móvil, una hoja inferior. */
-export function PanelLugar({ ficha, ahora, onCerrar, onIrA }: PropsPanel) {
+export function PanelLugar({ ficha, ahora, historico = false, onCerrar, onIrA }: PropsPanel) {
   const tituloRef = useRef<HTMLHeadingElement>(null);
   const cuerpoRef = useRef<HTMLDivElement>(null);
 
@@ -107,7 +108,7 @@ export function PanelLugar({ ficha, ahora, onCerrar, onIrA }: PropsPanel) {
               )}
             </div>
             {ficha.variablesAire.length === 0 ? (
-              <p className="panel__vacio">Esta estación no tiene mediciones válidas ahora mismo.</p>
+              <p className="panel__vacio">Esta estación no tiene mediciones válidas {historico ? "ese día" : "ahora mismo"}.</p>
             ) : (
               <ul className="variables">
                 {ficha.variablesAire.map((o) => (
@@ -144,7 +145,7 @@ export function PanelLugar({ ficha, ahora, onCerrar, onIrA }: PropsPanel) {
                 {ficha.captador.ultimoDato && (
                   <>
                     {" "}
-                    · último dato: <time dateTime={ficha.captador.ultimoDato}>{formatearUltimoDato(ficha.captador.ultimoDato, ahora)}</time>
+                    · último dato: <time dateTime={ficha.captador.ultimoDato}>{formatearUltimoDato(ficha.captador.ultimoDato, ahora, historico)}</time>
                   </>
                 )}
               </span>

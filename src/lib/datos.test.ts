@@ -1,7 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import respaldoReal from "../../public/respaldo/estado_actual.json";
+import pronosticoReal from "../../public/respaldo/pronostico.json";
 import {
   cargarEstado,
+  cargarPronostico,
   EstadoInvalido,
   selloDeCapa,
   sellosDeCapas,
@@ -187,5 +189,32 @@ describe("sello de cada capa", () => {
   it("da por vigente el viento reciente y no el que no trae puntos", () => {
     expect(vientoVigente(estadoSinPolen(), "red", justoDespues)).toBe(true);
     expect(vientoVigente({ ...estadoSinPolen(), viento: [] }, "red", justoDespues)).toBe(false);
+  });
+});
+
+describe("cargarPronostico", () => {
+  const viejo = { ...pronosticoReal, generado: "2026-11-10T10:00:00+01:00" };
+  const reciente = { ...pronosticoReal, generado: "2026-11-16T10:00:00+01:00" };
+  const ahora = new Date("2026-11-16T11:00:00+01:00");
+  const o = (pedir: typeof fetch) => ({ fetch: pedir, urlRed: URL_RED, urlRespaldo: URL_RESPALDO, ahora });
+
+  it("usa la red si está al día", async () => {
+    const r = await cargarPronostico(o(fetchFalso({ [URL_RED]: () => respuesta(reciente) })));
+    expect(r.origen).toBe("red");
+  });
+
+  it("si la red tiene más de 3 h, usa la copia más reciente", async () => {
+    const r = await cargarPronostico(o(fetchFalso({ [URL_RED]: () => respuesta(viejo), [URL_RESPALDO]: () => respuesta(reciente) })));
+    expect(r.origen).toBe("respaldo");
+    expect(r.motivo).toContain("3 horas");
+  });
+
+  it("si la red falla usa el respaldo", async () => {
+    const r = await cargarPronostico(o(fetchFalso({ [URL_RESPALDO]: () => respuesta(pronosticoReal) })));
+    expect(r.origen).toBe("respaldo");
+  });
+
+  it("lanza si no hay ninguno", async () => {
+    await expect(cargarPronostico(o(fetchFalso({})))).rejects.toThrow();
   });
 });

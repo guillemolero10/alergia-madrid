@@ -1,5 +1,5 @@
 import { formatearKm } from "./formato";
-import { esPolen, nivelMaximo, ordenDeNivel } from "./riesgo";
+import { esNivel, esPolen, nivelMaximo, ordenDeNivel } from "./riesgo";
 import type { Captador, EstadoActual, Estacion, Lugares, Municipio, Nivel, Observacion } from "./tipos";
 
 // Modelo de lo que enseña `PanelLugar`. Se calcula aquí, sin React, para poder probarlo.
@@ -73,6 +73,16 @@ function ultimaFecha(observaciones: Observacion[]): string | null {
 }
 
 const DIA_MS = 86_400_000;
+/** El polen solo cuenta en el riesgo si su dato tiene 7 días o menos (como `POLEN_MAX_DIAS` en el pipeline). */
+const POLEN_MAX_DIAS = 7;
+
+const diaUtc = (iso: string) => Date.parse(`${iso.slice(0, 10)}T00:00:00Z`);
+
+/** Días de calendario entre una observación y `fecha_referencia`. `null` si alguna fecha no se entiende. */
+function diasDesde(estado: EstadoActual, hora: string): number | null {
+  const dias = Math.round((diaUtc(estado.fecha_referencia) - diaUtc(hora)) / DIA_MS);
+  return Number.isFinite(dias) ? dias : null;
+}
 
 /**
  * Días desde el último dato de polen del captador. Usa el que calcula el pipeline en `riesgo[]`;
@@ -83,16 +93,31 @@ export function antiguedadPolenDias(estado: EstadoActual, idCaptador: string, po
   if (delPipeline != null) return delPipeline;
   const ultima = ultimaFecha(polen);
   if (!ultima) return null;
-  const dia = (iso: string) => Date.parse(`${iso.slice(0, 10)}T00:00:00Z`);
-  const dias = Math.round((dia(estado.fecha_referencia) - dia(ultima)) / DIA_MS);
-  return Number.isFinite(dias) ? Math.max(0, dias) : null;
+  const dias = diasDesde(estado, ultima);
+  return dias == null ? null : Math.max(0, dias);
 }
 
-/** Nivel de polen de un captador: el máximo de sus tipos, y solo si el dato tiene 7 días o menos. */
+/**
+ * Observaciones de polen que cuentan en el riesgo: cada tipo, solo si SU dato tiene 7 días o menos
+ * (no basta con que otro tipo del mismo captador sea reciente). Igual que `pipeline/alergia/reglas.py`.
+ */
+export function polenVigente(estado: EstadoActual, polen: Observacion[]): Observacion[] {
+  return polen.filter((o) => {
+    const dias = diasDesde(estado, o.hora);
+    return dias != null && dias <= POLEN_MAX_DIAS;
+  });
+}
+
+/**
+ * Nivel de polen de un captador. Si el pipeline ya lo calculó para alguna estación emparejada con él
+ * (`riesgo[].nivel_polen`), se usa ese; si no, es el máximo de sus tipos con dato de 7 días o menos.
+ */
 function nivelPolenDe(estado: EstadoActual, captador: FichaLugar["captador"], polenTodo: Observacion[]): Nivel {
   if (!estado.capas.polen || !captador || !captador.activo) return "sin_dato";
-  if (captador.antiguedadDias != null && captador.antiguedadDias > 7) return "sin_dato";
-  return nivelMaximo(polenTodo.map((o) => o.nivel));
+  const delPipeline = estado.riesgo.find((r) => r.captador === captador.id)?.nivel_polen;
+  if (esNivel(delPipeline)) return delPipeline;
+  if (captador.antiguedadDias != null && captador.antiguedadDias > POLEN_MAX_DIAS) return "sin_dato";
+  return nivelMaximo(polenVigente(estado, polenTodo).map((o) => o.nivel));
 }
 
 function datosCaptador(
@@ -209,7 +234,8 @@ function fichaDeCaptador(captador: Captador, estado: EstadoActual, lugares: Luga
   const datos = datosCaptador(estado, lugares, captador.id, 0);
   const polen = datos.polenTodo.filter((o) => o.valor > 0);
   const nivelPolen = nivelPolenDe(estado, datos.captador, datos.polenTodo);
-  const primero = datos.polenTodo[0];
+  // `polenTodo` va de más a menos riesgo: el peor es el primero de los que todavía cuentan.
+  const primero = polenVigente(estado, datos.polenTodo)[0];
   return {
     id: captador.id,
     tipo: "captador",

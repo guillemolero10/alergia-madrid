@@ -1,4 +1,4 @@
-import { useId, useMemo, useState, type PointerEvent } from "react";
+import { useMemo, useState, type PointerEvent } from "react";
 import { formatearNumero, horaDeSerie } from "../lib/formato";
 
 interface PropsMinigrafica {
@@ -18,7 +18,6 @@ const INFERIOR = 6;
 
 /** Gráfica de línea de las últimas 24 h, en SVG propio. Los huecos sin dato se dejan en blanco, no se inventan. */
 export function Minigrafica({ serie, horaFinal, unidad, nombre }: PropsMinigrafica) {
-  const idDegradado = useId();
   const [activo, setActivo] = useState<number | null>(null);
 
   const g = useMemo(() => {
@@ -87,14 +86,8 @@ export function Minigrafica({ serie, horaFinal, unidad, nombre }: PropsMinigrafi
         onPointerDown={alMover}
         onPointerLeave={() => setActivo(null)}
       >
-        <defs>
-          <linearGradient id={idDegradado} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="var(--c)" stopOpacity="0.38" />
-            <stop offset="1" stopColor="var(--c)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
         <line className="minigrafica__base" x1="0" x2={ANCHO} y1={ALTO - 0.5} y2={ALTO - 0.5} />
-        {g.area && <path d={g.area} fill={`url(#${idDegradado})`} />}
+        {g.area && <path className="minigrafica__area" d={g.area} />}
         <path className="minigrafica__linea" d={g.linea} vectorEffect="non-scaling-stroke" />
         {activo != null && (
           <line className="minigrafica__cursor" x1={g.x(indice)} x2={g.x(indice)} y1="0" y2={ALTO} vectorEffect="non-scaling-stroke" />

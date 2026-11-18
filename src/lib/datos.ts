@@ -8,7 +8,9 @@ import type {
   NombreCapa,
   Observacion,
   OrigenDatos,
+  Pronostico,
   Riesgo,
+  ZonaPronostico,
   Viento,
 } from "./tipos";
 
@@ -247,6 +249,8 @@ export function selloDeCapa(
   if (!capa) return { nombre, disponible: false, ultimoDato: null, estado: "ausente", aviso: null };
 
   let aviso: string | null = null;
+  // Una foto histórica no se queda «sin actualizar»: está rotulada con su fecha.
+  if (estado.modo === "historico") return { nombre, disponible: true, ultimoDato: capa.ultimo_dato, estado: capa.estado, aviso: null };
   if (capa.estado === "error") aviso = "La fuente no responde: se conserva el último dato";
   else if (capa.estado === "antiguo") aviso = "Dato antiguo: la fuente no se ha actualizado";
   else {
@@ -269,4 +273,112 @@ export function vientoVigente(estado: EstadoActual, origen: OrigenDatos, ahora: 
   if (estado.viento.length === 0) return false;
   const edad = relojDeReferencia(estado, origen, ahora).getTime() - instanteDe(estado.capas.viento.ultimo_dato);
   return edad <= PLAZO_CAPA_MS.viento;
+}
+
+// --- pronóstico de 48 h ---
+
+export const URL_PRONOSTICO = "https://raw.githubusercontent.com/guillemolero10/alergia-madrid/datos/pronostico.json";
+export const URL_RESPALDO_PRONOSTICO = `${import.meta.env.BASE_URL}respaldo/pronostico.json`;
+/** Con más de 3 h el pronóstico se considera antiguo (el cron lo renueva cada hora). */
+export const PLAZO_PRONOSTICO_MS = 3 * HORA_MS;
+
+export class PronosticoInvalido extends Error {
+  constructor(motivo: string) {
+    super(`pronostico.json no válido: ${motivo}`);
+    this.name = "PronosticoInvalido";
+  }
+}
+
+function leerSerie<T>(v: unknown, n: number, leer: (x: unknown) => T): T[] | null {
+  return Array.isArray(v) && v.length === n ? v.map(leer) : null;
+}
+
+function leerZona(v: unknown, n: number): ZonaPronostico | null {
+  if (!esObjeto(v) || typeof v.lugar !== "string" || !esObjeto(v.valores) || !esObjeto(v.niveles)) return null;
+  const valores: ZonaPronostico["valores"] = {};
+  for (const [clave, serie] of Object.entries(v.valores)) {
+    const s = leerSerie(serie, n, (x) => (esNumero(x) ? x : null));
+    if (s) valores[clave] = s;
+  }
+  const niveles: ZonaPronostico["niveles"] = {};
+  for (const [clave, serie] of Object.entries(v.niveles)) {
+    const s = leerSerie(serie, n, (x) => (esNumero(x) && x >= 0 && x <= 3 ? Math.round(x) : 0));
+    if (s) niveles[clave] = s;
+  }
+  return { lugar: v.lugar, valores, niveles };
+}
+
+/** Comprueba lo básico del pronóstico; descarta las zonas mal formadas y lanza si no queda ninguna utilizable. */
+export function validarPronostico(json: unknown): Pronostico {
+  if (!esObjeto(json)) throw new PronosticoInvalido("no es un objeto");
+  if (json.version !== 1) throw new PronosticoInvalido(`versión desconocida (${String(json.version)})`);
+  if (!esFechaLegible(json.generado)) throw new PronosticoInvalido("falta `generado`");
+  if (!Array.isArray(json.horas) || json.horas.length === 0 || !json.horas.every(esFechaLegible)) {
+    throw new PronosticoInvalido("`horas` no es válido");
+  }
+  if (!Array.isArray(json.zonas)) throw new PronosticoInvalido("faltan las zonas");
+  const horas = json.horas as string[];
+  const zonas = limpiar(json.zonas, (z) => leerZona(z, horas.length));
+  if (zonas.length === 0) throw new PronosticoInvalido("no hay zonas utilizables");
+  const fuentes = esObjeto(json.fuentes) ? json.fuentes : {};
+  return {
+    version: 1,
+    generado: json.generado,
+    fuentes: {
+      meteo: typeof fuentes.meteo === "string" ? fuentes.meteo : "",
+      aire_polen: typeof fuentes.aire_polen === "string" ? fuentes.aire_polen : "",
+    },
+    horas,
+    unidades: esObjeto(json.unidades)
+      ? Object.fromEntries(Object.entries(json.unidades).filter(([, u]) => typeof u === "string")) as Record<string, string>
+      : {},
+    sin_pronostico: Array.isArray(json.sin_pronostico) ? json.sin_pronostico.filter((x): x is string => typeof x === "string") : [],
+    zonas,
+  };
+}
+
+export function pronosticoAntiguo(p: Pronostico, ahora: Date): boolean {
+  return ahora.getTime() - Date.parse(p.generado) > PLAZO_PRONOSTICO_MS;
+}
+
+export interface ResultadoPronostico {
+  pronostico: Pronostico;
+  origen: OrigenDatos;
+  /** Por qué no se usó la red, o por qué el dato es viejo. */
+  motivo?: string;
+}
+
+export interface OpcionesPronostico extends OpcionesCarga {
+  ahora?: Date;
+}
+
+/**
+ * Lee el pronóstico publicado. Si falla la red o tiene más de 3 h, mira la copia empaquetada y se queda con la
+ * más reciente de las dos. Solo lanza si no hay ninguna utilizable.
+ */
+export async function cargarPronostico(opciones: OpcionesPronostico = {}): Promise<ResultadoPronostico> {
+  const pedir = opciones.fetch ?? globalThis.fetch;
+  const urlRed = opciones.urlRed ?? URL_PRONOSTICO;
+  const urlRespaldo = opciones.urlRespaldo ?? URL_RESPALDO_PRONOSTICO;
+  const tiempoMaxMs = opciones.tiempoMaxMs ?? TIEMPO_MAX_MS;
+  const ahora = opciones.ahora ?? new Date();
+
+  let motivo: string;
+  let deRed: Pronostico | null = null;
+  try {
+    deRed = validarPronostico(await pedirJson(urlRed, pedir, tiempoMaxMs));
+    if (!pronosticoAntiguo(deRed, ahora)) return { pronostico: deRed, origen: "red" };
+    motivo = "la última actualización tiene más de 3 horas";
+  } catch (e) {
+    motivo = textoError(e);
+  }
+
+  try {
+    const copia = validarPronostico(await pedirJson(urlRespaldo, pedir, tiempoMaxMs));
+    if (deRed && Date.parse(deRed.generado) >= Date.parse(copia.generado)) return { pronostico: deRed, origen: "red", motivo };
+    return { pronostico: copia, origen: "respaldo", motivo };
+  } catch (e) {
+    if (deRed) return { pronostico: deRed, origen: "red", motivo };
+    throw new Error(`No se pudo cargar el pronóstico (red: ${motivo}; respaldo: ${textoError(e)})`);
+  }
 }

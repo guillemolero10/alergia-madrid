@@ -1,0 +1,177 @@
+/* La respuesta: una columna de periódico centrada en una persona. */
+
+.respuesta {
+  display: grid;
+  gap: 18px;
+}
+
+.titular {
+  font-family: var(--fuente-titulo);
+  font-size: clamp(32px, 4.4vw, 46px);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.titular--carga {
+  color: var(--tinta-2);
+  font-style: italic;
+  font-weight: 450;
+}
+
+.titular__veredicto {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.respuesta__veredicto {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  padding-left: 16px;
+  border-left: 5px solid var(--c, var(--borde));
+}
+
+.respuesta__texto {
+  color: var(--tinta-2);
+}
+
+/* --- mejor hora / evita --- */
+.horas {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: 0;
+  border-top: 2px solid var(--tinta);
+  border-bottom: 1px solid var(--borde);
+}
+
+.horas__bloque {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  padding: 10px 0 12px;
+}
+
+.horas__bloque + .horas__bloque {
+  padding-left: 16px;
+  border-left: 1px solid var(--borde);
+}
+
+.horas dt {
+  color: var(--tinta-2);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.horas dd {
+  display: grid;
+  gap: 1px;
+}
+
+.horas__valor {
+  font-family: var(--fuente-titulo);
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+}
+
+.horas__valor--frase {
+  font-size: 26px;
+}
+
+.horas__bloque--mejor .horas__valor {
+  color: var(--nivel-bajo-tinta);
+}
+
+.horas__bloque--mejor .horas__valor--sin {
+  color: var(--tinta);
+}
+
+.horas__bloque--peor .horas__valor {
+  color: var(--nivel-alto-tinta);
+}
+
+.horas__nota {
+  color: var(--tinta-2);
+  font-size: 13.5px;
+}
+
+.respuesta__consejo {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.respuesta__pequeno {
+  display: block;
+  margin-top: 2px;
+  color: var(--tinta-3);
+  font-size: 12px;
+}
+
+/* --- avisos --- */
+.aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px 8px 12px;
+  border-radius: var(--radio);
+  border: 1px solid var(--aviso-borde);
+  background: var(--aviso-fondo);
+  color: var(--aviso-tinta);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.aviso svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--aviso-icono);
+}
+
+.aviso > span {
+  flex: 1;
+  min-width: 0;
+}
+
+.aviso strong {
+  color: var(--tinta);
+}
+
+.aviso .boton {
+  flex: none;
+  min-height: 30px;
+  padding: 3px 12px;
+  border-color: var(--aviso-icono);
+  font-size: 12.5px;
+}
+
+.respuesta__detalle {
+  justify-self: start;
+  min-height: 42px;
+  text-align: left;
+}
+
+.respuesta__fuente {
+  padding-top: 10px;
+  border-top: 1px solid var(--borde);
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .horas__valor {
+    font-size: 29px;
+  }
+
+  .horas__valor--frase {
+    font-size: 24px;
+  }
+
+  .horas__bloque + .horas__bloque {
+    padding-left: 12px;
+  }
+}

@@ -27,7 +27,7 @@ const NOMBRE_FORMA: Record<FormaMarcador, string> = {
 
 /**
  * Marcador del mapa: un botón de verdad (enfocable con el teclado y con nombre accesible).
- * El nivel se codifica por color y, además, por tamaño, número de ondas y ritmo del pulso.
+ * Símbolo plano, sin halos: el nivel se codifica por color y, además, por tamaño.
  */
 export function Marcador({ id, forma, nombre, nivel, detalle, seleccionado, orden, onPulsar }: PropsMarcador) {
   const inicio = useRef<{ x: number; y: number } | null>(null);
@@ -45,7 +45,7 @@ export function Marcador({ id, forma, nombre, nivel, detalle, seleccionado, orde
   };
 
   const estilo = { "--orden": orden } as CSSProperties;
-  const etiqueta = nivel ? `${NOMBRE_FORMA[forma]} ${nombre}: ${detalle}` : `${NOMBRE_FORMA[forma]} ${nombre}: capa oculta`;
+  const etiqueta = `${NOMBRE_FORMA[forma]} ${nombre}: ${nivel ? detalle : detalle || "capa oculta"}`;
 
   return (
     <button
@@ -59,17 +59,10 @@ export function Marcador({ id, forma, nombre, nivel, detalle, seleccionado, orde
       onPointerDown={alBajar}
       onClick={alPulsar}
     >
-      {forma === "estacion" && nivel && nivel !== "sin_dato" && (
-        <>
-          <span className="marcador__halo" aria-hidden="true" />
-          <span className="marcador__onda" aria-hidden="true" />
-          {nivel === "alto" && <span className="marcador__onda marcador__onda--2" aria-hidden="true" />}
-        </>
-      )}
       <span className="marcador__nucleo" aria-hidden="true" />
       <span className="marcador__rotulo" aria-hidden="true">
         <strong>{nombre}</strong>
-        <span>{nivel ? detalle : "Capa oculta"}</span>
+        <span>{nivel ? detalle : detalle || "Capa oculta"}</span>
       </span>
     </button>
   );

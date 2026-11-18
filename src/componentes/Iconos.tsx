@@ -70,14 +70,3 @@ export function IconoInfo({ tam = 16, className }: PropsIcono) {
     </svg>
   );
 }
-
-/** Marca: un sensor que emite ondas. */
-export function Logotipo({ tam = 34 }: { tam?: number }) {
-  return (
-    <svg width={tam} height={tam} viewBox="0 0 40 40" fill="none" aria-hidden="true" focusable="false" className="logotipo">
-      <circle className="logotipo__onda logotipo__onda--2" cx="20" cy="20" r="17" stroke="currentColor" strokeWidth="1.6" />
-      <circle className="logotipo__onda" cx="20" cy="20" r="11" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="20" cy="20" r="5" fill="currentColor" />
-    </svg>
-  );
-}

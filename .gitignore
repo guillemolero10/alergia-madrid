@@ -11,3 +11,4 @@ __pycache__/
 .DS_Store
 docs/capturas/prueba-paleta-datos-simulados.png
 *.tsbuildinfo
+.gstack/

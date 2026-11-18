@@ -116,3 +116,25 @@ export type CapasVisibles = Record<NombreCapa, boolean>;
 
 /** De dónde salieron los datos que se están pintando. */
 export type OrigenDatos = "red" | "respaldo";
+
+// --- pronostico.json (docs/esquema/pronostico.schema.json) ---
+
+export interface ZonaPronostico {
+  /** Id de estación (`est:<8 cifras>`): el pronóstico se calcula en sus coordenadas. */
+  lugar: string;
+  /** Un array de 48 valores alineado con `Pronostico.horas` (`null` si falta). */
+  valores: Record<string, (number | null)[]>;
+  /** Índices de `NIVELES` (0 sin dato … 3 alto), alineados con `horas`. */
+  niveles: Record<string, number[]>;
+}
+
+export interface Pronostico {
+  version: 1;
+  generado: string;
+  fuentes: { meteo: string; aire_polen: string };
+  horas: string[];
+  unidades: Record<string, string>;
+  /** Variables que CAMS no pronostica (p. ej. `polen_cupresaceas`, `polen_platano`). */
+  sin_pronostico: string[];
+  zonas: ZonaPronostico[];
+}

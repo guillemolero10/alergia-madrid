@@ -8,7 +8,7 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import httpx
@@ -85,7 +85,7 @@ def _pedir_horario(c: httpx.Client, url: str, estaciones: list[dict], hourly: st
             "latitude": ",".join(str(e["lat"]) for e in estaciones),
             "longitude": ",".join(str(e["lon"]) for e in estaciones),
             "hourly": hourly,
-            "forecast_days": 3,
+            **({} if "start_date" in extra else {"forecast_days": 3}),
             "timezone": "Europe/Madrid",
             "timeformat": "unixtime",
             **extra,
@@ -170,3 +170,61 @@ def pronostico(c: httpx.Client, estaciones: list[dict], generado: datetime, umbr
     meteo = _pedir_horario(c, URL_FORECAST, estaciones, HOURLY_METEO)
     cams = _pedir_horario(c, URL_AIRE, estaciones, HOURLY_AIRE, past_days=1)
     return construir_pronostico(meteo, cams, estaciones, generado, umbrales)
+
+
+# ---------------------------------------------------------------- dias historicos (`dias.py`)
+URL_ARCHIVE = "https://archive-api.open-meteo.com/v1/archive"
+FUENTE_VIENTO_HIST = "open-meteo:archive"
+FUENTE_METEO_HIST = "open-meteo:archive"
+FUENTE_AIRE_HIST = "open-meteo:air-quality (CAMS Europa, historico)"
+
+
+def viento_historico(c: httpx.Client, puntos: list[dict], instante: datetime) -> tuple[list[dict], str]:
+    """Viento de la rejilla a la hora de `instante` (aware, Madrid) desde archive-api. -> (viento[], instante ISO)."""
+    dia = instante.astimezone(UTC).date().isoformat()
+    r = c.get(
+        URL_ARCHIVE,
+        params={
+            "latitude": ",".join(str(p["lat"]) for p in puntos),
+            "longitude": ",".join(str(p["lon"]) for p in puntos),
+            "hourly": "wind_speed_10m,wind_direction_10m",
+            "start_date": dia,
+            "end_date": dia,
+            "timezone": "GMT",  # archive-api devuelve un desfase fijo de +1 h en verano con Europe/Madrid: se pide en UTC
+            "timeformat": "unixtime",
+        },
+    )
+    r.raise_for_status()
+    d = r.json()
+    if isinstance(d, dict):
+        d = [d]
+    if len(d) != len(puntos):
+        raise ValueError(f"Open-Meteo devolvio {len(d)} puntos y se pidieron {len(puntos)}")
+    t = int(instante.timestamp())
+    salida = []
+    for p, item in zip(puntos, d):
+        h = item["hourly"]
+        i = h["time"].index(t) if t in h["time"] else -1
+        v, ang = (h["wind_speed_10m"][i], h["wind_direction_10m"][i]) if i >= 0 else (None, None)
+        if v is None or ang is None:
+            raise ValueError("Open-Meteo archive devolvio viento nulo o sin esa hora")
+        salida.append({"lat": p["lat"], "lon": p["lon"], "velocidad_kmh": round(float(v), 1), "direccion_grados": int(round(ang)) % 360})
+    return salida, instante.astimezone(horas.MADRID).isoformat(timespec="seconds")
+
+
+def pronostico_historico(c: httpx.Client, estaciones: list[dict], dia: date, umbrales: dict) -> dict:
+    """Las 48 h desde las 00:00 (Madrid) de `dia`, con la misma estructura que `pronostico`.
+
+    Meteo de archive-api y aire + polen de air-quality (CAMS) con `start_date`/`end_date`; el dia anterior se pide
+    para las medias moviles de las primeras horas. `generado` = 23:00 del dia anterior; `modo` = historico.
+    """
+    # Las dos APIs historicas dan un `utc_offset_seconds` fijo de +1 h aunque sea verano (unixtime desplazado 1 h):
+    # se piden en UTC y los dias van con margen; `construir_pronostico` recorta por instante.
+    ini, fin = (dia - timedelta(days=2)).isoformat(), (dia + timedelta(days=2)).isoformat()
+    meteo = _pedir_horario(c, URL_ARCHIVE, estaciones, HOURLY_METEO, start_date=ini, end_date=fin, timezone="GMT")
+    cams = _pedir_horario(c, URL_AIRE, estaciones, HOURLY_AIRE, start_date=ini, end_date=fin, timezone="GMT")
+    generado = datetime(dia.year, dia.month, dia.day, tzinfo=horas.MADRID) - timedelta(hours=1)
+    doc = construir_pronostico(meteo, cams, estaciones, generado, umbrales)
+    doc["modo"] = "historico"
+    doc["fuentes"] = {"meteo": FUENTE_METEO_HIST, "aire_polen": FUENTE_AIRE_HIST}
+    return doc

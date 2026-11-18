@@ -11,6 +11,8 @@ interface PropsSello {
   /** `false` cuando el viento ha caducado y las flechas se ocultan. */
   vientoVigente: boolean;
   ahora: Date;
+  /** Modo histórico: las fechas se enseñan absolutas, nunca «hoy». */
+  historico?: boolean;
 }
 
 const CAPAS: { nombre: NombreCapa; titulo: string; ayuda: string; Icono: typeof IconoAire }[] = [
@@ -20,11 +22,11 @@ const CAPAS: { nombre: NombreCapa; titulo: string; ayuda: string; Icono: typeof 
 ];
 
 /** Tres interruptores (aire, polen y viento) con la fecha del último dato de cada capa siempre a la vista. */
-export function SelloCapas({ sellos, visibles, onCambiar, vientoVigente, ahora }: PropsSello) {
+export function SelloCapas({ sellos, visibles, onCambiar, vientoVigente, ahora, historico = false }: PropsSello) {
   return (
     <section className="sello tarjeta" aria-labelledby="sello-titulo">
       <h2 id="sello-titulo" className="sello__titulo">
-        Capas
+        Capas del mapa
       </h2>
       <ul className="sello__lista">
         {CAPAS.map(({ nombre, titulo, ayuda, Icono }) => {
@@ -56,7 +58,7 @@ export function SelloCapas({ sellos, visibles, onCambiar, vientoVigente, ahora }
                   <>
                     Último dato:{" "}
                     <time dateTime={sello.ultimoDato}>
-                      {formatearUltimoDato(sello.ultimoDato, ahora)}
+                      {formatearUltimoDato(sello.ultimoDato, ahora, historico)}
                     </time>
                   </>
                 ) : (
@@ -80,7 +82,7 @@ export function SelloCapas({ sellos, visibles, onCambiar, vientoVigente, ahora }
 export function SelloCapasEsqueleto() {
   return (
     <section className="sello tarjeta sello--esqueleto" aria-busy="true" aria-label="Capas: cargando datos">
-      <h2 className="sello__titulo">Capas</h2>
+      <h2 className="sello__titulo">Capas del mapa</h2>
       <ul className="sello__lista" aria-hidden="true">
         {CAPAS.map(({ nombre, titulo, Icono }) => (
           <li key={nombre} className="sello__capa">

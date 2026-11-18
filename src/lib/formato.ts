@@ -55,16 +55,16 @@ export function horaCorta(iso: string): string {
 
 /**
  * Texto legible del último dato de una capa: «hoy, 13:00», «ayer, 22:00», «12 nov, 9:00» o,
- * si solo hay fecha (polen), «hoy», «ayer» o «12 nov».
+ * si solo hay fecha (polen), «hoy», «ayer» o «12 nov». Con `absoluta` (modo histórico) nunca dice «hoy»/«ayer».
  */
-export function formatearUltimoDato(valor: string, ahora: Date = new Date()): string {
+export function formatearUltimoDato(valor: string, ahora: Date = new Date(), absoluta = false): string {
   const hoy = partesEnMadrid(ahora);
   const soloFecha = SOLO_FECHA.exec(valor);
   if (soloFecha) {
     const p = { anio: Number(soloFecha[1]), mes: Number(soloFecha[2]), dia: Number(soloFecha[3]), hora: "", minuto: "" };
     const dias = diasEntre(p, hoy);
-    if (dias === 0) return "hoy";
-    if (dias === 1) return "ayer";
+    if (!absoluta && dias === 0) return "hoy";
+    if (!absoluta && dias === 1) return "ayer";
     return diaYMes(p, hoy.anio);
   }
   const fecha = new Date(valor);
@@ -72,8 +72,8 @@ export function formatearUltimoDato(valor: string, ahora: Date = new Date()): st
   const p = partesEnMadrid(fecha);
   const hora = `${p.hora}:${p.minuto}`;
   const dias = diasEntre(p, hoy);
-  if (dias === 0) return `hoy, ${hora}`;
-  if (dias === 1) return `ayer, ${hora}`;
+  if (!absoluta && dias === 0) return `hoy, ${hora}`;
+  if (!absoluta && dias === 1) return `ayer, ${hora}`;
   return `${diaYMes(p, hoy.anio)}, ${hora}`;
 }
 

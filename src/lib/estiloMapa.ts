@@ -1,30 +1,33 @@
 import type { LayerSpecification, StyleSpecification } from "maplibre-gl";
 
-// Mapa base: estilo «positron» de OpenFreeMap (vectorial, sin clave), pasado a una paleta nocturna para que
-// los niveles de riesgo y el viento sean lo que brilla. Si OpenFreeMap no responde, teselas ráster de OSM.
+// Mapa base: estilo «positron» de OpenFreeMap (vectorial, sin clave), pasado a una paleta de papel, como el
+// mapa del tiempo de un periódico: tierra crema, agua azul suave y rótulos en gris oscuro. Sobre ese fondo
+// tranquilo, lo único con color fuerte son los niveles de riesgo. Si OpenFreeMap no responde, teselas ráster de OSM.
 
 export const URL_POSITRON = "https://tiles.openfreemap.org/styles/positron";
 
-/** Toda la paleta del mapa base en un solo sitio (si hiciera falta un tema claro, se cambia aquí). */
+/** Toda la paleta del mapa base en un solo sitio. */
 export const PALETA_MAPA = {
-  tierra: "#0b1120",
-  urbano: "#111a2d",
-  parque: "#0d1b22",
-  bosque: "#0c1a1f",
-  agua: "#060a14",
-  rio: "#13233f",
-  edificio: "#141d32",
-  edificioBorde: "#19243d",
-  viaMenor: "#18233b",
-  viaMayor: "#212e4c",
-  autovia: "#2c3d63",
-  tren: "#1a243c",
-  limite: "#7890c8",
-  textoCiudad: "#b9c5df",
-  textoPueblo: "#8f9ebd",
-  textoMenor: "#6b7a99",
-  textoAgua: "#41609a",
-  halo: "#0b1120",
+  tierra: "#f3efe6",
+  urbano: "#ebe5d8",
+  parque: "#dfe5d2",
+  bosque: "#dbe2cd",
+  agua: "#c9dce8",
+  rio: "#b3cde0",
+  edificio: "#e4ddce",
+  edificioBorde: "#d5ccba",
+  via: "#ffffff",
+  viaLejana: "#fdfbf6",
+  viaBorde: "#d3cab8",
+  autovia: "#fffaf0",
+  autoviaBorde: "#c4b9a3",
+  tren: "#cfc7b8",
+  limite: "#6b7480",
+  textoCiudad: "#22262b",
+  textoPueblo: "#3f454d",
+  textoMenor: "#5f656d",
+  textoAgua: "#44708f",
+  halo: "#f6f2ea",
 } as const;
 
 type Pintura = Record<string, unknown>;
@@ -36,33 +39,33 @@ const POR_CAPA: Record<string, Pintura> = {
   background: { "background-color": P.tierra },
   park: { "fill-color": P.parque },
   water: { "fill-color": P.agua },
-  landcover_ice_shelf: { "fill-color": P.urbano },
-  landcover_glacier: { "fill-color": P.urbano },
+  landcover_ice_shelf: { "fill-color": P.tierra },
+  landcover_glacier: { "fill-color": P.tierra },
   landuse_residential: { "fill-color": P.urbano },
   landcover_wood: { "fill-color": P.bosque },
   waterway: { "line-color": P.rio },
   building: { "fill-color": P.edificio, "fill-outline-color": P.edificioBorde },
   "aeroway-area": { "fill-color": P.urbano },
-  "aeroway-taxiway": { "line-color": P.viaMenor },
-  "aeroway-runway-casing": { "line-color": P.viaMenor },
-  "aeroway-runway": { "line-color": P.viaMayor },
+  "aeroway-taxiway": { "line-color": P.viaBorde },
+  "aeroway-runway-casing": { "line-color": P.viaBorde },
+  "aeroway-runway": { "line-color": P.via },
   road_area_pier: { "fill-color": P.tierra },
   road_pier: { "line-color": P.tierra },
-  highway_path: { "line-color": P.viaMenor },
-  highway_minor: { "line-color": P.viaMenor },
-  highway_major_casing: { "line-color": P.tierra },
-  highway_major_inner: { "line-color": P.viaMayor },
-  highway_major_subtle: { "line-color": P.viaMayor },
-  highway_motorway_casing: { "line-color": P.tierra },
+  highway_path: { "line-color": P.viaLejana },
+  highway_minor: { "line-color": P.via },
+  highway_major_casing: { "line-color": P.viaBorde },
+  highway_major_inner: { "line-color": P.via },
+  highway_major_subtle: { "line-color": P.viaLejana },
+  highway_motorway_casing: { "line-color": P.autoviaBorde },
   highway_motorway_inner: { "line-color": P.autovia },
   highway_motorway_subtle: { "line-color": P.autovia },
-  highway_motorway_bridge_casing: { "line-color": P.tierra },
+  highway_motorway_bridge_casing: { "line-color": P.autoviaBorde },
   highway_motorway_bridge_inner: { "line-color": P.autovia },
-  tunnel_motorway_casing: { "line-color": P.tierra },
-  tunnel_motorway_inner: { "line-color": P.viaMayor },
-  boundary_3: { "line-color": P.limite, "line-opacity": 0.5 },
-  boundary_2: { "line-color": P.limite, "line-opacity": 0.6 },
-  boundary_disputed: { "line-color": P.limite, "line-opacity": 0.3 },
+  tunnel_motorway_casing: { "line-color": P.viaBorde },
+  tunnel_motorway_inner: { "line-color": P.viaLejana },
+  boundary_3: { "line-color": P.limite, "line-opacity": 0.8 },
+  boundary_2: { "line-color": P.limite, "line-opacity": 0.7 },
+  boundary_disputed: { "line-color": P.limite, "line-opacity": 0.35 },
   label_city_capital: { "text-color": P.textoCiudad },
   label_city: { "text-color": P.textoCiudad },
   label_town: { "text-color": P.textoPueblo },
@@ -74,7 +77,7 @@ const POR_CAPA: Record<string, Pintura> = {
   waterway_line_label: { "text-color": P.textoAgua },
 };
 
-/** Capas que sobran sobre fondo oscuro (escudos de carretera claros, aeropuertos). */
+/** Capas que recargan el mapa sin aportar nada aquí (escudos de carretera, aeropuertos). */
 const OCULTAS = /^(highway-shield|road_shield|airport)/;
 
 function pinturaGenerica(capa: LayerSpecification): Pintura {
@@ -84,7 +87,7 @@ function pinturaGenerica(capa: LayerSpecification): Pintura {
     case "fill":
       return { "fill-color": P.urbano };
     case "line":
-      return { "line-color": capa.id.startsWith("railway") ? (capa.id.includes("dash") ? P.tierra : P.tren) : P.viaMenor };
+      return { "line-color": capa.id.startsWith("railway") ? (capa.id.includes("dash") ? P.tierra : P.tren) : P.viaBorde };
     case "symbol":
       return { "text-color": P.textoMenor };
     default:
@@ -93,27 +96,64 @@ function pinturaGenerica(capa: LayerSpecification): Pintura {
 }
 
 /**
- * Devuelve una copia del estilo con la paleta nocturna. No depende de que existan todas las capas:
- * las que no conoce reciben un color genérico según su tipo, así un cambio en OpenFreeMap no deja zonas claras.
+ * Límites municipales: positron solo dibuja comunidades y provincias (`boundary_3`). Se añade una capa gemela,
+ * más fina, con los niveles administrativos 7 y 8. Las teselas solo los traen con el mapa acercado.
  */
-export function oscurecerEstilo(estilo: StyleSpecification): StyleSpecification {
-  const capas = estilo.layers.map((capa): LayerSpecification => {
+function capaLimiteMunicipal(provincias: LayerSpecification): LayerSpecification | null {
+  if (provincias.type !== "line") return null;
+  return {
+    id: "limite_municipal",
+    type: "line",
+    source: provincias.source,
+    "source-layer": provincias["source-layer"],
+    minzoom: 9,
+    filter: [
+      "all",
+      ["==", ["typeof", ["get", "admin_level"]], "number"],
+      [">=", ["get", "admin_level"], 7],
+      ["<=", ["get", "admin_level"], 8],
+      ["!=", ["get", "maritime"], 1],
+    ],
+    paint: {
+      "line-color": P.limite,
+      "line-opacity": 0.38,
+      "line-dasharray": [2, 2],
+      "line-width": ["interpolate", ["linear"], ["zoom"], 9, 0.5, 13, 1],
+    },
+  } as LayerSpecification;
+}
+
+/**
+ * Devuelve una copia del estilo con la paleta de `PALETA_MAPA`. No depende de que existan todas las capas:
+ * las que no conoce reciben un color genérico según su tipo, así un cambio en OpenFreeMap no desentona.
+ * Los `sources` (y sus atribuciones) se conservan tal cual.
+ */
+export function aplicarPaleta(estilo: StyleSpecification): StyleSpecification {
+  const capas: LayerSpecification[] = [];
+  for (const capa of estilo.layers) {
     const copia = structuredClone(capa) as LayerSpecification & { paint?: Pintura; layout?: Pintura };
-    if (capa.type === "raster" || capa.type === "hillshade") return copia;
+    if (capa.type === "raster" || capa.type === "hillshade") {
+      capas.push(copia);
+      continue;
+    }
     const pintura: Pintura = { ...(copia.paint ?? {}), ...pinturaGenerica(capa), ...(POR_CAPA[capa.id] ?? {}) };
     if (capa.type === "symbol") {
       pintura["text-halo-color"] = P.halo;
-      pintura["text-halo-width"] = 1.4;
-      pintura["text-halo-blur"] = 0.6;
+      pintura["text-halo-width"] = 1.6;
+      pintura["text-halo-blur"] = 0.4;
       if (OCULTAS.test(capa.id)) copia.layout = { ...(copia.layout ?? {}), visibility: "none" };
     }
     copia.paint = pintura;
-    return copia;
-  });
+    if (capa.id === "boundary_3") {
+      const municipal = capaLimiteMunicipal(capa);
+      if (municipal) capas.push(municipal);
+    }
+    capas.push(copia);
+  }
   return { ...estilo, layers: capas };
 }
 
-/** Respaldo ráster: teselas estándar de OpenStreetMap, invertidas y sin color para casar con el tema oscuro. */
+/** Respaldo ráster: teselas estándar de OpenStreetMap, casi sin color y veladas sobre el mismo papel crema. */
 export const ESTILO_RASTER: StyleSpecification = {
   version: 8,
   sources: {
@@ -132,11 +172,9 @@ export const ESTILO_RASTER: StyleSpecification = {
       type: "raster",
       source: "osm",
       paint: {
-        "raster-saturation": -0.85,
-        "raster-brightness-min": 0.92,
-        "raster-brightness-max": 0.06,
-        "raster-contrast": -0.1,
-        "raster-opacity": 0.7,
+        "raster-saturation": -0.7,
+        "raster-contrast": -0.15,
+        "raster-opacity": 0.6,
       },
     },
   ],
@@ -153,7 +191,7 @@ function pareceEstilo(json: unknown): json is StyleSpecification {
   );
 }
 
-/** Descarga positron y lo oscurece; si falla (o tarda más de 6 s), devuelve el estilo ráster de respaldo. */
+/** Descarga positron y le aplica la paleta; si falla (o tarda más de 6 s), devuelve el estilo ráster de respaldo. */
 export async function cargarEstiloBase(
   pedir: typeof globalThis.fetch = globalThis.fetch,
   forzar?: BaseMapa,
@@ -166,7 +204,7 @@ export async function cargarEstiloBase(
     if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
     const json: unknown = await respuesta.json();
     if (!pareceEstilo(json)) throw new Error("estilo no válido");
-    return { estilo: oscurecerEstilo(json), base: "positron" };
+    return { estilo: aplicarPaleta(json), base: "positron" };
   } catch {
     return { estilo: ESTILO_RASTER, base: "raster" };
   } finally {

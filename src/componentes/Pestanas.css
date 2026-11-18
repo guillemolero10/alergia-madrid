@@ -1,0 +1,50 @@
+/* Pestañas de la columna: como las secciones de un periódico, con filete bajo la activa. */
+
+.pestanas {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--tinta);
+}
+
+.pestana {
+  flex: 1 1 0;
+  min-height: 44px;
+  margin-bottom: -1px;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-bottom: 0;
+  border-radius: var(--radio-s) var(--radio-s) 0 0;
+  background: transparent;
+  color: var(--tinta-2);
+  font-family: var(--fuente-titulo);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.pestana:hover {
+  background: var(--superficie-2);
+  color: var(--tinta);
+}
+
+.pestana[aria-selected="true"] {
+  border-color: var(--tinta);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-weight: 650;
+  /* Borra el filete inferior justo bajo la pestaña: queda unida al contenido */
+  box-shadow: 0 1px 0 var(--superficie);
+}
+
+.pestana:focus-visible {
+  outline-offset: -3px;
+}
+
+@media (max-width: 760px) {
+  .pestana {
+    font-size: 17px;
+    padding: 8px 4px;
+  }
+}

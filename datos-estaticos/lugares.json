@@ -1,9 +1,10 @@
 {
-  "generado": "2026-11-15",
+  "generado": "2026-11-16",
   "fuentes": {
     "estaciones": "https://datos.comunidad.madrid/catalogo/dataset/calidad_aire_estaciones (CC BY 4.0)",
     "captadores": "https://datos.comunidad.madrid/catalogo/dataset/captadores_polen (CC BY 4.0)",
     "captador_activo": "https://datos.comunidad.madrid/catalogo/dataset/mediciones_polen: con datos no vacios en 2026",
+    "municipios": "https://api-features.ign.es (IGN: unidades administrativas y nucleos de poblacion; licencia de uso IGN/CNIG, atribucion «© Instituto Geografico Nacional de Espana») + lista de INE de https://datos.comunidad.madrid/catalogo/dataset/municipio_comunidad_madrid (CC BY 4.0); ver datos-estaticos/municipios_fuente.csv",
     "madrid_capital": "coordenada aproximada introducida a mano (Puerta del Sol); no hay estacion de la Comunidad en la capital"
   },
   "estaciones": [
@@ -536,6 +537,64 @@
   ],
   "municipios": [
     {
+      "id": "mun:28001",
+      "nombre": "La Acebeda",
+      "alias": [
+        "la acebeda",
+        "acebeda"
+      ],
+      "lat": 41.086853,
+      "lon": -3.624793,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 23.76,
+      "captador": "cap:VILL",
+      "dist_captador_km": 57.6,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28002",
+      "nombre": "Ajalvir",
+      "alias": [
+        "ajalvir"
+      ],
+      "lat": 40.534271,
+      "lon": -3.480942,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 7.53,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 11.09,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28003",
+      "nombre": "Alameda del Valle",
+      "alias": [
+        "alameda del valle"
+      ],
+      "lat": 40.918056,
+      "lon": -3.843636,
+      "estacion": "est:28120001",
+      "dist_estacion_km": 14.3,
+      "captador": "cap:VILL",
+      "dist_captador_km": 32.2,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28004",
+      "nombre": "El Álamo",
+      "alias": [
+        "el alamo",
+        "alamo"
+      ],
+      "lat": 40.230312,
+      "lon": -3.990672,
+      "estacion": "est:28092005",
+      "dist_estacion_km": 14.23,
+      "captador": "cap:GETA",
+      "dist_captador_km": 23.59,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28005",
       "nombre": "Alcalá de Henares",
       "alias": [
@@ -579,6 +638,20 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28008",
+      "nombre": "Aldea del Fresno",
+      "alias": [
+        "aldea del fresno"
+      ],
+      "lat": 40.324913,
+      "lon": -4.203838,
+      "estacion": "est:28171001",
+      "dist_estacion_km": 10.48,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 34.57,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28009",
       "nombre": "Algete",
       "alias": [
@@ -591,6 +664,48 @@
       "captador": "cap:ALCO",
       "dist_captador_km": 14.13,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28010",
+      "nombre": "Alpedrete",
+      "alias": [
+        "alpedrete"
+      ],
+      "lat": 40.65887,
+      "lon": -4.023479,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 2.97,
+      "captador": "cap:VILL",
+      "dist_captador_km": 1.91,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28011",
+      "nombre": "Ambite",
+      "alias": [
+        "ambite"
+      ],
+      "lat": 40.328997,
+      "lon": -3.181565,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 5.7,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 23.23,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28012",
+      "nombre": "Anchuelo",
+      "alias": [
+        "anchuelo"
+      ],
+      "lat": 40.465517,
+      "lon": -3.268668,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 9.37,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 8.77,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28013",
@@ -622,6 +737,20 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28015",
+      "nombre": "Arroyomolinos",
+      "alias": [
+        "arroyomolinos"
+      ],
+      "lat": 40.280766,
+      "lon": -3.919701,
+      "estacion": "est:28092005",
+      "dist_estacion_km": 6.05,
+      "captador": "cap:GETA",
+      "dist_captador_km": 16.16,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28016",
       "nombre": "El Atazar",
       "alias": [
@@ -635,6 +764,401 @@
       "captador": "cap:ALCO",
       "dist_captador_km": 43.62,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28017",
+      "nombre": "Batres",
+      "alias": [
+        "batres"
+      ],
+      "lat": 40.247351,
+      "lon": -3.940967,
+      "estacion": "est:28092005",
+      "dist_estacion_km": 10.14,
+      "captador": "cap:GETA",
+      "dist_captador_km": 18.96,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28018",
+      "nombre": "Becerril de la Sierra",
+      "alias": [
+        "becerril de la sierra"
+      ],
+      "lat": 40.716264,
+      "lon": -3.989401,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 9.48,
+      "captador": "cap:VILL",
+      "dist_captador_km": 6.97,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28019",
+      "nombre": "Belmonte de Tajo",
+      "alias": [
+        "belmonte de tajo"
+      ],
+      "lat": 40.133747,
+      "lon": -3.339569,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 6.52,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 24.8,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28020",
+      "nombre": "Berzosa del Lozoya",
+      "alias": [
+        "berzosa del lozoya"
+      ],
+      "lat": 40.975395,
+      "lon": -3.523852,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 8.75,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 49.33,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28021",
+      "nombre": "El Berrueco",
+      "alias": [
+        "el berrueco",
+        "berrueco"
+      ],
+      "lat": 40.887569,
+      "lon": -3.561347,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 8.21,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 39.12,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28022",
+      "nombre": "Boadilla del Monte",
+      "alias": [
+        "boadilla del monte"
+      ],
+      "lat": 40.407822,
+      "lon": -3.879174,
+      "estacion": "est:28080003",
+      "dist_estacion_km": 4.34,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 12.92,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28023",
+      "nombre": "El Boalo",
+      "alias": [
+        "el boalo",
+        "boalo"
+      ],
+      "lat": 40.703031,
+      "lon": -3.937016,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 10.14,
+      "captador": "cap:VILL",
+      "dist_captador_km": 7.68,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28024",
+      "nombre": "Braojos",
+      "alias": [
+        "braojos"
+      ],
+      "lat": 41.03944,
+      "lon": -3.642385,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 20.61,
+      "captador": "cap:VILL",
+      "dist_captador_km": 52.41,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28025",
+      "nombre": "Brea de Tajo",
+      "alias": [
+        "brea de tajo"
+      ],
+      "lat": 40.23002,
+      "lon": -3.109662,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 11.42,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 35.55,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28026",
+      "nombre": "Brunete",
+      "alias": [
+        "brunete"
+      ],
+      "lat": 40.405433,
+      "lon": -3.997741,
+      "estacion": "est:28080003",
+      "dist_estacion_km": 11.8,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 16.01,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28027",
+      "nombre": "Buitrago del Lozoya",
+      "alias": [
+        "buitrago del lozoya"
+      ],
+      "lat": 40.993481,
+      "lon": -3.636447,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 16.99,
+      "captador": "cap:VILL",
+      "dist_captador_km": 48.65,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28028",
+      "nombre": "Bustarviejo",
+      "alias": [
+        "bustarviejo"
+      ],
+      "lat": 40.859083,
+      "lon": -3.709862,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 8.75,
+      "captador": "cap:VILL",
+      "dist_captador_km": 33.5,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28029",
+      "nombre": "Cabanillas de la Sierra",
+      "alias": [
+        "cabanillas de la sierra"
+      ],
+      "lat": 40.8196,
+      "lon": -3.625928,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 7.74,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 30.88,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28030",
+      "nombre": "La Cabrera",
+      "alias": [
+        "la cabrera",
+        "cabrera"
+      ],
+      "lat": 40.864194,
+      "lon": -3.615635,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 11.8,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 35.9,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28031",
+      "nombre": "Cadalso de los Vidrios",
+      "alias": [
+        "cadalso de los vidrios"
+      ],
+      "lat": 40.301621,
+      "lon": -4.44146,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 8.22,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 52.82,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28032",
+      "nombre": "Camarma de Esteruelas",
+      "alias": [
+        "camarma de esteruelas"
+      ],
+      "lat": 40.549126,
+      "lon": -3.378683,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 7.76,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 7.67,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28033",
+      "nombre": "Campo Real",
+      "alias": [
+        "campo real"
+      ],
+      "lat": 40.338027,
+      "lon": -3.381598,
+      "estacion": "est:28014002",
+      "dist_estacion_km": 7.75,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 15.86,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28034",
+      "nombre": "Canencia",
+      "alias": [
+        "canencia"
+      ],
+      "lat": 40.909774,
+      "lon": -3.737669,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 14.67,
+      "captador": "cap:VILL",
+      "dist_captador_km": 36.07,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28035",
+      "nombre": "Carabaña",
+      "alias": [
+        "carabana"
+      ],
+      "lat": 40.257162,
+      "lon": -3.237934,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 3.67,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 27.25,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28036",
+      "nombre": "Casarrubuelos",
+      "alias": [
+        "casarrubuelos"
+      ],
+      "lat": 40.171171,
+      "lon": -3.833194,
+      "estacion": "est:28106001",
+      "dist_estacion_km": 9.83,
+      "captador": "cap:GETA",
+      "dist_captador_km": 17.64,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28037",
+      "nombre": "Cenicientos",
+      "alias": [
+        "cenicientos"
+      ],
+      "lat": 40.26345,
+      "lon": -4.467561,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 13.01,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 56.84,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28038",
+      "nombre": "Cercedilla",
+      "alias": [
+        "cercedilla"
+      ],
+      "lat": 40.741608,
+      "lon": -4.055288,
+      "estacion": "est:28120001",
+      "dist_estacion_km": 12.2,
+      "captador": "cap:VILL",
+      "dist_captador_km": 10.71,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28039",
+      "nombre": "Cervera de Buitrago",
+      "alias": [
+        "cervera de buitrago"
+      ],
+      "lat": 40.922508,
+      "lon": -3.529811,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 5.41,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 43.5,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28040",
+      "nombre": "Ciempozuelos",
+      "alias": [
+        "ciempozuelos"
+      ],
+      "lat": 40.158953,
+      "lon": -3.618284,
+      "estacion": "est:28161001",
+      "dist_estacion_km": 6.02,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 14.24,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28041",
+      "nombre": "Cobeña",
+      "alias": [
+        "cobena"
+      ],
+      "lat": 40.567905,
+      "lon": -3.50499,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 3.55,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 12.79,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28042",
+      "nombre": "Colmenar del Arroyo",
+      "alias": [
+        "colmenar del arroyo"
+      ],
+      "lat": 40.418338,
+      "lon": -4.198607,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 17.81,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 28.62,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28043",
+      "nombre": "Colmenar de Oreja",
+      "alias": [
+        "colmenar de oreja"
+      ],
+      "lat": 40.107721,
+      "lon": -3.387465,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 11.52,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 19.86,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28044",
+      "nombre": "Colmenarejo",
+      "alias": [
+        "colmenarejo"
+      ],
+      "lat": 40.560927,
+      "lon": -4.016774,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 8.03,
+      "captador": "cap:VILL",
+      "dist_captador_km": 10.46,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28045",
@@ -652,6 +1176,20 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28046",
+      "nombre": "Collado Mediano",
+      "alias": [
+        "collado mediano"
+      ],
+      "lat": 40.693657,
+      "lon": -4.024391,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 6.79,
+      "captador": "cap:VILL",
+      "dist_captador_km": 4.78,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28047",
       "nombre": "Collado Villalba",
       "alias": [
@@ -665,6 +1203,20 @@
       "captador": "cap:VILL",
       "dist_captador_km": 2.59,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28048",
+      "nombre": "Corpa",
+      "alias": [
+        "corpa"
+      ],
+      "lat": 40.424794,
+      "lon": -3.263012,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 11.46,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 11.0,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28049",
@@ -681,6 +1233,119 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28050",
+      "nombre": "Cubas de la Sagra",
+      "alias": [
+        "cubas de la sagra"
+      ],
+      "lat": 40.191264,
+      "lon": -3.838345,
+      "estacion": "est:28106001",
+      "dist_estacion_km": 8.32,
+      "captador": "cap:GETA",
+      "dist_captador_km": 15.96,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28051",
+      "nombre": "Chapinería",
+      "alias": [
+        "chapineria"
+      ],
+      "lat": 40.379192,
+      "lon": -4.209809,
+      "estacion": "est:28171001",
+      "dist_estacion_km": 15.61,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 31.48,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28052",
+      "nombre": "Chinchón",
+      "alias": [
+        "chinchon"
+      ],
+      "lat": 40.139942,
+      "lon": -3.423103,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 12.82,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 19.18,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28053",
+      "nombre": "Daganzo de Arriba",
+      "alias": [
+        "daganzo de arriba"
+      ],
+      "lat": 40.544939,
+      "lon": -3.457894,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 7.21,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 10.3,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28054",
+      "nombre": "El Escorial",
+      "alias": [
+        "el escorial",
+        "escorial"
+      ],
+      "lat": 40.585101,
+      "lon": -4.129576,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 11.1,
+      "captador": "cap:VILL",
+      "dist_captador_km": 13.26,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28055",
+      "nombre": "Estremera",
+      "alias": [
+        "estremera"
+      ],
+      "lat": 40.18466,
+      "lon": -3.106621,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 14.57,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 39.77,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28056",
+      "nombre": "Fresnedillas de la Oliva",
+      "alias": [
+        "fresnedillas de la oliva"
+      ],
+      "lat": 40.486513,
+      "lon": -4.172038,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 21.06,
+      "captador": "cap:VILL",
+      "dist_captador_km": 23.57,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28057",
+      "nombre": "Fresno de Torote",
+      "alias": [
+        "fresno de torote"
+      ],
+      "lat": 40.624868,
+      "lon": -3.400337,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 9.13,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 16.26,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28058",
       "nombre": "Fuenlabrada",
       "alias": [
@@ -695,6 +1360,90 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28059",
+      "nombre": "Fuente el Saz de Jarama",
+      "alias": [
+        "fuente el saz de jarama"
+      ],
+      "lat": 40.634172,
+      "lon": -3.51387,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 3.92,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 15.53,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28060",
+      "nombre": "Fuentidueña de Tajo",
+      "alias": [
+        "fuentiduena de tajo"
+      ],
+      "lat": 40.111854,
+      "lon": -3.141753,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 13.01,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 39.89,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28061",
+      "nombre": "Galapagar",
+      "alias": [
+        "galapagar"
+      ],
+      "lat": 40.580525,
+      "lon": -4.006091,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 5.89,
+      "captador": "cap:VILL",
+      "dist_captador_km": 8.21,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28062",
+      "nombre": "Garganta de los Montes",
+      "alias": [
+        "garganta de los montes"
+      ],
+      "lat": 40.921527,
+      "lon": -3.687766,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 15.71,
+      "captador": "cap:VILL",
+      "dist_captador_km": 39.76,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28063",
+      "nombre": "Gargantilla del Lozoya y Pinilla de Buitrago",
+      "alias": [
+        "gargantilla del lozoya y pinilla de buitrago"
+      ],
+      "lat": 40.964835,
+      "lon": -3.71859,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 20.53,
+      "captador": "cap:VILL",
+      "dist_captador_km": 41.95,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28064",
+      "nombre": "Gascones",
+      "alias": [
+        "gascones"
+      ],
+      "lat": 41.017884,
+      "lon": -3.641805,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 18.97,
+      "captador": "cap:VILL",
+      "dist_captador_km": 50.5,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28065",
       "nombre": "Getafe",
       "alias": [
@@ -707,6 +1456,20 @@
       "captador": "cap:GETA",
       "dist_captador_km": 1.46,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28066",
+      "nombre": "Griñón",
+      "alias": [
+        "grinon"
+      ],
+      "lat": 40.213132,
+      "lon": -3.852889,
+      "estacion": "est:28106001",
+      "dist_estacion_km": 7.82,
+      "captador": "cap:GETA",
+      "dist_captador_km": 14.82,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28067",
@@ -724,6 +1487,93 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28068",
+      "nombre": "Guadarrama",
+      "alias": [
+        "guadarrama"
+      ],
+      "lat": 40.672524,
+      "lon": -4.08879,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 7.67,
+      "captador": "cap:VILL",
+      "dist_captador_km": 7.63,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28069",
+      "nombre": "La Hiruela",
+      "alias": [
+        "la hiruela",
+        "hiruela"
+      ],
+      "lat": 41.077847,
+      "lon": -3.454639,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 18.81,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 61.81,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28070",
+      "nombre": "Horcajo de la Sierra-Aoslos",
+      "alias": [
+        "horcajo de la sierra-aoslos",
+        "horcajo de la sierra",
+        "aoslos"
+      ],
+      "lat": 41.066684,
+      "lon": -3.585785,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 20.13,
+      "captador": "cap:VILL",
+      "dist_captador_km": 57.67,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28071",
+      "nombre": "Horcajuelo de la Sierra",
+      "alias": [
+        "horcajuelo de la sierra"
+      ],
+      "lat": 41.060208,
+      "lon": -3.545381,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 18.03,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 58.26,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28072",
+      "nombre": "Hoyo de Manzanares",
+      "alias": [
+        "hoyo de manzanares"
+      ],
+      "lat": 40.622864,
+      "lon": -3.907251,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 9.1,
+      "captador": "cap:VILL",
+      "dist_captador_km": 8.7,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28073",
+      "nombre": "Humanes de Madrid",
+      "alias": [
+        "humanes de madrid"
+      ],
+      "lat": 40.250806,
+      "lon": -3.829042,
+      "estacion": "est:28058004",
+      "dist_estacion_km": 4.16,
+      "captador": "cap:GETA",
+      "dist_captador_km": 10.48,
+      "cobertura_aire": "buena"
+    },
+    {
       "id": "mun:28074",
       "nombre": "Leganés",
       "alias": [
@@ -736,6 +1586,48 @@
       "captador": "cap:GETA",
       "dist_captador_km": 3.76,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28075",
+      "nombre": "Loeches",
+      "alias": [
+        "loeches"
+      ],
+      "lat": 40.383835,
+      "lon": -3.409335,
+      "estacion": "est:28148004",
+      "dist_estacion_km": 9.32,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 11.23,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28076",
+      "nombre": "Lozoya",
+      "alias": [
+        "lozoya"
+      ],
+      "lat": 40.951341,
+      "lon": -3.791819,
+      "estacion": "est:28120001",
+      "dist_estacion_km": 19.99,
+      "captador": "cap:VILL",
+      "dist_captador_km": 37.45,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28078",
+      "nombre": "Madarcos",
+      "alias": [
+        "madarcos"
+      ],
+      "lat": 41.047515,
+      "lon": -3.582031,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 18.14,
+      "captador": "cap:VILL",
+      "dist_captador_km": 56.19,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28079",
@@ -768,6 +1660,148 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28082",
+      "nombre": "Manzanares el Real",
+      "alias": [
+        "manzanares el real"
+      ],
+      "lat": 40.726812,
+      "lon": -3.865187,
+      "estacion": "est:28045002",
+      "dist_estacion_km": 10.35,
+      "captador": "cap:VILL",
+      "dist_captador_km": 14.05,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28083",
+      "nombre": "Meco",
+      "alias": [
+        "meco"
+      ],
+      "lat": 40.552564,
+      "lon": -3.324452,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 9.31,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 8.92,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28084",
+      "nombre": "Mejorada del Campo",
+      "alias": [
+        "mejorada del campo"
+      ],
+      "lat": 40.396072,
+      "lon": -3.484677,
+      "estacion": "est:28148004",
+      "dist_estacion_km": 5.98,
+      "captador": "cap:COSL",
+      "dist_captador_km": 7.63,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28085",
+      "nombre": "Miraflores de la Sierra",
+      "alias": [
+        "miraflores de la sierra"
+      ],
+      "lat": 40.813802,
+      "lon": -3.766721,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 6.57,
+      "captador": "cap:VILL",
+      "dist_captador_km": 26.57,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28086",
+      "nombre": "El Molar",
+      "alias": [
+        "el molar",
+        "molar"
+      ],
+      "lat": 40.732771,
+      "lon": -3.582153,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 11.42,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 21.97,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28087",
+      "nombre": "Los Molinos",
+      "alias": [
+        "los molinos",
+        "molinos"
+      ],
+      "lat": 40.714809,
+      "lon": -4.073655,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 10.38,
+      "captador": "cap:VILL",
+      "dist_captador_km": 9.06,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28088",
+      "nombre": "Montejo de la Sierra",
+      "alias": [
+        "montejo de la sierra"
+      ],
+      "lat": 41.059589,
+      "lon": -3.530026,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 17.54,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 58.41,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28089",
+      "nombre": "Moraleja de Enmedio",
+      "alias": [
+        "moraleja de enmedio"
+      ],
+      "lat": 40.260236,
+      "lon": -3.861669,
+      "estacion": "est:28058004",
+      "dist_estacion_km": 5.67,
+      "captador": "cap:GETA",
+      "dist_captador_km": 12.24,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28090",
+      "nombre": "Moralzarzal",
+      "alias": [
+        "moralzarzal"
+      ],
+      "lat": 40.679074,
+      "lon": -3.971736,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 6.25,
+      "captador": "cap:VILL",
+      "dist_captador_km": 3.73,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28091",
+      "nombre": "Morata de Tajuña",
+      "alias": [
+        "morata de tajuna"
+      ],
+      "lat": 40.22951,
+      "lon": -3.437003,
+      "estacion": "est:28014002",
+      "dist_estacion_km": 8.13,
+      "captador": "cap:COSL",
+      "dist_captador_km": 24.44,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28092",
       "nombre": "Móstoles",
       "alias": [
@@ -780,6 +1814,118 @@
       "captador": "cap:GETA",
       "dist_captador_km": 12.28,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28093",
+      "nombre": "Navacerrada",
+      "alias": [
+        "navacerrada"
+      ],
+      "lat": 40.728966,
+      "lon": -4.014591,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 10.66,
+      "captador": "cap:VILL",
+      "dist_captador_km": 8.37,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28094",
+      "nombre": "Navalafuente",
+      "alias": [
+        "navalafuente"
+      ],
+      "lat": 40.823342,
+      "lon": -3.676125,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 5.23,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 31.28,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28095",
+      "nombre": "Navalagamella",
+      "alias": [
+        "navalagamella"
+      ],
+      "lat": 40.46931,
+      "lon": -4.122788,
+      "estacion": "est:28127004",
+      "dist_estacion_km": 20.36,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 20.6,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28096",
+      "nombre": "Navalcarnero",
+      "alias": [
+        "navalcarnero"
+      ],
+      "lat": 40.290824,
+      "lon": -4.015144,
+      "estacion": "est:28092005",
+      "dist_estacion_km": 12.31,
+      "captador": "cap:GETA",
+      "dist_captador_km": 24.01,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28097",
+      "nombre": "Navarredonda y San Mamés",
+      "alias": [
+        "navarredonda y san mames"
+      ],
+      "lat": 40.992835,
+      "lon": -3.70857,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 22.26,
+      "captador": "cap:VILL",
+      "dist_captador_km": 45.0,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28099",
+      "nombre": "Navas del Rey",
+      "alias": [
+        "navas del rey"
+      ],
+      "lat": 40.384099,
+      "lon": -4.251577,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 12.55,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 34.31,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28100",
+      "nombre": "Nuevo Baztán",
+      "alias": [
+        "nuevo baztan"
+      ],
+      "lat": 40.366962,
+      "lon": -3.265981,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 9.61,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 15.41,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28101",
+      "nombre": "Olmeda de las Fuentes",
+      "alias": [
+        "olmeda de las fuentes"
+      ],
+      "lat": 40.368827,
+      "lon": -3.222243,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 9.04,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 17.65,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28102",
@@ -797,6 +1943,20 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28104",
+      "nombre": "Paracuellos de Jarama",
+      "alias": [
+        "paracuellos de jarama"
+      ],
+      "lat": 40.505131,
+      "lon": -3.531863,
+      "estacion": "est:28148004",
+      "dist_estacion_km": 7.7,
+      "captador": "cap:COSL",
+      "dist_captador_km": 9.22,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28106",
       "nombre": "Parla",
       "alias": [
@@ -809,6 +1969,120 @@
       "captador": "cap:GETA",
       "dist_captador_km": 7.85,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28107",
+      "nombre": "Patones",
+      "alias": [
+        "patones"
+      ],
+      "lat": 40.855687,
+      "lon": -3.485073,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 6.1,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 37.57,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28108",
+      "nombre": "Pedrezuela",
+      "alias": [
+        "pedrezuela"
+      ],
+      "lat": 40.745327,
+      "lon": -3.603095,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 9.22,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 22.93,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28109",
+      "nombre": "Pelayos de la Presa",
+      "alias": [
+        "pelayos de la presa"
+      ],
+      "lat": 40.359271,
+      "lon": -4.334256,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 5.49,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 41.81,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28110",
+      "nombre": "Perales de Tajuña",
+      "alias": [
+        "perales de tajuna"
+      ],
+      "lat": 40.234544,
+      "lon": -3.352146,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 9.86,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 27.38,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28111",
+      "nombre": "Pezuela de las Torres",
+      "alias": [
+        "pezuela de las torres"
+      ],
+      "lat": 40.418671,
+      "lon": -3.177531,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 15.04,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 17.72,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28112",
+      "nombre": "Pinilla del Valle",
+      "alias": [
+        "pinilla del valle"
+      ],
+      "lat": 40.926428,
+      "lon": -3.818417,
+      "estacion": "est:28120001",
+      "dist_estacion_km": 16.46,
+      "captador": "cap:VILL",
+      "dist_captador_km": 33.96,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28113",
+      "nombre": "Pinto",
+      "alias": [
+        "pinto"
+      ],
+      "lat": 40.240992,
+      "lon": -3.700096,
+      "estacion": "est:28106001",
+      "dist_estacion_km": 6.08,
+      "captador": "cap:GETA",
+      "dist_captador_km": 8.19,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28114",
+      "nombre": "Piñuécar-Gandullas",
+      "alias": [
+        "pinuecar-gandullas",
+        "pinuecar",
+        "gandullas"
+      ],
+      "lat": 41.033223,
+      "lon": -3.599559,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 17.69,
+      "captador": "cap:VILL",
+      "dist_captador_km": 54.03,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28115",
@@ -824,6 +2098,62 @@
       "captador": "cap:FACF",
       "dist_captador_km": 6.92,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28116",
+      "nombre": "Pozuelo del Rey",
+      "alias": [
+        "pozuelo del rey"
+      ],
+      "lat": 40.366225,
+      "lon": -3.32198,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 12.23,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 13.35,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28117",
+      "nombre": "Prádena del Rincón",
+      "alias": [
+        "pradena del rincon"
+      ],
+      "lat": 41.043806,
+      "lon": -3.540871,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 16.19,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 56.52,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28118",
+      "nombre": "Puebla de la Sierra",
+      "alias": [
+        "puebla de la sierra"
+      ],
+      "lat": 41.012212,
+      "lon": -3.445002,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 11.63,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 55.07,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28119",
+      "nombre": "Quijorna",
+      "alias": [
+        "quijorna"
+      ],
+      "lat": 40.426401,
+      "lon": -4.057077,
+      "estacion": "est:28080003",
+      "dist_estacion_km": 16.07,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 17.8,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28120",
@@ -842,6 +2172,34 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28121",
+      "nombre": "Redueña",
+      "alias": [
+        "reduena"
+      ],
+      "lat": 40.816439,
+      "lon": -3.603701,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 9.19,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 30.73,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28122",
+      "nombre": "Ribatejada",
+      "alias": [
+        "ribatejada"
+      ],
+      "lat": 40.666661,
+      "lon": -3.39273,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 11.93,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 20.79,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28123",
       "nombre": "Rivas-Vaciamadrid",
       "alias": [
@@ -855,6 +2213,48 @@
       "captador": "cap:COSL",
       "dist_captador_km": 7.64,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28124",
+      "nombre": "Robledillo de la Jara",
+      "alias": [
+        "robledillo de la jara"
+      ],
+      "lat": 40.952606,
+      "lon": -3.525088,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 6.82,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 46.84,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28125",
+      "nombre": "Robledo de Chavela",
+      "alias": [
+        "robledo de chavela"
+      ],
+      "lat": 40.500796,
+      "lon": -4.238262,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 20.05,
+      "captador": "cap:VILL",
+      "dist_captador_km": 26.28,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28126",
+      "nombre": "Robregordo",
+      "alias": [
+        "robregordo"
+      ],
+      "lat": 41.105639,
+      "lon": -3.594005,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 24.29,
+      "captador": "cap:VILL",
+      "dist_captador_km": 60.77,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28127",
@@ -871,6 +2271,76 @@
       "captador": "cap:ROZA",
       "dist_captador_km": 2.59,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28128",
+      "nombre": "Rozas de Puerto Real",
+      "alias": [
+        "rozas de puerto real"
+      ],
+      "lat": 40.310236,
+      "lon": -4.490769,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 10.13,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 56.13,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28129",
+      "nombre": "San Agustín del Guadalix",
+      "alias": [
+        "san agustin del guadalix"
+      ],
+      "lat": 40.678382,
+      "lon": -3.615755,
+      "estacion": "est:28134002",
+      "dist_estacion_km": 12.2,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 15.42,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28130",
+      "nombre": "San Fernando de Henares",
+      "alias": [
+        "san fernando de henares"
+      ],
+      "lat": 40.424993,
+      "lon": -3.53516,
+      "estacion": "est:28049003",
+      "dist_estacion_km": 0.88,
+      "captador": "cap:COSL",
+      "dist_captador_km": 2.58,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28131",
+      "nombre": "San Lorenzo de El Escorial",
+      "alias": [
+        "san lorenzo de el escorial"
+      ],
+      "lat": 40.591435,
+      "lon": -4.148963,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 12.28,
+      "captador": "cap:VILL",
+      "dist_captador_km": 14.27,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28132",
+      "nombre": "San Martín de la Vega",
+      "alias": [
+        "san martin de la vega"
+      ],
+      "lat": 40.207839,
+      "lon": -3.568595,
+      "estacion": "est:28161001",
+      "dist_estacion_km": 9.81,
+      "captador": "cap:GETA",
+      "dist_captador_km": 18.01,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28133",
@@ -903,6 +2373,162 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28135",
+      "nombre": "Santa María de la Alameda",
+      "alias": [
+        "santa maria de la alameda"
+      ],
+      "lat": 40.571397,
+      "lon": -4.26849,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 22.53,
+      "captador": "cap:VILL",
+      "dist_captador_km": 24.34,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28136",
+      "nombre": "Santorcaz",
+      "alias": [
+        "santorcaz"
+      ],
+      "lat": 40.472171,
+      "lon": -3.233115,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 12.28,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 11.66,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28137",
+      "nombre": "Los Santos de la Humosa",
+      "alias": [
+        "los santos de la humosa",
+        "santos de la humosa"
+      ],
+      "lat": 40.501676,
+      "lon": -3.257621,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 10.47,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 9.84,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28138",
+      "nombre": "La Serna del Monte",
+      "alias": [
+        "la serna del monte",
+        "serna del monte"
+      ],
+      "lat": 41.029858,
+      "lon": -3.625111,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 18.84,
+      "captador": "cap:VILL",
+      "dist_captador_km": 52.41,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28140",
+      "nombre": "Serranillos del Valle",
+      "alias": [
+        "serranillos del valle"
+      ],
+      "lat": 40.204689,
+      "lon": -3.885784,
+      "estacion": "est:28106001",
+      "dist_estacion_km": 10.74,
+      "captador": "cap:GETA",
+      "dist_captador_km": 17.48,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28141",
+      "nombre": "Sevilla la Nueva",
+      "alias": [
+        "sevilla la nueva"
+      ],
+      "lat": 40.347655,
+      "lon": -4.027235,
+      "estacion": "est:28092005",
+      "dist_estacion_km": 13.02,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 22.77,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28143",
+      "nombre": "Somosierra",
+      "alias": [
+        "somosierra"
+      ],
+      "lat": 41.133155,
+      "lon": -3.581784,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 26.69,
+      "captador": "cap:VILL",
+      "dist_captador_km": 63.88,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28144",
+      "nombre": "Soto del Real",
+      "alias": [
+        "soto del real"
+      ],
+      "lat": 40.753179,
+      "lon": -3.786896,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 7.76,
+      "captador": "cap:VILL",
+      "dist_captador_km": 21.18,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28145",
+      "nombre": "Talamanca de Jarama",
+      "alias": [
+        "talamanca de jarama"
+      ],
+      "lat": 40.745261,
+      "lon": -3.511038,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 16.19,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 25.51,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28146",
+      "nombre": "Tielmes",
+      "alias": [
+        "tielmes"
+      ],
+      "lat": 40.245995,
+      "lon": -3.315155,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 9.22,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 26.49,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28147",
+      "nombre": "Titulcia",
+      "alias": [
+        "titulcia"
+      ],
+      "lat": 40.137154,
+      "lon": -3.570814,
+      "estacion": "est:28161001",
+      "dist_estacion_km": 10.73,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 11.96,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28148",
       "nombre": "Torrejón de Ardoz",
       "alias": [
@@ -916,6 +2542,174 @@
       "captador": "cap:COSL",
       "dist_captador_km": 7.88,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28149",
+      "nombre": "Torrejón de la Calzada",
+      "alias": [
+        "torrejon de la calzada"
+      ],
+      "lat": 40.200892,
+      "lon": -3.799326,
+      "estacion": "est:28106001",
+      "dist_estacion_km": 5.54,
+      "captador": "cap:GETA",
+      "dist_captador_km": 13.39,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28150",
+      "nombre": "Torrejón de Velasco",
+      "alias": [
+        "torrejon de velasco"
+      ],
+      "lat": 40.187063,
+      "lon": -3.777333,
+      "estacion": "est:28106001",
+      "dist_estacion_km": 6.56,
+      "captador": "cap:GETA",
+      "dist_captador_km": 14.19,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28151",
+      "nombre": "Torrelaguna",
+      "alias": [
+        "torrelaguna"
+      ],
+      "lat": 40.827901,
+      "lon": -3.53854,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 10.8,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 33.15,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28152",
+      "nombre": "Torrelodones",
+      "alias": [
+        "torrelodones"
+      ],
+      "lat": 40.5756,
+      "lon": -3.929301,
+      "estacion": "est:28127004",
+      "dist_estacion_km": 9.12,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 6.66,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28153",
+      "nombre": "Torremocha de Jarama",
+      "alias": [
+        "torremocha de jarama"
+      ],
+      "lat": 40.835359,
+      "lon": -3.496091,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 8.53,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 35.13,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28154",
+      "nombre": "Torres de la Alameda",
+      "alias": [
+        "torres de la alameda"
+      ],
+      "lat": 40.405946,
+      "lon": -3.362815,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 8.26,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 8.31,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28155",
+      "nombre": "Valdaracete",
+      "alias": [
+        "valdaracete"
+      ],
+      "lat": 40.211226,
+      "lon": -3.19451,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 8.52,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 33.44,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28156",
+      "nombre": "Valdeavero",
+      "alias": [
+        "valdeavero"
+      ],
+      "lat": 40.631055,
+      "lon": -3.333044,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 14.78,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 17.05,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28157",
+      "nombre": "Valdelaguna",
+      "alias": [
+        "valdelaguna"
+      ],
+      "lat": 40.161988,
+      "lon": -3.367288,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 7.73,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 24.44,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28158",
+      "nombre": "Valdemanco",
+      "alias": [
+        "valdemanco"
+      ],
+      "lat": 40.872554,
+      "lon": -3.662972,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 10.74,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 36.7,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28159",
+      "nombre": "Valdemaqueda",
+      "alias": [
+        "valdemaqueda"
+      ],
+      "lat": 40.511151,
+      "lon": -4.295727,
+      "estacion": "est:28133002",
+      "dist_estacion_km": 18.15,
+      "captador": "cap:VILL",
+      "dist_captador_km": 29.5,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28160",
+      "nombre": "Valdemorillo",
+      "alias": [
+        "valdemorillo"
+      ],
+      "lat": 40.501042,
+      "lon": -4.068353,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 15.38,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 15.29,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28161",
@@ -932,6 +2726,135 @@
       "cobertura_aire": "buena"
     },
     {
+      "id": "mun:28162",
+      "nombre": "Valdeolmos-Alalpardo",
+      "alias": [
+        "valdeolmos-alalpardo",
+        "valdeolmos",
+        "alalpardo"
+      ],
+      "lat": 40.628809,
+      "lon": -3.474985,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 4.01,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 17.81,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28163",
+      "nombre": "Valdepiélagos",
+      "alias": [
+        "valdepielagos"
+      ],
+      "lat": 40.760609,
+      "lon": -3.465944,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 16.5,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 28.91,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28164",
+      "nombre": "Valdetorres de Jarama",
+      "alias": [
+        "valdetorres de jarama"
+      ],
+      "lat": 40.695172,
+      "lon": -3.512413,
+      "estacion": "est:28009001",
+      "dist_estacion_km": 10.63,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 20.69,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28165",
+      "nombre": "Valdilecha",
+      "alias": [
+        "valdilecha"
+      ],
+      "lat": 40.295773,
+      "lon": -3.303171,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 7.02,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 21.31,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28166",
+      "nombre": "Valverde de Alcalá",
+      "alias": [
+        "valverde de alcala"
+      ],
+      "lat": 40.419645,
+      "lon": -3.298831,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 9.43,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 9.08,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28167",
+      "nombre": "Velilla de San Antonio",
+      "alias": [
+        "velilla de san antonio"
+      ],
+      "lat": 40.366957,
+      "lon": -3.487862,
+      "estacion": "est:28123002",
+      "dist_estacion_km": 4.73,
+      "captador": "cap:COSL",
+      "dist_captador_km": 9.31,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28168",
+      "nombre": "El Vellón",
+      "alias": [
+        "el vellon",
+        "vellon"
+      ],
+      "lat": 40.766029,
+      "lon": -3.582103,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 10.24,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 25.55,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28169",
+      "nombre": "Venturada",
+      "alias": [
+        "venturada"
+      ],
+      "lat": 40.797825,
+      "lon": -3.603394,
+      "estacion": "est:28067001",
+      "dist_estacion_km": 8.53,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 28.68,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28170",
+      "nombre": "Villaconejos",
+      "alias": [
+        "villaconejos"
+      ],
+      "lat": 40.10416,
+      "lon": -3.485096,
+      "estacion": "est:28013002",
+      "dist_estacion_km": 12.0,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 12.58,
+      "cobertura_aire": "lejana"
+    },
+    {
       "id": "mun:28171",
       "nombre": "Villa del Prado",
       "alias": [
@@ -944,6 +2867,118 @@
       "captador": "cap:ROZA",
       "dist_captador_km": 44.78,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28172",
+      "nombre": "Villalbilla",
+      "alias": [
+        "villalbilla"
+      ],
+      "lat": 40.438749,
+      "lon": -3.363211,
+      "estacion": "est:28005002",
+      "dist_estacion_km": 4.68,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 4.67,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28173",
+      "nombre": "Villamanrique de Tajo",
+      "alias": [
+        "villamanrique de tajo"
+      ],
+      "lat": 40.068809,
+      "lon": -3.240184,
+      "estacion": "est:28180001",
+      "dist_estacion_km": 11.37,
+      "captador": "cap:ARAN",
+      "dist_captador_km": 30.8,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28174",
+      "nombre": "Villamanta",
+      "alias": [
+        "villamanta"
+      ],
+      "lat": 40.299556,
+      "lon": -4.110129,
+      "estacion": "est:28171001",
+      "dist_estacion_km": 15.13,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 31.13,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28175",
+      "nombre": "Villamantilla",
+      "alias": [
+        "villamantilla"
+      ],
+      "lat": 40.338057,
+      "lon": -4.130707,
+      "estacion": "est:28171001",
+      "dist_estacion_km": 15.83,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 29.01,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28176",
+      "nombre": "Villanueva de la Cañada",
+      "alias": [
+        "villanueva de la canada"
+      ],
+      "lat": 40.446576,
+      "lon": -4.005406,
+      "estacion": "est:28080003",
+      "dist_estacion_km": 11.54,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 13.0,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28177",
+      "nombre": "Villanueva del Pardillo",
+      "alias": [
+        "villanueva del pardillo"
+      ],
+      "lat": 40.490696,
+      "lon": -3.96427,
+      "estacion": "est:28127004",
+      "dist_estacion_km": 6.74,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 7.28,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28178",
+      "nombre": "Villanueva de Perales",
+      "alias": [
+        "villanueva de perales"
+      ],
+      "lat": 40.346599,
+      "lon": -4.101506,
+      "estacion": "est:28171001",
+      "dist_estacion_km": 18.36,
+      "captador": "cap:ROZA",
+      "dist_captador_km": 26.62,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28179",
+      "nombre": "Villar del Olmo",
+      "alias": [
+        "villar del olmo"
+      ],
+      "lat": 40.345719,
+      "lon": -3.254863,
+      "estacion": "est:28102001",
+      "dist_estacion_km": 7.07,
+      "captador": "cap:ALCA",
+      "dist_captador_km": 17.89,
+      "cobertura_aire": "lejana"
     },
     {
       "id": "mun:28180",
@@ -959,6 +2994,93 @@
       "captador": "cap:ARAN",
       "dist_captador_km": 31.27,
       "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28181",
+      "nombre": "Villaviciosa de Odón",
+      "alias": [
+        "villaviciosa de odon"
+      ],
+      "lat": 40.358607,
+      "lon": -3.901882,
+      "estacion": "est:28092005",
+      "dist_estacion_km": 4.38,
+      "captador": "cap:GETA",
+      "dist_captador_km": 15.28,
+      "cobertura_aire": "buena"
+    },
+    {
+      "id": "mun:28182",
+      "nombre": "Villavieja del Lozoya",
+      "alias": [
+        "villavieja del lozoya"
+      ],
+      "lat": 41.006481,
+      "lon": -3.671651,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 20.25,
+      "captador": "cap:VILL",
+      "dist_captador_km": 48.0,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28183",
+      "nombre": "Zarzalejo",
+      "alias": [
+        "zarzalejo"
+      ],
+      "lat": 40.539884,
+      "lon": -4.164617,
+      "estacion": "est:28047002",
+      "dist_estacion_km": 16.39,
+      "captador": "cap:VILL",
+      "dist_captador_km": 18.74,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28901",
+      "nombre": "Lozoyuela-Navas-Sieteiglesias",
+      "alias": [
+        "lozoyuela-navas-sieteiglesias",
+        "lozoyuela",
+        "navas",
+        "sieteiglesias"
+      ],
+      "lat": 40.926302,
+      "lon": -3.617705,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 12.73,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 42.77,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28902",
+      "nombre": "Puentes Viejas",
+      "alias": [
+        "puentes viejas"
+      ],
+      "lat": 40.965285,
+      "lon": -3.584358,
+      "estacion": "est:28016001",
+      "dist_estacion_km": 11.61,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 47.35,
+      "cobertura_aire": "lejana"
+    },
+    {
+      "id": "mun:28903",
+      "nombre": "Tres Cantos",
+      "alias": [
+        "tres cantos"
+      ],
+      "lat": 40.599068,
+      "lon": -3.712207,
+      "estacion": "est:28134002",
+      "dist_estacion_km": 7.24,
+      "captador": "cap:ALCO",
+      "dist_captador_km": 8.04,
+      "cobertura_aire": "lejana"
     }
   ]
 }

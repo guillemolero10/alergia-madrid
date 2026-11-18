@@ -55,6 +55,31 @@ describe("ficha de un lugar", () => {
     expect(ficha.variablesAire).toEqual([]);
   });
 
+  it("un tipo de polen con más de 7 días no cuenta: olivo de ayer bajo + gramíneas «alto» de hace 3 semanas → bajo", () => {
+    const fuente = "ckan:mediciones_polen";
+    const polen = (lugar: string) => [
+      { lugar, variable: "polen_gramineas", valor: 60, unidad: "granos/m³", hora: "2026-10-25", fuente, nivel: "alto" as const, regla: "diario" as const, valor_regla: 60 },
+      { lugar, variable: "polen_olivo", valor: 1, unidad: "granos/m³", hora: "2026-11-14", fuente, nivel: "bajo" as const, regla: "diario" as const, valor_regla: 1 },
+    ];
+    const estado = estadoSinPolen(); // fecha de referencia: 15 de noviembre
+    estado.capas.polen = { ultimo_dato: "2026-11-14", fuente, estado: "ok" };
+    // Arganzuela no está emparejado con ninguna estación: el nivel se deduce aquí, de sus observaciones.
+    estado.observaciones.push(...polen("cap:AYTM"), ...polen("cap:GETA"));
+
+    const arganzuela = construirFicha("cap:AYTM", estado, LUGARES_PRUEBA)!;
+    expect(arganzuela.captador?.antiguedadDias).toBe(1);
+    expect(arganzuela.nivel).toBe("bajo");
+    expect(arganzuela.peorVariable).toBeNull();
+    expect(nivelDeCaptador(LUGARES_PRUEBA.captadores[2]!, estado, LUGARES_PRUEBA)).toBe("bajo");
+    expect(construirFicha("mun:28079", estado, LUGARES_PRUEBA)!.nivelPolen).toBe("bajo");
+
+    // Getafe sí lo está: manda el `nivel_polen` que calculó el pipeline, también si faltara y hubiera que deducirlo.
+    estado.riesgo[0] = { ...estado.riesgo[0]!, nivel_polen: "bajo", polen_antiguedad_dias: 1 };
+    expect(construirFicha("cap:GETA", estado, LUGARES_PRUEBA)!.nivel).toBe("bajo");
+    estado.riesgo = estado.riesgo.filter((r) => r.captador !== "cap:GETA");
+    expect(construirFicha("cap:GETA", estado, LUGARES_PRUEBA)!.nivel).toBe("bajo");
+  });
+
   it("captador sin datos este año", () => {
     const ficha = construirFicha("cap:LEGA", estadoConPolen(), LUGARES_PRUEBA)!;
     expect(ficha.nivel).toBe("sin_dato");
@@ -68,11 +93,13 @@ describe("ficha de un lugar", () => {
 });
 
 describe("lugares.json real", () => {
-  it("trae 28 estaciones, 11 captadores y Madrid como único municipio sin estación", () => {
+  it("trae 28 estaciones, 11 captadores y 179 municipios (151 sin estación propia, entre ellos Madrid)", () => {
     expect(lugares.estaciones).toHaveLength(28);
     expect(lugares.captadores).toHaveLength(11);
+    expect(lugares.municipios).toHaveLength(179);
     const sinEstacion = municipiosSinEstacion(lugares);
-    expect(sinEstacion.map((m) => m.nombre)).toEqual(["Madrid"]);
-    expect(sinEstacion[0]?.cobertura_aire).toBe("lejana");
+    expect(sinEstacion).toHaveLength(151);
+    const madrid = sinEstacion.find((m) => m.id === "mun:28079");
+    expect(madrid).toMatchObject({ cobertura_aire: "lejana", captador: "cap:AYTM" });
   });
 });

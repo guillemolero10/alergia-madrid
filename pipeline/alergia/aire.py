@@ -41,10 +41,11 @@ def instante(k: str) -> datetime:
     return datetime.fromisoformat(k)
 
 
-def parsear_csv(ruta: Path) -> tuple[dict[tuple[str, str], Serie], set[tuple[str, str, date]]]:
+def parsear_csv(ruta: Path, dias: set[date] | None = None) -> tuple[dict[tuple[str, str], Serie], set[tuple[str, str, date]]]:
     """CSV del dia -> ({(estacion, variable): {instante_utc: [valor, provisional]}}, {(estacion, variable, dia_utc)}).
 
     El segundo elemento lista lo que el fichero cubre (aunque todo sea N) para poder reemplazar la cache.
+    Con `dias` solo se leen las filas de esos dias UTC (los CSV anuales de `dias.py` tienen ~8 MB).
     """
     datos: dict[tuple[str, str], Serie] = {}
     cubierto: set[tuple[str, str, date]] = set()
@@ -57,6 +58,8 @@ def parsear_csv(ruta: Path) -> tuple[dict[tuple[str, str], Serie], set[tuple[str
             continue
         est = codigo_estacion(f["provincia"], f["municipio"], f["estacion"])
         dia = date(int(f["ano"]), int(f["mes"]), int(f["dia"]))
+        if dias is not None and dia not in dias:
+            continue
         cubierto.add((est, variable, dia))
         pts = datos.setdefault((est, variable), {})
         for n in range(1, 25):

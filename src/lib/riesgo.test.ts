@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   COLOR_NIVEL,
+  TINTA_NIVEL,
   colorDeNivel,
   contarNiveles,
   etiquetaDeNivel,
@@ -25,13 +26,17 @@ const contraste = (a: string, b: string) => {
   return (claro + 0.05) / (oscuro + 0.05);
 };
 
+const PAPEL = "#f3efe6"; // tierra del mapa (PALETA_MAPA.tierra)
+const PANEL = "#fffdf8"; // fondo de los paneles (--superficie)
+const TINTA = "#1f2328"; // texto principal y contorno de los símbolos
+
 describe("conversión de nivel a color", () => {
   it("da un color distinto a cada nivel", () => {
     const colores = NIVELES.map(colorDeNivel);
     expect(new Set(colores).size).toBe(4);
-    expect(colorDeNivel("bajo")).toBe("#34d8a6");
-    expect(colorDeNivel("medio")).toBe("#ffc247");
-    expect(colorDeNivel("alto")).toBe("#ff5a5f");
+    expect(colorDeNivel("bajo")).toBe("#24896b");
+    expect(colorDeNivel("medio")).toBe("#e0a100");
+    expect(colorDeNivel("alto")).toBe("#c8372d");
   });
 
   it("pinta «sin dato» en gris (sin tono)", () => {
@@ -45,8 +50,18 @@ describe("conversión de nivel a color", () => {
     expect(etiquetaDeNivel(valor)).toBe("Sin dato");
   });
 
-  it("todos los colores se leen sobre el fondo oscuro (contraste AA para gráficos, 3:1)", () => {
-    for (const nivel of NIVELES) expect(contraste(COLOR_NIVEL[nivel], "#0f1626")).toBeGreaterThan(3);
+  it("verde, rojo y gris se leen sobre la tierra crema del mapa (contraste AA para gráficos, 3:1)", () => {
+    for (const nivel of ["bajo", "alto", "sin_dato"] as const) {
+      expect(contraste(COLOR_NIVEL[nivel], PAPEL)).toBeGreaterThan(3);
+    }
+  });
+
+  it("el ámbar, más claro, se apoya en el contorno de tinta de los símbolos (3:1 entre relleno y contorno)", () => {
+    expect(contraste(COLOR_NIVEL.medio, TINTA)).toBeGreaterThan(3);
+  });
+
+  it("la versión para texto de cada nivel cumple AA (4,5:1) sobre el blanco roto de los paneles", () => {
+    for (const nivel of NIVELES) expect(contraste(TINTA_NIVEL[nivel], PANEL)).toBeGreaterThan(4.5);
   });
 
   it("medio y alto se distinguen también por luminosidad, no solo por el tono rojo-verde", () => {

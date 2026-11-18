@@ -134,6 +134,14 @@ Workflow `datos.yml`: `cron: "27 * * * *"` + `workflow_dispatch`, `concurrency` 
 
 Ajustes de la tarea 5 (15-nov): air-quality se pide con `past_days=1` (ventana previa para las medias de PM y O3 a primera hora) y `timeformat=unixtime` (48 h absolutas sin saltos en los cambios de hora). Slugs de polen en `config.POLEN_TIPOS` (`polen_cupresaceas`, `polen_platano`, `polen_quenopodiaceas`, `polen_urticaceae`, `polen_ericaceae`…). La capa `polen` es obligatoria en el esquema.
 
+Ajustes de las tareas 11 y 19 (16-nov, `dias.py`, hecho sin commit): CLI `uv run --project pipeline python -m alergia.dias 2026-05-19 [más fechas]`; escribe `salida/dias/<fecha>/{estado,pronostico}.json` con `modo: historico` (JSON compacto, ~80 y ~120 kB) y mezcla `dias/indice.json` (`fecha`, `titulo`, `nota`; los textos de las 5 fechas elegidas están en `DESTACADOS`). Foto a las 14:00 de Madrid; el pronóstico cubre las 48 h desde las 00:00 de ese día (`generado` = 23:00 del día anterior) y la web debe leer `horas[]` tal cual. Cambios respecto al plan:
+- **Open-Meteo histórico va en UTC.** `archive-api` y `air-quality` devuelven un `utc_offset_seconds` fijo de +1 h aunque sea verano, y con `timeformat=unixtime` los instantes salen desplazados 1 h. Se piden con `timezone=GMT`, con margen de días, y se recorta por instante. Con `Europe/Madrid` el pronóstico de mayo fallaba por falta de horas. (El `forecast` en tiempo real no se ha tocado; conviene vigilarlo en verano.)
+- Aire: CSV anual de `calidad_aire_datos_historico` (id fijo para 2026; el resto de años por nombre de recurso), polen: `mediciones_polen` (2026) o `mediciones_polen_historico` (otros años). Caché en `salida/cache/{aire,polen}_hist_<año>.csv`. `fuente` del aire = `ckan:calidad_aire_datos_historico`.
+- `aire.parsear_csv` acepta un filtro opcional de días; `openmeteo._pedir_horario` admite `start_date`/`end_date`.
+- Se aborta sin escribir nada (ni las demás fechas) si falla una fuente o un JSON no valida. `publicar.py` ahora también valida `dias/indice.json` y cada día del índice y los añade a la lista blanca de git.
+- Fechas congeladas: 2026-02-26 (cupresáceas), 2026-03-25 (plátano), 2026-04-30 (olivo), 2026-05-19 (gramíneas), 2026-07-24 (ozono). Cifras y criterio en el informe de la tarea; el 14:00 infraestima el ozono (el pico es por la tarde), así que Getafe sale `bajo` ese día y el `alto` es de Colmenar Viejo.
+- Falta de la tarea 19: congelado diario automático (no hecho; se congela a mano con `workflow_dispatch`).
+
 Reglas generales: 2 reintentos con espera; cada fuente va en su propio `try`; **nunca se publica un JSON que no valide ni uno con menos capas que el anterior**; si fallan todas las fuentes, el workflow termina en rojo y GitHub avisa por correo. Consumo de Open-Meteo: unas 100 ubicaciones por hora, unas 2.400 al día (límite gratuito: 10.000).
 
 ## 4. Chat

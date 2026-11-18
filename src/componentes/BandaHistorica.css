@@ -1,0 +1,78 @@
+.banda {
+  position: sticky;
+  top: -22px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: -22px -28px 18px;
+  padding: 12px 28px;
+  background: var(--tinta);
+  color: var(--superficie);
+  border-bottom: 3px solid var(--nivel-medio);
+}
+
+.banda__texto {
+  min-width: 0;
+  flex: 1;
+}
+
+.banda__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.banda__nota {
+  margin-top: 3px;
+  color: #e6e1d6;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.banda__volver {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--superficie);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.banda__volver:hover {
+  background: var(--superficie-3);
+}
+
+.banda__volver:focus-visible {
+  outline: 2px solid var(--nivel-medio);
+  outline-offset: 2px;
+}
+
+@media (max-width: 1100px) {
+  .banda {
+    margin: -18px -20px 16px;
+    padding-inline: 20px;
+    top: -18px;
+  }
+}
+
+@media (max-width: 760px) {
+  .banda {
+    top: 0;
+    margin: -16px -16px 14px;
+    padding: 10px 16px;
+    flex-wrap: wrap;
+  }
+
+  .banda__titulo {
+    font-size: 16px;
+  }
+
+  .banda__volver {
+    width: 100%;
+  }
+}

@@ -1,48 +1,57 @@
-/* Tokens de diseño y estilos comunes. Tema nocturno: el mapa es oscuro para que brillen los niveles y el viento. */
+/* Tokens de diseño y estilos comunes. Tema de papel: la página se lee como la sección del tiempo de un periódico.
+   Mapa crema, paneles de blanco roto con filete fino, titulares en serifa y, como único color fuerte, los niveles. */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --fondo: #0a0f1c;
-  --superficie: rgba(13, 19, 34, 0.84);
-  --superficie-solida: #0f1626;
-  --superficie-2: rgba(160, 185, 240, 0.07);
-  --superficie-3: rgba(160, 185, 240, 0.12);
-  --borde: rgba(150, 172, 222, 0.17);
-  --borde-fuerte: rgba(150, 172, 222, 0.34);
+  --fondo: #f3efe6; /* la tierra del mapa (PALETA_MAPA.tierra) */
+  --superficie: #fffdf8;
+  --superficie-2: #f7f3ea;
+  --superficie-3: #eee9dd;
+  --borde: #d9d3c7;
+  --borde-fuerte: #8a8478; /* contorno de controles: 3:1 sobre la superficie */
 
-  --tinta: #eaf0fb;
-  --tinta-2: #b1bdd6;
-  --tinta-3: #8695b3;
-  --acento: #9fd0ff;
-  --viento: #bee2ff;
-  --ambar: #ffc247;
+  --tinta: #1f2328;
+  --tinta-2: #5c6168;
+  --tinta-3: #696d74;
+  --acento: #1d4f7c; /* enlaces y foco */
+  --viento: #55606e;
 
-  /* Semáforo (el mismo que src/lib/riesgo.ts) */
-  --nivel-bajo: #34d8a6;
-  --nivel-medio: #ffc247;
-  --nivel-alto: #ff5a5f;
-  --nivel-sin-dato: #8b96ad;
+  --aviso-fondo: #fdf3d7;
+  --aviso-borde: #dcc27a;
+  --aviso-tinta: #5c4300;
+  --aviso-icono: #8a5a00;
 
-  --radio: 16px;
-  --radio-s: 10px;
-  --sombra: 0 18px 50px -14px rgba(0, 0, 0, 0.7), 0 2px 8px rgba(0, 0, 0, 0.35);
+  /* Semáforo (los mismos que COLOR_NIVEL y TINTA_NIVEL de src/lib/riesgo.ts) */
+  --nivel-bajo: #24896b;
+  --nivel-medio: #e0a100;
+  --nivel-alto: #c8372d;
+  --nivel-sin-dato: #7f858e;
+  --nivel-bajo-tinta: #1b6b52;
+  --nivel-medio-tinta: #8a5a00;
+  --nivel-alto-tinta: #a8281f;
+  --nivel-sin-dato-tinta: #5c6168;
 
-  --fuente-ui: "IBM Plex Sans Variable", "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --fuente-titulo: "Bricolage Grotesque Variable", "Bricolage Grotesque", var(--fuente-ui);
-  --fuente-dato: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --radio: 8px;
+  --radio-s: 6px;
+  --sombra: 0 1px 2px rgba(31, 35, 40, 0.06), 0 6px 20px -8px rgba(31, 35, 40, 0.22);
+  /* Contorno de los símbolos del mapa: filete de tinta que los recorta sobre el papel */
+  --contorno-simbolo: rgba(31, 35, 40, 0.42);
+
+  --fuente-ui: "Public Sans Variable", "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --fuente-titulo: "Newsreader Variable", "Newsreader", "Iowan Old Style", Georgia, "Times New Roman", serif;
 
   /* Geometría del layout (la usan el mapa y los paneles) */
   --margen: 16px;
-  --ancho-columna: 304px;
+  --ancho-columna: 312px;
   --ancho-panel: 400px;
-  --alto-pie: 64px;
+  --alto-pie: 60px;
 }
 
 @media (max-width: 760px) {
   :root {
     --margen: 10px;
-    --alto-pie: 58px;
+    --alto-pie: 54px;
   }
 }
 
@@ -102,7 +111,7 @@ a {
 :focus-visible {
   outline: 2px solid var(--acento);
   outline-offset: 2px;
-  border-radius: 6px;
+  border-radius: 3px;
 }
 
 .solo-lectores {
@@ -117,61 +126,72 @@ a {
   border: 0;
 }
 
-/* Superficie flotante sobre el mapa */
+/* Superficie sobre el mapa: papel opaco con filete fino */
 .tarjeta {
   background: var(--superficie);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
   box-shadow: var(--sombra);
-  backdrop-filter: blur(16px) saturate(1.3);
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
 }
 
+/* Cifras: alineadas en columna, con la fuente de su contexto */
 .dato {
-  font-family: var(--fuente-dato);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.01em;
+  font-variant-numeric: lining-nums tabular-nums;
 }
 
-/* Color por nivel: cualquier elemento con estas clases recibe `--c` */
+/* Rótulo pequeño sobre un título o una tabla: negrita pequeña, sin mayúsculas forzadas */
+.rotulo {
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+/* Color por nivel: `--c` es el color del símbolo y `--ct` su versión oscura para texto */
 .nivel-bajo {
   --c: var(--nivel-bajo);
+  --ct: var(--nivel-bajo-tinta);
 }
 .nivel-medio {
   --c: var(--nivel-medio);
+  --ct: var(--nivel-medio-tinta);
 }
 .nivel-alto {
   --c: var(--nivel-alto);
+  --ct: var(--nivel-alto-tinta);
 }
 .nivel-sin_dato {
   --c: var(--nivel-sin-dato);
+  --ct: var(--nivel-sin-dato-tinta);
 }
 
 .chip-nivel {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 2px 9px 2px 7px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--c) 45%, transparent);
-  background: color-mix(in srgb, var(--c) 14%, transparent);
-  color: var(--c);
+  padding: 1px 8px 1px 7px;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--c) 45%, var(--superficie));
+  background: color-mix(in srgb, var(--c) 11%, var(--superficie));
+  color: var(--ct);
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 650;
   line-height: 1.5;
   white-space: nowrap;
 }
 
 .chip-nivel::before {
   content: "";
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   background: var(--c);
 }
 
 .chip-nivel.nivel-sin_dato {
-  color: var(--tinta-2);
+  border-color: var(--borde);
+  background: var(--superficie-2);
+  font-weight: 500;
 }
 
 .chip-nivel.nivel-sin_dato::before {
@@ -186,12 +206,12 @@ a {
   gap: 8px;
   min-height: 36px;
   padding: 6px 14px;
-  border-radius: 999px;
+  border-radius: var(--radio-s);
   border: 1px solid var(--borde-fuerte);
-  background: var(--superficie-2);
+  background: var(--superficie);
   color: var(--tinta);
   font-size: 13.5px;
-  font-weight: 550;
+  font-weight: 600;
   cursor: pointer;
   transition:
     background-color 0.15s,
@@ -200,7 +220,7 @@ a {
 
 .boton:hover {
   background: var(--superficie-3);
-  border-color: var(--acento);
+  border-color: var(--tinta);
 }
 
 .boton--icono {

@@ -1,13 +1,26 @@
 import { NIVELES, type CapasVisibles, type Nivel, type Riesgo } from "./tipos";
 
-// Paleta del semáforo. Pensada para fondo oscuro y para distinguirse también con daltonismo:
-// verde azulado / ámbar / bermellón difieren en el eje azul-amarillo y en luminosidad, no solo en rojo-verde.
-// El mapa añade además tamaño, número de anillos y ritmo del pulso; los paneles, siempre el texto del nivel.
+// Paleta del semáforo: colores planos pensados para el mapa claro (tierra crema #f3efe6).
+// Para distinguirse también con daltonismo, el verde tira a azulado (se separa del ámbar y del rojo en el eje
+// azul-amarillo) y el ámbar es mucho más luminoso que el rojo. El mapa añade además el tamaño del símbolo y
+// los paneles, siempre el texto del nivel. El ámbar no llega a 3:1 sobre crema por sí solo: por eso todos los
+// símbolos llevan un contorno fino de tinta (ver Mapa.css).
 export const COLOR_NIVEL: Record<Nivel, string> = {
-  sin_dato: "#8b96ad",
-  bajo: "#34d8a6",
-  medio: "#ffc247",
-  alto: "#ff5a5f",
+  sin_dato: "#7f858e",
+  bajo: "#24896b",
+  medio: "#e0a100",
+  alto: "#c8372d",
+};
+
+/**
+ * Versión oscura de cada color para escribir texto sobre los paneles (#fffdf8) con contraste AA (4,5:1).
+ * Son los `--nivel-*-tinta` de base.css.
+ */
+export const TINTA_NIVEL: Record<Nivel, string> = {
+  sin_dato: "#5c6168",
+  bajo: "#1b6b52",
+  medio: "#8a5a00",
+  alto: "#a8281f",
 };
 
 export const ETIQUETA_NIVEL: Record<Nivel, string> = {

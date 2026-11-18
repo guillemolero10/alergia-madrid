@@ -3,6 +3,8 @@ import "./Leyenda.css";
 import umbralesJson from "../../datos-estaticos/umbrales.json";
 import { lugares } from "../lib/datos";
 import { formatearNumero } from "../lib/formato";
+import { HORARIO_ORIENTATIVO, rangoTexto } from "../lib/colegios";
+import { nombrePolen, type Perfil } from "../lib/franja";
 import { nombreVariable } from "../lib/riesgo";
 import { IconoCerrar, IconoInfo, IconoPolen, IconoViento } from "./Iconos";
 
@@ -73,13 +75,31 @@ const NIVELES = [
   },
 ] as const;
 
+interface PropsLeyenda {
+  perfil: Pick<Perfil, "afecta" | "polenes">;
+  modo: "para-ti" | "colegios";
+}
+
+/** «Según tu perfil: asma o EPOC», «…alergia al polen (gramíneas, olivo)». */
+export function textoPerfilLeyenda(perfil: Pick<Perfil, "afecta" | "polenes">): string {
+  const polenes = perfil.polenes.length > 0 ? ` (${perfil.polenes.map((t) => nombrePolen(t).toLowerCase()).join(", ")})` : "";
+  if (perfil.afecta === "aire") return "Según tu perfil: asma o EPOC";
+  if (perfil.afecta === "polen") return `Según tu perfil: alergia al polen${polenes}`;
+  return `Según tu perfil: asma y alergia al polen${polenes}`;
+}
+
 /** Tira con los niveles (siempre visible) y diálogo con el significado, los umbrales y las fuentes. */
-export function Leyenda() {
+export function Leyenda({ perfil, modo }: PropsLeyenda) {
   const dialogoRef = useRef<HTMLDialogElement>(null);
 
   return (
     <>
       <section className="leyenda tarjeta" aria-label="Leyenda del mapa">
+        <p className="leyenda__perfil">
+          {modo === "colegios"
+            ? `Un punto por centro, según el nivel en el recreo (${rangoTexto(HORARIO_ORIENTATIVO.recreo.infantilPrimaria)})`
+            : textoPerfilLeyenda(perfil)}
+        </p>
         <ul className="leyenda__niveles">
           {NIVELES.map((n) => (
             <li key={n.nivel} className={`leyenda__nivel nivel-${n.nivel}`}>
@@ -89,9 +109,11 @@ export function Leyenda() {
           ))}
         </ul>
         <ul className="leyenda__simbolos">
-          <li>
-            <IconoPolen tam={15} /> Captador de polen
-          </li>
+          {modo === "para-ti" && (
+            <li>
+              <IconoPolen tam={15} /> Captador de polen
+            </li>
+          )}
           <li>
             <IconoViento tam={15} className="leyenda__viento" /> Viento
           </li>
@@ -128,8 +150,10 @@ export function Leyenda() {
 
           <div className="metodo__cuerpo">
             <p className="metodo__entrada">
-              Cada estación se pinta con el peor nivel entre el aire que mide y el polen del captador más cercano. Los
-              niveles salen de reglas fijas, no de una estimación de la IA.
+              Cada estación se pinta con el peor nivel de lo que te afecta según tu perfil: el aire si tienes asma o EPOC,
+              los pólenes que has marcado si eres alérgico, o ambos. En la vista de colegios, cada punto es un centro y se
+              pinta con el nivel durante el recreo (con aire y todos los pólenes principales). Los niveles salen de reglas
+              fijas, no de una estimación de la IA.
             </p>
 
             <ul className="metodo__niveles">
@@ -232,7 +256,7 @@ export function Leyenda() {
             <ul className="metodo__simbolos">
               <li>
                 <span className="simbolo simbolo--estacion" aria-hidden="true" />
-                Estación de calidad del aire ({lugares.estaciones.length}). El pulso es más grande y rápido cuanto mayor es el nivel.
+                Estación de calidad del aire ({lugares.estaciones.length}). El círculo es más grande cuanto mayor es el nivel.
               </li>
               <li>
                 <span className="simbolo simbolo--captador" aria-hidden="true" />
@@ -240,7 +264,8 @@ export function Leyenda() {
               </li>
               <li>
                 <span className="simbolo simbolo--municipio" aria-hidden="true" />
-                Madrid capital: no tiene estación de la red de la Comunidad y se muestra la más cercana.
+                Madrid capital: no tiene estación de la red de la Comunidad y se muestra la más cercana. El resto de municipios
+                sin estación solo se dibuja al elegirlo.
               </li>
               <li>
                 <IconoViento tam={18} className="leyenda__viento" />

@@ -1,0 +1,69 @@
+.vecinos {
+  display: grid;
+  gap: 8px;
+  padding: 12px 14px 14px;
+  border: 1px solid var(--borde);
+  border-left: 4px solid var(--tinta);
+  border-radius: var(--radio);
+  background: var(--superficie-2);
+}
+
+.vecinos__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.vecinos__igual {
+  color: var(--tinta-2);
+  font-size: 14.5px;
+}
+
+.vecinos__lista {
+  display: grid;
+  gap: 6px;
+}
+
+.vecino {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 7px 12px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+  text-align: left;
+  cursor: pointer;
+}
+
+.vecino:hover {
+  border-color: var(--tinta);
+  background: var(--superficie-3);
+}
+
+.vecino__texto {
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.vecino__ir {
+  color: var(--acento);
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .vecino {
+    grid-template-columns: 1fr auto;
+  }
+  .vecino .chip-nivel {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+}

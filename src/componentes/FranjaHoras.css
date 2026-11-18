@@ -1,0 +1,177 @@
+/* Franja de 48 h: una barra por hora, como la tira de un gráfico del tiempo. */
+
+.franja {
+  margin: 0;
+}
+
+.franja__titulo {
+  margin-bottom: 8px;
+  color: var(--tinta-2);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.franja__cuerpo {
+  --alto-barra: 56px;
+  display: grid;
+  gap: 4px;
+}
+
+.franja__dias,
+.franja__horas {
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+}
+
+.franja__dia {
+  overflow: hidden;
+  padding-left: 3px;
+  border-left: 1px solid var(--tinta);
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.franja__barras {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  height: var(--alto-barra);
+  gap: 1px;
+}
+
+.franja__barra {
+  position: relative;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 1px;
+  background: var(--c);
+  cursor: pointer;
+}
+
+/* Margen de toque más alto que la barra visible */
+.franja__barra::before {
+  content: "";
+  position: absolute;
+  inset: -6px -1px;
+}
+
+.franja__barra--pasada {
+  opacity: 0.35;
+}
+
+.franja__barra--medianoche {
+  margin-left: 2px;
+}
+
+.franja__barra--mejor::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: -1px;
+  bottom: -6px;
+  height: 3px;
+  background: var(--tinta);
+}
+
+.franja__barra--activa {
+  outline: 2px solid var(--tinta);
+  outline-offset: 1px;
+  z-index: 1;
+}
+
+.franja__ahora {
+  position: absolute;
+  top: -4px;
+  bottom: -40px;
+  width: 0;
+  border-left: 2px solid var(--tinta);
+  pointer-events: none;
+}
+
+.franja__ahora span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-50%);
+  padding: 0 5px;
+  border-radius: 3px;
+  background: var(--tinta);
+  color: var(--superficie);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.franja__horas {
+  margin: 1px 0 20px;
+}
+
+.franja__hora {
+  color: var(--tinta-2);
+  font-size: 11.5px;
+  font-variant-numeric: lining-nums tabular-nums;
+  line-height: 1.2;
+  /* una columna estrecha: el número se centra y desborda a ambos lados */
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+}
+
+.franja__hora::before {
+  content: "";
+}
+
+.franja__lectura {
+  min-height: 2.9em;
+  margin-top: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.franja__clave {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  margin-top: 2px;
+  color: var(--tinta-2);
+  font-size: 12.5px;
+}
+
+.franja__muestra {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--c);
+}
+
+.franja__subrayado {
+  display: inline-block;
+  width: 14px;
+  height: 3px;
+  background: var(--tinta);
+}
+
+.franja__hora-local {
+  margin-left: auto;
+}
+
+.franja__ahora--borde span {
+  transform: none;
+}
+
+.franja__hora:first-child {
+  justify-content: flex-start;
+}
+
+@media (max-width: 760px) {
+  .franja__hora {
+    font-size: 10.5px;
+  }
+}

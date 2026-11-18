@@ -3,10 +3,12 @@
 Uso:  uv run --project pipeline python -m estatico.construir_lugares [--salida datos-estaticos]
 Fuentes (CKAN datos.comunidad.madrid, CC BY 4.0): calidad_aire_estaciones, captadores_polen,
 mediciones_polen (solo para saber que captadores tienen datos en el anio en curso).
+Los 150 municipios restantes salen de datos-estaticos/municipios_fuente.csv (lo genera estatico.extraer_municipios, IGN).
 """
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import unicodedata
 from datetime import date
@@ -64,10 +66,30 @@ def sin_acentos(s: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
 
 
-def alias_de(nombre: str) -> list[str]:
+ARTICULOS = ("la ", "el ", "los ", "las ")
+
+
+def alias_de(nombre: str, ampliado: bool = False) -> list[str]:
+    """Alias de busqueda. `ampliado` (municipios sin estacion) anade la forma sin articulo y las partes de un nombre con guion."""
     base = sin_acentos(nombre).lower()
     res = [base] + ALIAS_EXTRA.get(nombre, [])
+    if ampliado:
+        for art in ARTICULOS:
+            if base.startswith(art):
+                res.append(base[len(art):])
+        res += [p for p in base.split("-") if len(p) > 3 and "-" in base]
     return list(dict.fromkeys(res))
+
+
+def parsear_municipios_fuente(ruta: Path) -> list[dict]:
+    """datos-estaticos/municipios_fuente.csv -> [{ine, nombre, nucleo, habitantes, lat, lon}]. Comprueba que caen en la Comunidad."""
+    with ruta.open(encoding="utf-8", newline="") as fh:
+        filas = list(csv.DictReader(fh))
+    for f in filas:
+        f["lat"], f["lon"] = float(f["lat"]), float(f["lon"])
+        if not (39.8 <= f["lat"] <= 41.2 and -4.6 <= f["lon"] <= -3.0):
+            raise ValueError(f"municipio {f['ine']}: coordenadas fuera de la Comunidad ({f['lat']}, {f['lon']})")
+    return filas
 
 
 def mide_de(f: dict) -> list[str]:
@@ -125,7 +147,7 @@ def mas_cercano(lat: float, lon: float, lugares: list[dict]) -> tuple[dict, floa
     return l, round(d, 2)
 
 
-def construir(estaciones: list[dict], captadores: list[dict]) -> dict:
+def construir(estaciones: list[dict], captadores: list[dict], municipios_fuente: list[dict] | None = None) -> dict:
     """Empareja por haversine. Cada estacion/municipio se asocia al captador ACTIVO mas cercano
     (un captador sin datos en el anio en curso no sirve para el riesgo)."""
     activos = [c for c in captadores if c["activo"]]
@@ -166,6 +188,28 @@ def construir(estaciones: list[dict], captadores: list[dict]) -> dict:
             "cobertura_aire": "lejana" if de > UMBRAL_LEJANA_KM else "buena",
         }
     )
+    # Resto de municipios: punto del nucleo mas poblado (IGN); aire de la estacion mas cercana, polen del captador activo mas cercano.
+    # La zona de pronostico es la de su estacion (no se guarda: la web y el pipeline la resuelven con `estacion`).
+    for f in municipios_fuente or []:
+        mid = "mun:" + f["ine"]
+        if any(m["id"] == mid for m in municipios):  # los 28 con estacion y Madrid ya estan y no se tocan
+            continue
+        est_f, de = mas_cercano(f["lat"], f["lon"], estaciones)
+        cap_f, dc = mas_cercano(f["lat"], f["lon"], activos)
+        municipios.append(
+            {
+                "id": mid,
+                "nombre": f["nombre"],
+                "alias": alias_de(f["nombre"], ampliado=True),
+                "lat": f["lat"],
+                "lon": f["lon"],
+                "estacion": est_f["id"],
+                "dist_estacion_km": de,
+                "captador": cap_f["id"],
+                "dist_captador_km": dc,
+                "cobertura_aire": "lejana" if de > UMBRAL_LEJANA_KM else "buena",
+            }
+        )
     municipios.sort(key=lambda m: m["id"])
     for e in estaciones:
         del e["_ine"]
@@ -190,7 +234,7 @@ def rejilla() -> dict:
     return {"paso_grados": 0.25, "puntos": puntos}
 
 
-def main(salida: Path, cache: Path) -> None:
+def main(salida: Path, cache: Path, fuente_municipios: Path) -> None:
     anio = date.today().year
     with ckan.cliente() as c:
         p_est = ckan.package_show(c, config.DS_ESTACIONES)
@@ -202,13 +246,14 @@ def main(salida: Path, cache: Path) -> None:
     est = parsear_estaciones(ckan.leer_csv(f_est))
     activos = captadores_con_datos(ckan.leer_csv(f_pol), anio)
     cap = parsear_captadores(ckan.leer_csv(f_cap, encoding="latin-1"), activos)
-    datos = construir(est, cap)
+    datos = construir(est, cap, parsear_municipios_fuente(fuente_municipios))
     datos = {
         "generado": date.today().isoformat(),
         "fuentes": {
             "estaciones": f"{config.CKAN_CATALOGO}{config.DS_ESTACIONES} (CC BY 4.0)",
             "captadores": f"{config.CKAN_CATALOGO}{config.DS_CAPTADORES} (CC BY 4.0)",
             "captador_activo": f"{config.CKAN_CATALOGO}{config.DS_POLEN}: con datos no vacios en {anio}",
+            "municipios": "https://api-features.ign.es (IGN: unidades administrativas y nucleos de poblacion; licencia de uso IGN/CNIG, atribucion «© Instituto Geografico Nacional de Espana») + lista de INE de https://datos.comunidad.madrid/catalogo/dataset/municipio_comunidad_madrid (CC BY 4.0); ver datos-estaticos/municipios_fuente.csv",
             "madrid_capital": "coordenada aproximada introducida a mano (Puerta del Sol); no hay estacion de la Comunidad en la capital",
         },
         **datos,
@@ -223,5 +268,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--salida", type=Path, default=config.ESTATICOS)
     ap.add_argument("--cache", type=Path, default=config.CACHE)
+    ap.add_argument("--municipios", type=Path, default=config.ESTATICOS / "municipios_fuente.csv")
     a = ap.parse_args()
-    main(a.salida, a.cache)
+    main(a.salida, a.cache, a.municipios)
