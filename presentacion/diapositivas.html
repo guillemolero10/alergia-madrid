@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>¿Dónde hace falta? · DATAMAD 2026</title>
+<!-- Presentación para la entrega de DATAMAD 2026 (3 diapositivas + 1 captura, como piden las bases).
+     PDF: presentacion/generar-pdf.sh. Mismas tipografías y colores que la web. -->
+<style>
+@font-face { font-family: "Newsreader"; src: url("../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; font-style: normal; }
+@font-face { font-family: "Newsreader"; src: url("../node_modules/@fontsource-variable/newsreader/files/newsreader-latin-wght-italic.woff2") format("woff2"); font-weight: 200 800; font-style: italic; }
+@font-face { font-family: "Public Sans"; src: url("../node_modules/@fontsource-variable/public-sans/files/public-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; font-style: normal; }
+
+:root {
+  --papel: #f3efe6;
+  --superficie: #fffdf8;
+  --borde: #d9d3c7;
+  --tinta: #1f2328;
+  --tinta-2: #5c6168;
+  --acento: #1d4f7c;
+  --naranja: #a8501c;
+  --azul: #2f6496;
+  --titulo: "Newsreader", Georgia, serif;
+  --texto: "Public Sans", system-ui, sans-serif;
+}
+@page { size: 1920px 1080px; margin: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #777; }
+body { font-family: var(--texto); color: var(--tinta); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+a { color: inherit; text-decoration: none; }
+
+section {
+  position: relative;
+  width: 1920px; height: 1080px;
+  overflow: hidden;
+  padding: 112px 128px 160px;
+  background: var(--papel);
+  break-after: page;
+  margin: 0 auto 40px;
+}
+section:last-child { break-after: auto; }
+@media print { section { margin: 0; } html, body { background: none; } }
+
+.etiqueta { font-size: 22px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tinta-2); }
+h2 { font-family: var(--titulo); font-weight: 600; font-size: 64px; line-height: 1.08; letter-spacing: -0.01em; max-width: 1500px; }
+.pie {
+  position: absolute; left: 128px; right: 128px; bottom: 64px;
+  display: flex; justify-content: space-between;
+  font-size: 22px; color: var(--tinta-2);
+}
+
+/* ---------- 1. Portada ---------- */
+.portada { background: var(--tinta); color: var(--superficie); padding: 0; display: flex; }
+.portada .texto { width: 1000px; padding: 112px 72px 96px 128px; display: flex; flex-direction: column; }
+.portada .etiqueta { color: #b9bdc3; }
+.portada h1 { font-family: var(--titulo); font-weight: 600; font-size: 128px; line-height: 1.06; letter-spacing: -0.02em; margin-top: 56px; }
+.portada .lema { font-family: var(--titulo); font-style: italic; font-size: 44px; line-height: 1.2; margin-top: 32px; color: #e9e4d8; }
+.portada .descripcion { font-size: 28px; line-height: 1.5; margin-top: 48px; color: #d4d7db; max-width: 780px; }
+.portada .autor { margin-top: auto; font-size: 28px; line-height: 1.4; }
+.portada .autor b { font-weight: 700; font-size: 32px; }
+.portada .autor span { color: #b9bdc3; }
+/* Solo la parte del mapa de la captura (x 520-1366 de 1366 × 850), entera y enmarcada: escala 0,9456 */
+.portada .marco { align-self: center; width: 812px; height: 804px; overflow: hidden; border-radius: 14px; box-shadow: 0 24px 60px -20px rgba(0,0,0,.6); }
+.portada .marco img { display: block; width: 1292px; height: 804px; margin-left: -480px; }
+
+/* ---------- 2. Problema y datos ---------- */
+.dos-columnas { display: grid; grid-template-columns: 640px 1fr; gap: 96px; margin-top: 48px; }
+.problema p { font-size: 30px; line-height: 1.5; }
+.problema p + p { margin-top: 28px; }
+.problema .destacado { font-family: var(--titulo); font-style: italic; font-size: 36px; line-height: 1.3; color: var(--naranja); }
+.datos h3 { font-size: 22px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinta-2); }
+.datos ol { list-style: none; margin-top: 18px; border-top: 1px solid var(--borde); }
+.datos li { display: grid; grid-template-columns: 44px 1fr; padding: 9px 0; border-bottom: 1px solid var(--borde); }
+.datos li .n { font-family: var(--titulo); font-weight: 600; font-size: 24px; color: var(--azul); }
+.datos li .nombre { font-size: 24px; font-weight: 600; line-height: 1.25; }
+.datos li .url { display: block; font-size: 18px; color: var(--acento); margin-top: 2px; }
+.datos .otras { font-size: 22px; line-height: 1.45; margin-top: 18px; color: var(--tinta-2); }
+.datos .otras a { color: var(--acento); }
+
+/* ---------- 3. Resultados ---------- */
+.cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+.cifra { background: var(--superficie); border: 1px solid var(--borde); border-radius: 12px; padding: 32px 36px 36px; }
+.cifra .num { font-family: var(--titulo); font-weight: 600; font-size: 84px; line-height: 1; letter-spacing: -0.02em; color: var(--naranja); white-space: nowrap; }
+.cifra .num .flecha { color: var(--tinta-2); font-weight: 400; font-size: 64px; }
+.cifra.azul .num { color: var(--azul); }
+.cifra p { font-size: 26px; line-height: 1.4; margin-top: 20px; }
+.claves { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 44px; }
+.claves h3 { font-family: var(--titulo); font-weight: 600; font-size: 34px; }
+.claves p { font-size: 23px; line-height: 1.45; margin-top: 10px; color: #33373d; }
+.enlaces { display: flex; gap: 48px; margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--borde); font-size: 24px; }
+.enlaces b { font-weight: 700; }
+.enlaces a { color: var(--acento); font-weight: 600; }
+
+/* ---------- 4. Captura ---------- */
+.captura { padding: 72px 128px 140px; display: flex; flex-direction: column; align-items: center; }
+.captura img { width: 1260px; height: 784px; border-radius: 10px; box-shadow: 0 2px 4px rgba(31,35,40,.10), 0 18px 48px -16px rgba(31,35,40,.45); }
+.captura .leyenda { width: 1260px; font-size: 24px; line-height: 1.45; margin-top: 24px; }
+.captura .leyenda b { font-weight: 700; }
+.captura .naranja { color: var(--naranja); font-weight: 700; }
+.captura .azul { color: var(--azul); font-weight: 700; }
+</style>
+</head>
+<body>
+
+<!-- 1. Título, integrante y descripción -->
+<section class="portada">
+  <div class="texto">
+    <p class="etiqueta">DATAMAD 2026 · Comunidad de Madrid</p>
+    <h1>¿Dónde hace falta?</h1>
+    <p class="lema">Qué cerca están los servicios públicos y dónde un centro nuevo ayudaría más.</p>
+    <p class="descripcion">Cruzamos los registros oficiales de centros de la Comunidad con la población por edad de sus 4.518 secciones censales. Un simulador para decidir dónde invertir, una ficha para cada municipio y un agente que responde con cifras calculadas, no inventadas.</p>
+    <p class="autor"><b>Guillermo Molero</b><br><span>Participante individual</span></p>
+  </div>
+  <div class="marco"><img src="../docs/capturas/donde-hace-falta-simulador.png" alt="Mapa de la Comunidad de Madrid coloreado por plazas de residencia por cada 100 mayores"></div>
+</section>
+
+<!-- 2. Problema y conjuntos de datos con enlaces -->
+<section>
+  <p class="etiqueta">El problema y los datos</p>
+  <h2 style="margin-top:20px">Cruzar dónde está cada servicio con quién vive cerca</h2>
+  <div class="dos-columnas">
+    <div class="problema">
+      <p>¿Dónde abrir el próximo centro de salud o la próxima residencia de mayores? La respuesta depende de dónde están los centros y de cuántas personas de cada edad viven a su alrededor.</p>
+      <p>Esos datos son abiertos, pero están en conjuntos separados, con formatos y unidades distintas.</p>
+      <p class="destacado">Los juntamos por sección censal y lo convertimos en algo que cualquiera puede probar: colocar un centro y ver a cuántos vecinos llega.</p>
+    </div>
+    <div class="datos">
+      <h3>Portal de Datos Abiertos de la Comunidad de Madrid · CC BY 4.0</h3>
+      <ol>
+        <li><span class="n">1</span><a href="https://datos.comunidad.madrid/catalogo/dataset/centros_servicios_establecimientos_sanitarios"><span class="nombre">Centros, servicios y establecimientos sanitarios</span><span class="url">datos.comunidad.madrid/catalogo/dataset/centros_servicios_establecimientos_sanitarios</span></a></li>
+        <li><span class="n">2</span><a href="https://datos.comunidad.madrid/catalogo/dataset/atencion_social_registro_centros"><span class="nombre">Registro de centros de atención social (residencias y plazas)</span><span class="url">datos.comunidad.madrid/catalogo/dataset/atencion_social_registro_centros</span></a></li>
+        <li><span class="n">3</span><a href="https://datos.comunidad.madrid/catalogo/dataset/centros_educativos"><span class="nombre">Centros educativos</span><span class="url">datos.comunidad.madrid/catalogo/dataset/centros_educativos</span></a></li>
+        <li><span class="n">4</span><a href="https://datos.comunidad.madrid/catalogo/dataset/oficinas_farmacia"><span class="nombre">Oficinas de farmacia</span><span class="url">datos.comunidad.madrid/catalogo/dataset/oficinas_farmacia</span></a></li>
+        <li><span class="n">5</span><a href="https://datos.comunidad.madrid/catalogo/dataset/desfibriladores_externos_fuera_ambito_sanitario"><span class="nombre">Desfibriladores fuera del ámbito sanitario</span><span class="url">datos.comunidad.madrid/catalogo/dataset/desfibriladores_externos_fuera_ambito_sanitario</span></a></li>
+        <li><span class="n">6</span><a href="https://datos.comunidad.madrid/catalogo/dataset/proyecciones_poblacion_por_sexo"><span class="nombre">Proyecciones de población (Madrid en 2030)</span><span class="url">datos.comunidad.madrid/catalogo/dataset/proyecciones_poblacion_por_sexo</span></a></li>
+        <li><span class="n">7</span><a href="https://datos.comunidad.madrid/catalogo/dataset/municipio_comunidad_madrid"><span class="nombre">Municipios de la Comunidad de Madrid</span><span class="url">datos.comunidad.madrid/catalogo/dataset/municipio_comunidad_madrid</span></a></li>
+        <li><span class="n">8</span><a href="https://datos.comunidad.madrid/catalogo/dataset/calidad_aire_datos_dia"><span class="nombre">Calidad del aire: datos horarios del día y estaciones</span><span class="url">datos.comunidad.madrid/catalogo/dataset/calidad_aire_datos_dia · …/calidad_aire_estaciones</span></a></li>
+      </ol>
+      <p class="otras">Además: <a href="https://www.ine.es/jaxiT3/Tabla.htm?t=69213">INE, censo 2025 por sección censal</a> y seccionado 2025 · <a href="https://imserso.es">IMSERSO 2024</a> (plazas de referencia) · <a href="https://www.ign.es">IGN</a> · <a href="https://open-meteo.com">Open-Meteo / Copernicus CAMS</a> · <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>.</p>
+    </div>
+  </div>
+  <div class="pie"><span>¿Dónde hace falta? · DATAMAD 2026</span><span>2</span></div>
+</section>
+
+<!-- 3. Resultados: utilidad, impacto, viabilidad y enlaces -->
+<section>
+  <p class="etiqueta">Resultados</p>
+  <h2 style="margin-top:20px">Dónde ayudaría más un centro nuevo</h2>
+  <div class="cifras">
+    <div class="cifra azul">
+      <div class="num">91 %</div>
+      <p>de los vecinos tiene un centro de salud o consultorio a menos de 2 km en línea recta, como mínimo. La app señala dónde ayudaría más uno nuevo.</p>
+    </div>
+    <div class="cifra">
+      <div class="num">10.048 <span class="flecha">→</span> 15.526</div>
+      <p>plazas de residencia por cubrir para que toda la Comunidad llegue a la media de España: hoy y en 2030.</p>
+    </div>
+    <div class="cifra azul">
+      <div class="num">68 %</div>
+      <p>Una residencia de 94 plazas en Pinto logra el 68 % de lo que daría la mejor ubicación de su zona, en Getafe.</p>
+    </div>
+  </div>
+  <div class="claves">
+    <div>
+      <h3>Utilidad</h3>
+      <p>Quien decide prueba ubicaciones antes de invertir y las compara con la del modelo. El vecino ve qué servicios tiene su municipio y cómo está el aire hoy.</p>
+    </div>
+    <div>
+      <h3>Impacto</h3>
+      <p>Un criterio público y medible para priorizar la inversión: vecinos que ganan acceso o plazas que se cubren, también con la población de 2030.</p>
+    </div>
+    <div>
+      <h3>Viabilidad</h3>
+      <p>Web estática: coste casi nulo y se regenera con un comando cuando la Comunidad publica datos nuevos. El agente de IA es opcional: sin él responde por reglas.</p>
+    </div>
+  </div>
+  <div class="enlaces">
+    <span><b>Demo:</b> <a href="#">[enlace de la demo]</a></span>
+    <span><b>Código:</b> <a href="https://github.com/guillemolero10/donde-hace-falta">github.com/guillemolero10/donde-hace-falta</a></span>
+    <span>Código MIT · datos CC BY 4.0 · reproducible</span>
+  </div>
+  <div class="pie"><span>Distancias en línea recta · Referencia: media de España (IMSERSO), 4,05 plazas por cada 100 mayores a menos de 10 km</span><span>3</span></div>
+</section>
+
+<!-- 4. Captura de la aplicación -->
+<section class="captura">
+  <img src="../docs/capturas/donde-hace-falta-simulador.png" alt="Captura del simulador de ¿Dónde hace falta?: mapa de residencias con un centro colocado en Pinto">
+  <p class="leyenda"><b>El simulador.</b> Colocamos una residencia de 94 plazas en Pinto («Tu centro») y al momento: 63,4 plazas más cubiertas, el 68 % de lo que lograría el modelo en Getafe. En <span class="azul">azul</span>, zonas por encima de la media de España; en <span class="naranja">naranja</span>, donde un centro nuevo ayudaría más.</p>
+  <div class="pie"><span></span><span>4</span></div>
+</section>
+
+</body>
+</html>

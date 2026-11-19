@@ -1,0 +1,9 @@
+{
+  "functions": {
+    "api/agente.js": {
+      "maxDuration": 30,
+      "includeFiles": "public/donde/**",
+      "excludeFiles": "public/donde/secciones.geojson"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+﻿centro_nro_registro;centro_tipo;dependecia_funcional;dependecia_patrimonial;oferta_asistecial;municipio_nombre;direccion_vial_tipo;direccion_vial_nombre;direccion_vial_nro;direccion_informacon_adicional;direccion_codigo_postal;localizacion_coordenada_x;localizacion_coordenada_y;NIF
+CH0023;Hospital general;Servicios o Institutos de Salud de las CC.AA;Servicio Madrileño de Salud;Cuidados intermedios neonatales;Madrid;GTA;de Málaga;11;;28041;440902;4469702;Q0000000A
+CH0023;Hospital general;Servicios o Institutos de Salud de las CC.AA;Servicio Madrileño de Salud;Obtención de muestras;Madrid;GTA;de Málaga;11;;28041;440902;4469702;Q0000000A
+CH0023;Hospital general;Servicios o Institutos de Salud de las CC.AA;Servicio Madrileño de Salud;Psicología clínica;Madrid;GTA;de Málaga;11;;28041;440902;4469702;Q0000000A
+CH0006;Hospital general;Privado No Benéfico;Privados;Nefrología;Madrid;CALLE;de Arturo Soria;17;;28027;445713;4476806;Q0000000A
+CS0037;Centro de salud;Servicios o Institutos de Salud de las CC.AA;Servicio Madrileño de Salud;Vacunación;Madrid;CALLE;de las Calesas;12;;28026;440110;4471276;Q0000000A
+CS0510;Consultorio de atención primaria;Servicios o Institutos de Salud de las CC.AA;Servicio Madrileño de Salud;Enfermería;Bustarviejo;CALLE;Madrid;19;;28720;440347;4523173;Q0000000A
+CS0024;Clínica dental;Privado No Benéfico;Privados;Odontología/Estomatología;Madrid;CALLE;del Alcalde Sáinz de Baranda;16;1º-B IZQUIERDA;28009;442588;4474239;Q0000000A
+CS10286;Centro de salud;Servicios o Institutos de Salud de las CC.AA;Servicio Madrileño de Salud;Enfermería obstétrico-ginecológica (matrona);Alcalá de Henares;CALLE;Ramón María del Valle Inclán;S/N;C/V G.A.BECQUER;28806;;;Q0000000A

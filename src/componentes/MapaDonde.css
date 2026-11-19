@@ -1,0 +1,528 @@
+/* Mapa de «¿Dónde hace falta?»: el lienzo de MapLibre ocupa todo el hueco del mapa; encima, leyenda y ventanita. */
+
+.mapa-donde {
+  position: absolute;
+  inset: 0;
+  background: var(--fondo);
+}
+
+.mapa-donde__lienzo {
+  position: absolute;
+  inset: 0;
+}
+
+.mapa-donde__lienzo .maplibregl-canvas {
+  outline: none;
+}
+
+.mapa-donde__lienzo .maplibregl-canvas:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: -4px;
+}
+
+.mapa-donde--fallo {
+  display: grid;
+  place-items: center;
+  padding: var(--margen);
+  color: var(--tinta-2);
+  text-align: center;
+}
+
+.mapa-donde .maplibregl-ctrl-bottom-right {
+  z-index: 3;
+  right: calc(var(--margen) - 10px);
+  bottom: calc(var(--margen) - 10px);
+}
+
+.mapa-donde .maplibregl-ctrl-group {
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+}
+
+.mapa-donde .maplibregl-ctrl-group button {
+  width: 36px;
+  height: 36px;
+  background-color: transparent;
+}
+
+.mapa-donde .maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--borde);
+}
+
+.mapa-donde .maplibregl-ctrl-group button:hover {
+  background-color: var(--superficie-3);
+}
+
+.mapa-donde .maplibregl-ctrl-group button:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+.mapa-donde .maplibregl-ctrl-attrib {
+  background: rgba(255, 253, 248, 0.88);
+  color: var(--tinta-2);
+  font-family: var(--fuente-ui);
+  font-size: 11px;
+}
+
+.mapa-donde .maplibregl-ctrl-attrib a {
+  color: var(--tinta);
+}
+
+.mapa-donde .maplibregl-ctrl-attrib.maplibregl-compact {
+  min-height: 24px;
+  border-radius: 12px;
+}
+
+/* Aviso de carga o error sobre el mapa */
+.mapa-donde__aviso.mapa-donde__aviso--error {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  border-radius: var(--radio-s);
+  border-color: var(--tinta);
+  color: var(--tinta);
+}
+
+.mapa-donde__aviso {
+  position: absolute;
+  z-index: 4;
+  top: var(--margen);
+  left: 50%;
+  max-width: calc(100% - 2 * var(--margen));
+  padding: 6px 14px;
+  transform: translateX(-50%);
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+  color: var(--tinta-2);
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Ventanita al pasar o tocar */
+.ventanita {
+  position: absolute;
+  z-index: 6;
+  width: max-content;
+  max-width: min(280px, calc(100% - 2 * var(--margen)));
+  padding: 9px 12px 10px;
+  border: 1px solid var(--tinta);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+  pointer-events: none;
+}
+
+.ventanita__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.ventanita__linea {
+  margin-top: 3px;
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  line-height: 1.35;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* Leyenda */
+.leyenda-donde {
+  position: absolute;
+  z-index: 4;
+  left: var(--margen);
+  bottom: calc(var(--margen) + 30px); /* por encima de la franja de atribución del mapa */
+  width: 236px;
+  padding: 10px 12px 10px;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.leyenda-donde__resumen {
+  margin: -2px 0 6px;
+  color: var(--tinta-2);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+}
+
+.leyenda-donde__resumen::-webkit-details-marker {
+  display: none;
+}
+
+.leyenda-donde__resumen::after {
+  content: " ▾";
+}
+
+.leyenda-donde:not([open]) .leyenda-donde__resumen {
+  margin-bottom: -2px;
+}
+
+.leyenda-donde:not([open]) .leyenda-donde__resumen::after {
+  content: " ▸";
+}
+
+.leyenda-donde__titulo {
+  margin-bottom: 7px;
+  color: var(--tinta);
+  font-size: 12.5px;
+  font-weight: 650;
+}
+
+.leyenda-donde__barra {
+  height: 12px;
+  border: 1px solid var(--contorno-simbolo);
+  border-radius: 2px;
+}
+
+.leyenda-donde__marcas,
+.leyenda-donde__extremos {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 3px;
+  color: var(--tinta);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.leyenda-donde__extremos {
+  margin-top: 0;
+  color: var(--tinta-2);
+  font-size: 11px;
+}
+
+.leyenda-donde__centro {
+  font-weight: 650;
+}
+
+.leyenda-donde__clases {
+  display: grid;
+  gap: 3px;
+}
+
+.leyenda-donde__clases li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--tinta-2);
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.leyenda-donde__muestra {
+  flex: none;
+  width: 22px;
+  height: 11px;
+  border: 1px solid var(--contorno-simbolo);
+  border-radius: 2px;
+}
+
+.leyenda-donde__muestra--sin {
+  border-style: dashed;
+}
+
+.leyenda-donde__centro-simbolo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid var(--borde);
+  color: var(--tinta-2);
+}
+
+.leyenda-donde__punto {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  margin: 0 6px;
+  border: 1.5px solid var(--superficie);
+  border-radius: 50%;
+  background: var(--tinta);
+  box-shadow: 0 0 0 1px var(--contorno-simbolo);
+}
+
+@media (max-width: 760px) {
+  .leyenda-donde {
+    width: 206px;
+    padding: 8px 10px;
+    font-size: 11.5px;
+  }
+
+  .leyenda-donde:not([open]) {
+    width: auto;
+  }
+}
+
+/* --- «Tú decides» --- */
+
+/* Modo «Coloca un centro»: cruz en vez de mano, y el borde del mapa avisa */
+.mapa-donde--colocando .maplibregl-canvas,
+.mapa-donde--colocando .maplibregl-canvas-container.maplibregl-interactive {
+  cursor: crosshair !important;
+}
+
+.mapa-donde--colocando::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border: 3px solid var(--acento);
+  pointer-events: none;
+}
+
+.mapa-donde__guia {
+  position: absolute;
+  z-index: 5;
+  top: var(--margen);
+  left: 50%;
+  max-width: calc(100% - 2 * var(--margen));
+  padding: 8px 16px;
+  transform: translateX(-50%);
+  border: 1px solid var(--acento);
+  border-radius: 999px;
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+  color: var(--tinta);
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.mapa-donde__guia--aviso {
+  border-color: var(--aviso-borde);
+  background: var(--aviso-fondo);
+  color: var(--aviso-tinta);
+}
+
+.mapa-donde__guia-esc {
+  color: var(--tinta-2);
+  font-weight: 500;
+}
+
+/* Marcadores: chincheta con la punta en las coordenadas y la etiqueta a la derecha */
+.pin {
+  position: relative;
+  width: 32px;
+  height: 42px;
+  cursor: grab;
+  touch-action: none;
+}
+
+.pin:active {
+  cursor: grabbing;
+}
+
+.pin--modelo {
+  cursor: default;
+}
+
+.pin__forma {
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 2px 2px rgba(31, 35, 40, 0.35));
+}
+
+.pin--usuario .pin__forma path {
+  fill: var(--tinta);
+  stroke: #fffdf8;
+  stroke-width: 2;
+}
+
+.pin--usuario .pin__forma circle {
+  fill: #fffdf8;
+}
+
+.pin--modelo .pin__forma path {
+  fill: #5b3a8c;
+  stroke: #fffdf8;
+  stroke-width: 2;
+}
+
+.pin--modelo .pin__forma circle {
+  fill: #fffdf8;
+}
+
+.pin__etiqueta {
+  position: absolute;
+  top: 6px;
+  left: 100%;
+  margin-left: 2px;
+  padding: 1px 7px;
+  border: 1px solid var(--tinta);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* La etiqueta del modelo va a la izquierda y la del usuario a la derecha: con todo el mapa a la vista no se pisan */
+.pin--modelo .pin__etiqueta {
+  right: 100%;
+  left: auto;
+  margin-right: 2px;
+  margin-left: 0;
+  border-color: #5b3a8c;
+  color: #4a2f74;
+}
+
+.pin:focus-visible {
+  outline: none;
+}
+
+.pin:focus-visible .pin__forma {
+  filter: drop-shadow(0 0 0 var(--acento)) drop-shadow(0 0 3px var(--acento)) drop-shadow(0 0 3px var(--acento));
+}
+
+.pin:focus-visible .pin__etiqueta {
+  outline: 2px solid var(--acento);
+  outline-offset: 1px;
+}
+
+/* Resultado en vivo sobre el mapa */
+.resultado-mapa {
+  position: absolute;
+  z-index: 4;
+  top: var(--margen);
+  left: var(--margen);
+  max-width: min(260px, calc(100% - 2 * var(--margen)));
+  padding: 8px 12px 9px;
+  border-color: var(--tinta);
+  pointer-events: none;
+  transition: opacity 0.12s;
+}
+
+.resultado-mapa--calculando {
+  opacity: 0.7;
+}
+
+.resultado-mapa__numero {
+  color: #1b6b52;
+  font-family: var(--fuente-titulo);
+  font-size: 34px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.resultado-mapa__texto {
+  margin-top: 2px;
+  color: var(--tinta);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.resultado-mapa__modelo {
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--borde);
+  color: #4a2f74;
+  font-size: 12.5px;
+  font-weight: 650;
+}
+
+@media (max-width: 760px) {
+  .resultado-mapa {
+    padding: 6px 10px 7px;
+  }
+
+  .resultado-mapa__numero {
+    font-size: 28px;
+  }
+
+  .mapa-donde__guia {
+    width: calc(100% - 2 * var(--margen));
+    border-radius: var(--radio-s);
+    padding: 7px 12px;
+    font-size: 13px;
+  }
+
+  .mapa-donde__guia-esc {
+    display: none;
+  }
+
+  .mapa-donde--colocando .resultado-mapa {
+    top: 62px;
+  }
+}
+
+/* Arriba a la izquierda, sin marcador: la cifra grande del servicio (escritorio) y el atajo para colocar un centro */
+.titular-mapa {
+  position: absolute;
+  z-index: 4;
+  top: var(--margen);
+  left: var(--margen);
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  max-width: min(270px, calc(100% - 2 * var(--margen)));
+}
+
+.titular-mapa__cifra {
+  padding: 9px 14px 10px;
+  border-color: var(--tinta);
+  pointer-events: none;
+}
+
+.titular-mapa__texto {
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.titular-mapa__boton {
+  min-height: 44px;
+  box-shadow: var(--sombra);
+}
+
+/* En el móvil la cifra ya está en el panel, justo encima del mapa */
+@media (max-width: 760px) {
+  .titular-mapa__cifra {
+    display: none;
+  }
+}
+
+/* «Mi municipio»: qué son los puntos del mapa (abajo a la izquierda, donde va la leyenda del simulador) */
+.mapa-donde__ficha {
+  position: absolute;
+  z-index: 4;
+  left: var(--margen);
+  bottom: calc(var(--margen) + 4px);
+  max-width: min(340px, calc(100% - 2 * var(--margen) - 60px));
+  padding: 8px 12px;
+  color: var(--tinta);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* Escritorio: la atribución se ve entera (dos líneas, hasta 60 px de alto). Leyenda y rótulo de «Mi municipio» van por encima, sin taparla. */
+@media (min-width: 761px) {
+  .leyenda-donde {
+    bottom: calc(var(--margen) + 56px);
+  }
+
+  .mapa-donde__ficha {
+    bottom: calc(var(--margen) + 56px);
+  }
+}
+
+/* Con la atribución abierta a dos líneas, el icono «i» no se repite. */
+.mapa-donde .maplibregl-ctrl-attrib-button {
+  background-repeat: no-repeat;
+}

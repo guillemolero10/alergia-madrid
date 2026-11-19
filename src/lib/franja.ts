@@ -148,7 +148,8 @@ export interface Medida {
  * Mediciones del estado que aplican a la franja del perfil:
  *  - polen: el nivel diario del captador de ese municipio, solo para las horas de la fecha del dato
  *    (un dato de hace unos días NO se aplica como suelo a hoy);
- *  - aire: el último nivel de la estación del municipio, solo para la hora de referencia (si tiene ≤ 3 h).
+ *  - aire: el último nivel de la estación del municipio, desde la hora que midió (`hora` es el final de esa hora) hasta ahora,
+ *    si la medición tiene ≤ 3 h.
  */
 export function medidasDelPerfil(
   perfil: Pick<Perfil, "afecta" | "polenes">,
@@ -166,7 +167,9 @@ export function medidasDelPerfil(
       const t = Date.parse(o.hora);
       const n = nivelDe(o.nivel);
       if (Number.isNaN(t) || n <= 0 || t > ahora.getTime() || ahora.getTime() - t > 3 * HORA_MS) continue;
-      medidas.push({ variable: o.variable, nivel: n, lugar: nombre, desde: new Date(t).toISOString(), hasta: ahora.toISOString() });
+      // `o.hora` es el FINAL de la hora medida (el `hNN` de la Comunidad marca el final: ver DATOS.md y PLAN.md). La medición cubre
+      // la hora anterior a `o.hora`, así que su primera barra es la que empieza una hora antes.
+      medidas.push({ variable: o.variable, nivel: n, lugar: nombre, desde: new Date(t - HORA_MS).toISOString(), hasta: ahora.toISOString() });
     }
   }
   if (perfil.afecta !== "aire" && municipio.captador) {

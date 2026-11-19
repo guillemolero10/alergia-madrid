@@ -9,19 +9,14 @@ import {
   type ResultadoFranja,
 } from "../lib/franja";
 import { fechaHoraLarga } from "../lib/formato";
-import { fechaLargaDia, fechaSinAnio } from "../lib/dias";
 import { etiquetaDeNivel } from "../lib/riesgo";
 import type { Municipio, OrigenDatos } from "../lib/tipos";
-import type { ReactNode } from "react";
 import { FranjaHoras } from "./FranjaHoras";
 import { IconoAviso } from "./Iconos";
-import { SelectorPerfil } from "./SelectorPerfil";
 
 interface Props {
   perfil: Perfil;
-  municipios: readonly Municipio[];
   municipio: Municipio;
-  onPerfil: (p: Perfil) => void;
   ahora: Date;
   estado: "cargando" | "lista" | "error";
   resultado: ResultadoFranja | null;
@@ -34,23 +29,16 @@ interface Props {
   aireMedido: string | null;
   avisoEstado: { origen: OrigenDatos; generado: string } | null;
   onReintentar: () => void;
-  onDetalle: () => void;
-  /** Fecha (AAAA-MM-DD) del día histórico que se está viendo; `null` en tiempo real. */
-  fechaHistorica?: string | null;
-  /** «Si aquí no, prueba en…» (se pinta tras el consejo). */
-  alternativas?: ReactNode;
 }
 
 export function Respuesta(p: Props) {
   const r = p.resultado;
   const nivel = r?.veredicto ?? "sin_dato";
-  const cuando = p.fechaHistorica ? fechaSinAnio(p.fechaHistorica) : r?.dia === "manana" ? "Mañana" : "Hoy";
+  const cuando = r?.dia === "manana" ? "Mañana" : "Hoy";
   const lugar = p.municipio.nombre;
 
   return (
     <section className="respuesta" aria-labelledby="titular">
-      <SelectorPerfil perfil={p.perfil} municipios={p.municipios} onCambiar={p.onPerfil} />
-
       <div className={`respuesta__veredicto nivel-${nivel}`} aria-live="polite">
         {p.estado === "cargando" && (
           <h2 id="titular" className="titular titular--carga">
@@ -98,7 +86,7 @@ export function Respuesta(p: Props) {
               <dd>
                 {r.sinBuenaHora ? (
                   <span className="horas__valor horas__valor--frase horas__valor--sin">
-                    {p.fechaHistorica ? "Ese día no hay una buena hora" : r.dia === "manana" ? "Mañana no hay una buena hora" : "Hoy no hay una buena hora"}
+                    {r.dia === "manana" ? "Mañana no hay una buena hora" : "Hoy no hay una buena hora"}
                   </span>
                 ) : r.todoIgual ? (
                   <span className="horas__valor horas__valor--frase">Todo el día está {r.veredicto === "bajo" ? "bien" : "igual"}</span>
@@ -110,7 +98,7 @@ export function Respuesta(p: Props) {
                 {r.sinBuenaHora && (
                   <span className="horas__nota">
                     Nivel alto a todas horas.
-                    {r.mejorManana && ` ${p.fechaHistorica ? "El día siguiente" : r.dia === "manana" ? "Al día siguiente" : "Mañana"} lo mejor es ${etiquetaVentana(r.mejorManana)} (nivel ${etiquetaDeNivel(r.mejorManana.nivel).toLowerCase()}).`}
+                    {r.mejorManana && ` ${r.dia === "manana" ? "Al día siguiente" : "Mañana"} lo mejor es ${etiquetaVentana(r.mejorManana)} (nivel ${etiquetaDeNivel(r.mejorManana.nivel).toLowerCase()}).`}
                   </span>
                 )}
                 {!r.sinBuenaHora && r.todoIgual && r.veredicto !== "bajo" && (
@@ -130,13 +118,12 @@ export function Respuesta(p: Props) {
             )}
           </dl>
 
-          <FranjaHoras horas={r.horas} ahora={p.ahora} mejor={r.mejor} historico={!!p.fechaHistorica} />
+          <FranjaHoras horas={r.horas} ahora={p.ahora} mejor={r.mejor} />
 
           <p className="respuesta__consejo">
             {consejo(r.veredicto, p.perfil.afecta)}
             <span className="respuesta__pequeno"> Orientativo: no sustituye el consejo médico.</span>
           </p>
-          {p.alternativas}
         </>
       )}
 
@@ -177,24 +164,10 @@ export function Respuesta(p: Props) {
         </p>
       )}
 
-      <button type="button" className="boton respuesta__detalle" onClick={p.onDetalle}>
-        Ver detalle de las mediciones en {lugar}
-      </button>
-
       <p className="respuesta__fuente">
-        {p.fechaHistorica ? (
-          <>
-            Datos del {fechaLargaDia(p.fechaHistorica)}: aire medido por la red de la Comunidad de Madrid y polen de sus captadores;
-            viento y niveles horarios de CAMS Europa vía Open-Meteo.
-            {p.aireMedido ? ` Aire a las ${p.aireMedido}.` : ""}
-          </>
-        ) : (
-          <>
-            Previsión: CAMS Europa vía Open-Meteo
-            {p.generadoPronostico ? ` (calculada ${fechaHoraLarga(p.generadoPronostico)})` : ""}.
-            {p.aireMedido ? ` Aire medido: red de la Comunidad de Madrid, ${p.aireMedido}.` : ""}
-          </>
-        )}
+        Previsión: CAMS Europa vía Open-Meteo
+        {p.generadoPronostico ? ` (calculada ${fechaHoraLarga(p.generadoPronostico)})` : ""}.
+        {p.aireMedido ? ` Aire medido: red de la Comunidad de Madrid, ${p.aireMedido}.` : ""}
       </p>
     </section>
   );

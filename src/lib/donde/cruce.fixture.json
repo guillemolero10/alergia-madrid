@@ -1,0 +1,140 @@
+{
+ "distancia": [
+  {
+   "servicio": "centro_salud",
+   "radio": 1500.0,
+   "lat": 40.44471,
+   "lon": -3.71972,
+   "deficit_total": 995119,
+   "ganan": 0
+  },
+  {
+   "servicio": "centro_salud",
+   "radio": 1500.0,
+   "lat": 40.53358,
+   "lon": -3.64493,
+   "deficit_total": 995119,
+   "ganan": 8419
+  },
+  {
+   "servicio": "farmacia",
+   "radio": 800.0,
+   "lat": 40.43722,
+   "lon": -3.5983,
+   "deficit_total": 987995,
+   "ganan": 0
+  },
+  {
+   "servicio": "farmacia",
+   "radio": 800.0,
+   "lat": 40.47694,
+   "lon": -3.36073,
+   "deficit_total": 987995,
+   "ganan": 0
+  },
+  {
+   "servicio": "centro_salud",
+   "radio": 3000.0,
+   "lat": 40.45749,
+   "lon": -3.67606,
+   "deficit_total": 225020,
+   "ganan": 0
+  },
+  {
+   "servicio": "centro_salud",
+   "radio": 3000.0,
+   "lat": 40.59108,
+   "lon": -3.95957,
+   "deficit_total": 225020,
+   "ganan": 2654
+  }
+ ],
+ "plazas": [
+  {
+   "d0": 5000.0,
+   "plazas": 40.0,
+   "lat": 40.46349,
+   "lon": -3.70226,
+   "umbral": 4.110906209222373,
+   "deficit_total": 1016288,
+   "faltan": 15662.128509485106,
+   "reduce": 37.339887251806694,
+   "mejoran": 757
+  },
+  {
+   "d0": 5000.0,
+   "plazas": 150.0,
+   "lat": 40.46404,
+   "lon": -3.71929,
+   "umbral": 4.110906209222373,
+   "deficit_total": 1016288,
+   "faltan": 15662.128509485106,
+   "reduce": 139.21068656479682,
+   "mejoran": 605
+  },
+  {
+   "d0": 7000.0,
+   "plazas": 40.0,
+   "lat": 40.282,
+   "lon": -3.97175,
+   "umbral": 4.110906209222373,
+   "deficit_total": 1047908,
+   "faltan": 13152.324929803346,
+   "reduce": 8.759699285243258,
+   "mejoran": 14
+  },
+  {
+   "d0": 7000.0,
+   "plazas": 150.0,
+   "lat": 40.46446,
+   "lon": -3.72975,
+   "umbral": 4.110906209222373,
+   "deficit_total": 1047908,
+   "faltan": 13152.324929803346,
+   "reduce": 139.01898508702405,
+   "mejoran": 957
+  }
+ ],
+ "optimo": [
+  {
+   "d0": 5000.0,
+   "zona": "01",
+   "plazas": 100.0,
+   "reduce": 100.00000000000065,
+   "seccion": "2807903071",
+   "segundo": 99.99999999999967,
+   "voraz2": [
+    {
+     "seccion": "2807903071",
+     "reduce": 100.00000000000065,
+     "acumulado": 100.00000000000065
+    },
+    {
+     "seccion": "2807903069",
+     "reduce": 99.99999999999967,
+     "acumulado": 200.00000000000034
+    }
+   ]
+  },
+  {
+   "d0": 7000.0,
+   "zona": "07",
+   "plazas": 100.0,
+   "reduce": 31.12115962105314,
+   "seccion": "2808301001",
+   "segundo": 26.398246817836117,
+   "voraz2": [
+    {
+     "seccion": "2808301001",
+     "reduce": 31.12115962105314,
+     "acumulado": 31.12115962105314
+    },
+    {
+     "seccion": "2808301004",
+     "reduce": 15.065470627290779,
+     "acumulado": 46.18663024834392
+    }
+   ]
+  }
+ ]
+}

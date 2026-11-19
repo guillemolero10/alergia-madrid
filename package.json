@@ -1,13 +1,14 @@
 {
-  "name": "alergia-madrid",
+  "name": "donde-hace-falta",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "AlergIA Madrid: riesgo respiratorio en tiempo real para personas alérgicas y asmáticas (DATAMAD 2026)",
+  "description": "¿Dónde hace falta?: déficit de servicios públicos en la Comunidad de Madrid, simulador y agente (DATAMAD 2026)",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && node scripts/construir-api.mjs && vite build",
+    "build:api": "node scripts/construir-api.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
@@ -20,6 +21,7 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",

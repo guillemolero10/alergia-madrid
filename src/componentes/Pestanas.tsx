@@ -3,9 +3,8 @@ import "./Pestanas.css";
 import type { Vista } from "../lib/vista";
 
 const PESTANAS: { id: Vista; texto: string }[] = [
-  { id: "para-ti", texto: "Para ti" },
-  { id: "colegios", texto: "Colegios" },
-  { id: "casos", texto: "Casos" },
+  { id: "donde", texto: "¿Dónde hace falta?" },
+  { id: "municipio", texto: "Mi municipio" },
 ];
 
 export const idPestana = (v: Vista) => `pestana-${v}`;

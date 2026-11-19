@@ -1,0 +1,358 @@
+/* Agente: una columna de periódico sobre el mapa. Sin burbujas: etiqueta pequeña, texto y filete. */
+
+.zona-mapa .agente,
+.zona-mapa .agente-abrir {
+  position: absolute;
+  z-index: 15;
+  top: var(--margen);
+  right: var(--margen);
+}
+
+.agente-abrir {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 14px 6px 8px;
+  border: 1px solid var(--tinta);
+  border-radius: var(--radio);
+  background: var(--tinta);
+  color: #fffdf8;
+  font-size: 14px;
+  font-weight: 650;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(31, 35, 40, 0.35);
+}
+
+.agente-abrir:hover {
+  background: #343a42;
+}
+
+.agente-abrir__marca {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fffdf8;
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.agente-abrir__corto {
+  display: none;
+}
+
+.agente {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  max-width: calc(100% - 2 * var(--margen));
+  max-height: calc(100% - 2 * var(--margen) - 84px);
+  border-color: var(--tinta);
+  box-shadow: 3px 3px 0 var(--tinta);
+  overflow: hidden;
+}
+
+.agente__cabecera {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 12px 8px 14px;
+  border-bottom: 2px solid var(--tinta);
+}
+
+.agente__titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.agente__sub {
+  margin-top: 2px;
+  color: var(--tinta-2);
+  font-size: 12.5px;
+}
+
+.agente__cabecera-botones {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.agente__cabecera-botones .boton--texto {
+  min-height: 36px;
+  padding-inline: 6px;
+  font-size: 12.5px;
+}
+
+.agente__cerrar {
+  min-width: 44px;
+  min-height: 44px;
+  border-color: transparent;
+  background: transparent;
+}
+
+.agente__lista {
+  flex: 1 1 auto;
+  min-height: 90px;
+  margin: 0;
+  padding: 10px 14px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+}
+
+.agente__vacio {
+  color: var(--tinta-2);
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+
+.agente__msg p {
+  font-size: 14px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.agente__quien {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+  color: var(--tinta-2);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.agente__msg--usuario {
+  padding-left: 10px;
+  border-left: 3px solid var(--tinta);
+}
+
+.agente__msg--usuario p {
+  font-family: var(--fuente-titulo);
+  font-size: 16px;
+  font-style: italic;
+}
+
+.agente__modo {
+  padding: 0 6px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+.agente__modo--ia {
+  color: var(--acento);
+}
+
+.agente__modo--reglas {
+  border-color: var(--aviso-borde);
+  background: var(--aviso-fondo);
+  color: var(--aviso-tinta);
+}
+
+.agente__nota {
+  margin-top: 6px;
+  color: var(--tinta-3);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.agente__nota--aviso {
+  color: var(--aviso-tinta);
+}
+
+.agente__pasos {
+  margin-top: 6px;
+  font-size: 12.5px;
+}
+
+.agente__pasos summary {
+  color: var(--acento);
+  cursor: pointer;
+  text-underline-offset: 3px;
+  text-decoration: underline;
+}
+
+.agente__pasos ol {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  list-style: decimal;
+  color: var(--tinta-2);
+}
+
+.agente__estado {
+  min-height: 0;
+  padding: 0 14px;
+  color: #4a2f74;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.agente__estado:not(:empty) {
+  min-height: 24px;
+  padding-bottom: 4px;
+}
+
+.agente__sugeridas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 14px 8px;
+  border-top: 1px solid var(--borde);
+}
+
+.agente__chip {
+  min-height: 32px;
+  padding: 3px 10px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: 16px;
+  background: var(--superficie-2);
+  color: var(--tinta);
+  font-size: 12.5px;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+}
+
+.agente__chip:hover:not(:disabled) {
+  border-color: var(--tinta);
+  background: var(--superficie-3);
+}
+
+.agente__chip:disabled,
+.agente__entrada:disabled,
+.agente .boton:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.agente__form {
+  padding: 8px 14px 12px;
+  border-top: 1px solid var(--borde);
+}
+
+.agente__etiqueta {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--tinta-2);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.agente__fila {
+  display: flex;
+  gap: 8px;
+}
+
+.agente__entrada {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-s);
+  background: #fff;
+  font-size: 16px; /* 16 px evita el zoom automático de iOS al enfocar */
+}
+
+.agente__fila .boton {
+  min-height: 44px;
+}
+
+.agente__ayuda {
+  margin-top: 4px;
+  color: var(--tinta-3);
+  font-size: 11.5px;
+}
+
+/* Hasta 1100 px el mapa es estrecho (370-690 px): el agente es una hoja inferior sobre el mapa, no una columna que lo tape. */
+@media (max-width: 1100px) {
+  .zona-mapa .agente {
+    top: auto;
+    right: var(--margen);
+    bottom: var(--margen);
+    left: var(--margen);
+    width: auto;
+    max-width: none;
+    max-height: 62%;
+  }
+
+  .agente__lista {
+    min-height: 120px;
+  }
+
+  .agente__sugeridas {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 6px;
+  }
+
+  .agente__chip {
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  /* Con la conversación empezada, la lista necesita el sitio que ocupan las sugeridas. */
+  .agente--conversando .agente__sugeridas {
+    display: none;
+  }
+}
+
+/* Móvil: la página es larga y el mapa queda abajo. El botón y la hoja del agente van fijos a la pantalla, así que se
+   llega a ellos desde cualquier punto; al abrirlo, la página lleva el mapa arriba y la hoja ocupa la parte de abajo. */
+@media (max-width: 760px) {
+  .zona-mapa .agente-abrir {
+    position: fixed;
+    z-index: 40;
+    top: auto;
+    right: 12px;
+    bottom: 12px;
+    padding: 6px 14px 6px 6px;
+  }
+
+  .agente-abrir__texto {
+    display: none;
+  }
+
+  .agente-abrir__corto {
+    display: inline;
+  }
+
+  .zona-mapa .agente {
+    position: fixed;
+    z-index: 40;
+    top: auto;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    max-height: min(58dvh, 500px);
+  }
+
+  /* La respuesta tiene sitio de sobra: al menos unas 9 líneas antes de desplazarse. */
+  .agente__lista {
+    min-height: 160px;
+  }
+
+  .agente__titulo {
+    font-size: 19px;
+  }
+
+  .agente__ayuda {
+    display: none;
+  }
+}

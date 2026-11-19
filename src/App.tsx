@@ -2,540 +2,495 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } fro
 import type { PaddingOptions } from "maplibre-gl";
 import "./App.css";
 import { EsqueletoMapa } from "./componentes/EsqueletoMapa";
-import { Leyenda } from "./componentes/Leyenda";
-import type { MapaRef } from "./componentes/Mapa";
-import { PanelLugar } from "./componentes/PanelLugar";
-import { BandaHistorica } from "./componentes/BandaHistorica";
-import { Casos } from "./componentes/Casos";
-import { Colegios, ResumenMapa } from "./componentes/Colegios";
+import type { MapaRef } from "./componentes/MapaDonde";
 import { ID_PANEL_VISTA, idPestana, Pestanas } from "./componentes/Pestanas";
-import { SiAquiNo } from "./componentes/SiAquiNo";
-import { Respuesta } from "./componentes/Respuesta";
-import { SelloCapas, SelloCapasEsqueleto } from "./componentes/SelloCapas";
-import {
-  cargarEstado,
-  cargarPronostico,
-  lugares,
-  pronosticoAntiguo,
-  sellosDeCapas,
-  vientoVigente,
-  type ResultadoCarga,
-  type ResultadoPronostico,
-} from "./lib/datos";
-import { busquedaConFecha, cargarDia, cargarIndice, fechaDeLaUrl, fechaEnIndice, type DiaCargado, type DiaHistorico } from "./lib/dias";
-import type { Caso } from "./lib/casos";
-import { evaluarCentro, indexarCentros, PERFIL_COLEGIO, resumirColegios, type Centro } from "./lib/colegios";
-import { evaluarLugar, type EvaluacionLugar, type FuenteDato } from "./lib/evaluar";
-import { construirFicha } from "./lib/ficha";
-import { buscarVecinos } from "./lib/vecinos";
-import { busquedaConVista, centroDeLaUrl, vistaDeLaUrl, type Vista } from "./lib/vista";
-import { calcularFranja, medidasDelPerfil, variablesConMedidas, variablesDelPerfil, zonaDe, type Perfil } from "./lib/franja";
-import { fechaHoraLarga, formatearUltimoDato, horaCorta } from "./lib/formato";
-import { guardarPerfil, leerPerfil } from "./lib/perfil";
-import type { CapasVisibles, Municipio, NombreCapa } from "./lib/tipos";
+import { PanelServicio } from "./componentes/PanelServicio";
+import { PanelMunicipio } from "./componentes/PanelMunicipio";
+import { PanelAgente } from "./componentes/PanelAgente";
+import type { Destino } from "./lib/donde/accionesAgente";
+import { useAgente } from "./lib/useAgente";
+import { busquedaConLugar, existeLugar, guardarLugar, leerLugarGuardado, lugarDeLaUrl } from "./lib/donde/lugarUrl";
+import { bboxLugar, bboxZona, enteroEs, invitacionMapa } from "./lib/donde/panelDonde";
+import { SERVICIOS } from "./lib/donde/servicios";
+import { ANIO_HOY, ANIO_PROYECCION, type AnioDonde } from "./lib/donde/proyeccion";
+import type { ServicioId } from "./lib/donde/tipos";
+import { busquedaConVista, vistaDeLaUrl, type Vista } from "./lib/vista";
+import { Metodologia } from "./componentes/Metodologia";
+import { EmpiezaAqui } from "./componentes/EmpiezaAqui";
+import { referenciaPorDefecto } from "./lib/donde/urlDonde";
+import { useAliasLugares } from "./lib/useAliasLugares";
+import { useDonde } from "./lib/useDonde";
+import { useFicha } from "./lib/useFicha";
+import { useTuDecides } from "./lib/useTuDecides";
 import { useMedia } from "./lib/useMedia";
 
-// MapLibre pesa: va en su propio trozo y se empieza a descargar a la vez que los datos.
-const cargarMapa = () => import("./componentes/Mapa");
+// MapLibre pesa: va en su propio trozo y se empieza a descargar a la vez que la página.
+const cargarMapa = () => import("./componentes/MapaDonde");
 const Mapa = lazy(cargarMapa);
 void cargarMapa();
 
-type Carga =
-  | { fase: "cargando" }
-  | ({ fase: "lista" } & ResultadoCarga)
-  | { fase: "error"; mensaje: string };
+/** Punto de la escena «Una residencia en Pinto»: la misma de las capturas y del pitch (40,2420, -3,7000; residencia de 94 plazas). */
+const ESCENA_PINTO = { lat: 40.242, lon: -3.7, plazas: 94 } as const;
 
-type CargaPronostico =
-  | { fase: "cargando" }
-  | ({ fase: "lista" } & ResultadoPronostico)
-  | { fase: "error"; mensaje: string };
+/** [oeste, sur, este, norte] de la Comunidad de Madrid. */
+const BBOX_COMUNIDAD: [number, number, number, number] = [-4.58, 39.88, -3.05, 41.17];
 
-type CargaDia = { fase: "cargando" } | { fase: "lista"; fecha: string; dia: DiaCargado } | { fase: "error"; fecha: string; mensaje: string };
-
-const REFRESCO_MS = 10 * 60_000;
-const parametros = new URLSearchParams(window.location.search);
-/** Solo en desarrollo: `?estado=/ruta.json` permite probar con otro JSON (p. ej. un día con niveles altos). */
-const urlDePrueba = import.meta.env.DEV ? (parametros.get("estado") ?? undefined) : undefined;
-/** Solo en desarrollo: `?pronostico=/ruta.json` y `?ahora=2026-11-16T09:00:00+01:00` para probar otras situaciones. */
-const urlPronosticoDePrueba = import.meta.env.DEV ? (parametros.get("pronostico") ?? undefined) : undefined;
-const ahoraForzado = import.meta.env.DEV && parametros.get("ahora") ? new Date(parametros.get("ahora")!) : null;
-const baseForzada = parametros.get("base") === "raster" ? "raster" : undefined;
-
-/** Marcador del mapa que representa a un municipio (Madrid capital no tiene estación propia). */
-/** Id del lugar que se pinta en el mapa y del que se enseña el detalle. */
-const idMarcador = (m: Municipio) => (m.cobertura_aire === "lejana" ? m.id : m.estacion);
-
-/** Municipio al que corresponde un marcador pulsado (estación, captador o la propia capital). */
-function municipioDeMarcador(id: string): Municipio | undefined {
-  const candidatos = lugares.municipios.filter((m) => m.id === id || (m.cobertura_aire !== "lejana" && m.estacion === id) || m.captador === id);
-  const campo = id.startsWith("cap:") ? "dist_captador_km" : "dist_estacion_km";
-  return candidatos.sort((a, b) => (a[campo] ?? 99) - (b[campo] ?? 99))[0];
-}
+const baseForzada = new URLSearchParams(window.location.search).get("base") === "raster" ? "raster" : undefined;
 
 export default function App() {
-  const [carga, setCarga] = useState<Carga>({ fase: "cargando" });
-  const [cargaPron, setCargaPron] = useState<CargaPronostico>({ fase: "cargando" });
-  const [capas, setCapas] = useState<CapasVisibles>({ aire: true, polen: true, viento: true });
-  const [perfil, setPerfil] = useState<Perfil>(() => leerPerfil(lugares));
-  const [detalleId, setDetalleId] = useState<string | null>(null);
-  const [ahora, setAhora] = useState(() => ahoraForzado ?? new Date());
-  // Día histórico: `fechaPedida` sale de la URL; solo vale si está en el índice (si no, se ve hoy).
-  const [fechaPedida, setFechaPedida] = useState<string | null>(() => fechaDeLaUrl(window.location.search));
-  const [indice, setIndice] = useState<DiaHistorico[] | null>(null);
-  const [cargaDia, setCargaDia] = useState<CargaDia>({ fase: "cargando" });
   const [vista, setVista] = useState<Vista>(() => vistaDeLaUrl(window.location.search));
-  const [centroId, setCentroId] = useState<string | null>(() => centroDeLaUrl(window.location.search));
-  const [tarde, setTarde] = useState(false);
-  const [centros, setCentros] = useState<Centro[] | null>(null);
-  const [errorCentros, setErrorCentros] = useState<string | null>(null);
   const mapaRef = useRef<MapaRef>(null);
-  const fechaActual = useRef<string | null>(null);
   const esMovil = useMedia("(max-width: 760px)");
-
-  const municipio = useMemo(
-    () => lugares.municipios.find((m) => m.id === perfil.municipio) ?? lugares.municipios[0]!,
-    [perfil.municipio],
-  );
-
-  const cargar = useCallback(async (silencioso = false) => {
-    if (!silencioso) setCarga({ fase: "cargando" });
-    try {
-      const resultado = await cargarEstado({ urlRed: urlDePrueba });
-      setCarga((anterior) => {
-        // Un refresco fallido no cambia datos de la red por la copia de respaldo, que es más vieja.
-        if (silencioso && anterior.fase === "lista" && anterior.origen === "red" && resultado.origen === "respaldo") {
-          return anterior;
-        }
-        return { fase: "lista", ...resultado };
-      });
-    } catch (e) {
-      if (!silencioso) setCarga({ fase: "error", mensaje: e instanceof Error ? e.message : String(e) });
-    }
-  }, []);
-
-  const cargarPron = useCallback(async (silencioso = false) => {
-    if (!silencioso) setCargaPron({ fase: "cargando" });
-    try {
-      const resultado = await cargarPronostico({ urlRed: urlPronosticoDePrueba, ahora: ahoraForzado ?? new Date() });
-      setCargaPron((anterior) => {
-        if (silencioso && anterior.fase === "lista" && anterior.origen === "red" && resultado.origen === "respaldo") return anterior;
-        return { fase: "lista", ...resultado };
-      });
-    } catch (e) {
-      if (!silencioso) setCargaPron({ fase: "error", mensaje: e instanceof Error ? e.message : String(e) });
-    }
-  }, []);
+  /** Hasta 1100 px el mapa es estrecho: el agente se abre como hoja inferior y no como columna sobre él. */
+  const hojaInferior = useMedia("(max-width: 1100px)");
+  const [sinMapa, setSinMapa] = useState(false);
+  const [mapaALaVista, setMapaALaVista] = useState(false);
+  const donde = useDonde();
+  const { est, estado } = donde;
+  const tuDecides = useTuDecides(donde);
+  const territorios = donde.base.fase === "listo" ? donde.base.valor.territorios : null;
+  const secciones = donde.base.fase === "listo" ? donde.base.valor.secciones : null;
+  const [seleccion, setSeleccion] = useState<string | null>(null);
+  const [mapaMontado, setMapaMontado] = useState(false);
+  const alias = useAliasLugares();
+  const [lugarId, setLugarId] = useState<string | null>(() => lugarDeLaUrl(window.location.search));
+  const [servicioMapa, setServicioMapa] = useState<ServicioId>("centro_salud");
+  const conservarSeleccion = useRef(false);
+  const lugarValido = territorios && lugarId && existeLugar(territorios, lugarId) ? lugarId : null;
+  // «Mi municipio» es siempre de hoy: no usa la proyección a 2030 aunque el simulador la tenga elegida.
+  const ficha = useFicha(donde.baseHoy.fase === "listo" ? donde.baseHoy.valor : null, est.referencia, vista === "municipio");
+  const [agenteAbierto, setAgenteAbierto] = useState(() => new URLSearchParams(window.location.search).get("agente") === "1");
 
   useEffect(() => {
-    void cargar();
-    void cargarPron();
-    const refresco = setInterval(() => {
-      if (fechaActual.current) return;
-      void cargar(true);
-      void cargarPron(true);
-    }, REFRESCO_MS);
-    const reloj = ahoraForzado ? undefined : setInterval(() => setAhora(new Date()), 60_000);
-    return () => {
-      clearInterval(refresco);
-      clearInterval(reloj);
-    };
-  }, [cargar, cargarPron]);
-
-  useEffect(() => guardarPerfil(perfil), [perfil]);
-
-  useEffect(() => {
-    cargarIndice().then(setIndice, () => setIndice([]));
     const alRetroceder = () => {
-      setFechaPedida(fechaDeLaUrl(window.location.search));
       setVista(vistaDeLaUrl(window.location.search));
-      setCentroId(centroDeLaUrl(window.location.search));
+      setLugarId(lugarDeLaUrl(window.location.search));
     };
     window.addEventListener("popstate", alRetroceder);
     return () => window.removeEventListener("popstate", alRetroceder);
   }, []);
 
-  const esperandoIndice = fechaPedida !== null && indice === null;
-  const fecha = indice ? fechaEnIndice(fechaPedida, indice) : null;
-  const historico = fecha !== null;
-  fechaActual.current = fecha;
-  const diaIndice = indice?.find((d) => d.fecha === fecha);
+  const elegirVista = useCallback((v: Vista) => {
+    window.history.pushState(null, "", `${window.location.pathname}${busquedaConVista(window.location.search, v)}`);
+    setVista(v);
+  }, []);
 
-  // Una fecha que no está en el índice se quita de la URL y se ve hoy.
+  // En el móvil el mapa está debajo del panel: lleva la vista hasta él.
+  const irAlMapa = useCallback(() => {
+    if (!window.matchMedia("(max-width: 760px)").matches) return;
+    const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document.getElementById("mapa")?.scrollIntoView({ behavior: sinMovimiento ? "auto" : "smooth", block: "start" });
+  }, []);
+
+  // ---- «Mi municipio» ----
+  /** Abre la ficha de un municipio o distrito: cambia a la pestaña, escribe `?lugar=` y lo recuerda para la próxima visita. */
+  const abrirLugar = useCallback((id: string) => {
+    const busqueda = busquedaConVista(busquedaConLugar(window.location.search, id), "municipio");
+    window.history.pushState(null, "", `${window.location.pathname}${busqueda}`);
+    setVista("municipio");
+    setLugarId(id);
+    guardarLugar(id);
+  }, []);
+
+  // Sin `?lugar=`, la ficha abre con el último lugar que se miró en este navegador.
   useEffect(() => {
-    if (indice && fechaPedida && !fecha) {
-      window.history.replaceState(null, "", `${window.location.pathname}${busquedaConFecha(window.location.search, null)}`);
-      setFechaPedida(null);
-    }
-  }, [indice, fechaPedida, fecha]);
+    if (vista !== "municipio" || !territorios || lugarDeLaUrl(window.location.search) !== null) return;
+    const guardado = leerLugarGuardado(territorios);
+    if (!guardado) return;
+    setLugarId(guardado);
+    window.history.replaceState(null, "", `${window.location.pathname}${busquedaConLugar(window.location.search, guardado)}`);
+  }, [vista, territorios]);
 
-  const cargarElDia = useCallback((f: string) => {
-    setCargaDia({ fase: "cargando" });
-    cargarDia(f).then(
-      (dia) => setCargaDia({ fase: "lista", fecha: f, dia }),
-      (e) => setCargaDia({ fase: "error", fecha: f, mensaje: e instanceof Error ? e.message : String(e) }),
-    );
-  }, []);
+  // El mapa de la ficha encuadra el lugar y lo recuerda.
   useEffect(() => {
-    if (fecha) cargarElDia(fecha);
-  }, [fecha, cargarElDia]);
+    if (vista !== "municipio") return;
+    setSeleccion(lugarValido);
+    if (!lugarValido || !territorios || !mapaMontado) return;
+    const b = bboxLugar(territorios, lugarValido);
+    if (b) mapaRef.current?.encuadrar(b);
+    guardarLugar(lugarValido);
+  }, [vista, lugarValido, territorios, mapaMontado]);
 
-  const elegirFecha = useCallback((f: string | null) => {
-    window.history.pushState(null, "", `${window.location.pathname}${busquedaConFecha(window.location.search, f)}`);
-    setFechaPedida(f);
-    document.getElementById("titular")?.scrollIntoView?.({ block: "nearest" });
-  }, []);
-
-  const diaListo = cargaDia.fase === "lista" && cargaDia.fecha === fecha ? cargaDia.dia : null;
-  const diaError = cargaDia.fase === "error" && cargaDia.fecha === fecha ? cargaDia.mensaje : null;
-  const estado = historico ? (diaListo?.estado ?? null) : esperandoIndice ? null : carga.fase === "lista" ? carga.estado : null;
-  const origen = !historico && carga.fase === "lista" ? carga.origen : "red";
-  // En modo histórico el reloj es la foto de las 14:00 de ese día (`fecha_referencia`), no el «ahora» real.
-  const ahoraVista = historico && estado ? new Date(estado.fecha_referencia) : ahora;
-  const fase = historico ? (diaListo ? "lista" : diaError ? "error" : "cargando") : esperandoIndice ? "cargando" : carga.fase;
-
-  const sellos = useMemo(() => (estado ? sellosDeCapas(estado, origen, ahoraVista) : null), [estado, origen, ahoraVista]);
-  const vigente = useMemo(() => (estado ? vientoVigente(estado, origen, ahoraVista) : false), [estado, origen, ahoraVista]);
-  const fichaCompleta = useMemo(
-    () => (estado && detalleId ? construirFicha(detalleId, estado, lugares) : null),
-    [estado, detalleId],
-  );
-  const ficha = vista === "para-ti" ? fichaCompleta : null;
-
-  // --- la respuesta personal ---
-  const pronostico = historico ? (diaListo?.pronostico ?? null) : esperandoIndice ? null : cargaPron.fase === "lista" ? cargaPron.pronostico : null;
-  const fasePron = historico ? fase : esperandoIndice ? "cargando" : cargaPron.fase;
-  const zona = pronostico ? zonaDe(pronostico, municipio.estacion) : undefined;
-  const vars = useMemo(() => (pronostico && zona ? variablesDelPerfil(perfil, zona, pronostico.sin_pronostico) : null), [pronostico, zona, perfil]);
-  // Lo medido (polen del día y aire de la hora de referencia) manda sobre la previsión: gana el nivel más alto.
-  const medidas = useMemo(
-    () => (estado ? medidasDelPerfil(perfil, estado, municipio, lugares, ahoraVista) : []),
-    [estado, perfil, municipio, ahoraVista],
-  );
-  const resultado = useMemo(
-    () =>
-      pronostico && zona && vars
-        ? calcularFranja({ horas: pronostico.horas, zona, variables: variablesConMedidas(vars.variables, medidas), ahora: ahoraVista, medidas })
-        : null,
-    [pronostico, zona, vars, ahoraVista, medidas],
-  );
-  // Un polen sin previsión que sí se ha medido el día de referencia ya está cubierto: no se avisa.
-  const sinPrevision = useMemo(() => {
-    return (vars?.sinPrevision ?? []).filter((t) => !medidas.some((m) => m.variable === `polen_${t}` && m.dia && resultado?.horas.some((h) => h.fecha === m.dia && !h.pasada)));
-  }, [vars, medidas, resultado]);
-
-  let avisoPronostico: string | null = null;
-  if (!historico && !esperandoIndice && cargaPron.fase === "lista") {
-    const gen = fechaHoraLarga(cargaPron.pronostico.generado);
-    if (!zona) avisoPronostico = `No hay previsión para la zona de ${municipio.nombre}.`;
-    else if (pronosticoAntiguo(cargaPron.pronostico, ahora)) {
-      avisoPronostico =
-        cargaPron.origen === "respaldo"
-          ? `No se ha podido leer la previsión de hoy: se usa una copia del ${gen}. Puede no ser fiable.`
-          : `La previsión tiene más de 3 horas (calculada el ${gen}). Puede no ser fiable.`;
-    }
-  }
-
-  const aireMedido = estado ? (historico ? horaCorta(estado.capas.aire.ultimo_dato) : formatearUltimoDato(estado.capas.aire.ultimo_dato, ahora)) : null;
-  const marcadorSeleccionado = idMarcador(municipio);
-
-  // --- «Si aquí no, prueba en…» ---
-  const vecinos = useMemo(
-    () =>
-      vista === "para-ti" && estado && pronostico && resultado
-        ? buscarVecinos(perfil, municipio, resultado, { pronostico, estado, lugares, ahora: ahoraVista })
-        : null,
-    [vista, estado, pronostico, resultado, perfil, municipio, ahoraVista],
-  );
-
-  // --- colegios ---
-  const cargarCentros = useCallback(() => {
-    setErrorCentros(null);
-    // El fichero pesa 322 kB: va en su propio trozo y solo se baja al abrir la pestaña.
-    import("../datos-estaticos/colegios.json").then(
-      (m) => setCentros((m.default as unknown as { centros: Centro[] }).centros),
-      (e) => setErrorCentros(e instanceof Error ? e.message : String(e)),
-    );
-  }, []);
+  // Al salir de la ficha, el contorno resaltado deja de valer (salvo que venga de «Ver en el simulador»).
   useEffect(() => {
-    if (vista === "colegios" && !centros && !errorCentros) cargarCentros();
-  }, [vista, centros, errorCentros, cargarCentros]);
+    if (vista !== "donde") return;
+    if (conservarSeleccion.current) conservarSeleccion.current = false;
+    else setSeleccion(null);
+  }, [vista]);
 
-  const indiceCentros = useMemo(() => (centros ? indexarCentros(centros, lugares.municipios) : null), [centros]);
-  // Una evaluación por estación y captador (no por centro): son unas 200 combinaciones para 1.910 centros.
-  const evaluador = useMemo(() => {
-    if (!estado || !pronostico) return null;
-    const cache = new Map<string, EvaluacionLugar | null>();
-    return (c: FuenteDato | Centro) => {
-      const fuente: FuenteDato = "ea" in c ? { estacion: c.ea, captador: c.ca } : c;
-      const clave = `${fuente.estacion}|${fuente.captador ?? ""}`;
-      if (!cache.has(clave)) cache.set(clave, evaluarLugar(PERFIL_COLEGIO, fuente, pronostico, estado, lugares, ahoraVista));
-      return cache.get(clave)!;
-    };
-  }, [estado, pronostico, ahoraVista]);
-  const opcionesColegios = useMemo(() => ({ ahora: ahoraVista, historico, tarde }), [ahoraVista, historico, tarde]);
-  const resumenColegios = useMemo(
-    () => (vista === "colegios" && centros && evaluador ? resumirColegios(centros, evaluador, opcionesColegios) : null),
-    [vista, centros, evaluador, opcionesColegios],
-  );
-  const centro = useMemo(() => (centros && centroId ? (centros.find((c) => c.c === centroId) ?? null) : null), [centros, centroId]);
-  const evCentro = centro && evaluador ? evaluador(centro) : null;
-  const evaluacionCentro = useMemo(() => (centro && evCentro ? evaluarCentro(centro, evCentro, opcionesColegios) : null), [centro, evCentro, opcionesColegios]);
-  const puntosColegios = useMemo(
-    () => (resumenColegios && centros ? centros.map((c) => ({ c: c.c, la: c.la, lo: c.lo, nivel: resumenColegios.niveles.get(c.c) ?? ("sin_dato" as const) })) : []),
-    [resumenColegios, centros],
-  );
-  const estadoColegios: "cargando" | "lista" | "error" = fasePron === "error" || fase === "error" ? "error" : estado && pronostico ? "lista" : "cargando";
-
-  const cambiarUrl = useCallback((busqueda: (actual: string) => string) => {
-    window.history.pushState(null, "", `${window.location.pathname}${busqueda(window.location.search)}`);
-  }, []);
-  const elegirVista = useCallback(
-    (v: Vista) => {
-      cambiarUrl((b) => busquedaConVista(b, v, v === "colegios" ? centroId : null));
-      setVista(v);
+  /** «Ver en el simulador»: abre el apartado 1 con ese servicio, el nivel del lugar y el mapa encuadrado en él. */
+  const verEnSimulador = useCallback(
+    (servicio: ServicioId, lugar: string) => {
+      conservarSeleccion.current = true;
+      elegirVista("donde");
+      const d = vivo.current.donde;
+      if (d.est.servicio !== servicio) d.elegirServicio(servicio);
+      // La ficha es de hoy: el simulador se abre con la población de hoy, no con la proyección que hubiera elegida.
+      d.cambiar({ nivel: lugar.startsWith("dis:") ? "distrito" : "municipio", anio: ANIO_HOY });
+      setSeleccion(lugar);
+      const t = vivo.current.territorios;
+      const b = t ? bboxLugar(t, lugar) : null;
+      if (b) mapaRef.current?.encuadrar(b);
+      // El panel que se acaba de ir tenía el foco: pasa a la pestaña, y la vista vuelve arriba.
+      requestAnimationFrame(() => {
+        document.getElementById(idPestana("donde"))?.focus({ preventScroll: true });
+        document.getElementById(ID_PANEL_VISTA)?.scrollIntoView({ block: "start" });
+      });
     },
-    [cambiarUrl, centroId],
+    [elegirVista],
   );
-  const elegirCentro = useCallback(
-    (codigo: string) => {
-      cambiarUrl((b) => busquedaConVista(b, "colegios", codigo));
-      setVista("colegios");
-      setCentroId(codigo);
-      if (esMovil) requestAnimationFrame(() => document.getElementById("titular")?.scrollIntoView?.({ block: "start", behavior: "smooth" }));
-    },
-    [cambiarUrl, esMovil],
-  );
-  // La cámara va al centro elegido.
-  useEffect(() => {
-    if (vista === "colegios" && centro) mapaRef.current?.volarA(centro.la, centro.lo, 13.5);
-  }, [vista, centro]);
 
-  /** «Ver ese día»: abre «Para ti» con la fecha, el municipio y el perfil del caso. */
-  const verCaso = useCallback(
-    (c: Caso) => {
-      setPerfil((p) => ({ municipio: c.municipio.id, afecta: c.def.perfil.afecta, polenes: c.def.perfil.polenes.length > 0 ? [...c.def.perfil.polenes] : p.polenes }));
-      cambiarUrl((b) => busquedaConVista(busquedaConFecha(b, c.fecha), "para-ti"));
-      setFechaPedida(c.fecha);
-      setVista("para-ti");
-      requestAnimationFrame(() => document.getElementById("titular")?.scrollIntoView?.({ block: "nearest" }));
+  // Una fila del ranking: se resalta el contorno y el mapa encuadra el municipio o distrito.
+  const elegirLugar = useCallback(
+    (id: string) => {
+      const b = territorios ? bboxLugar(territorios, id) : null;
+      if (!b) return;
+      setSeleccion(id);
+      mapaRef.current?.encuadrar(b);
+      if (esMovil) {
+        const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        document.getElementById("mapa")?.scrollIntoView({ behavior: sinMovimiento ? "auto" : "smooth", block: "start" });
+      }
     },
-    [cambiarUrl],
+    [territorios, esMovil],
   );
-  const elegirVecino = useCallback((m: Municipio) => {
-    setPerfil((p) => ({ ...p, municipio: m.id }));
-    requestAnimationFrame(() => document.getElementById("titular")?.scrollIntoView?.({ block: "nearest" }));
+
+  // El resaltado deja de valer si cambia el nivel (municipios <-> distritos) o el servicio no tiene ese lugar.
+  useEffect(() => {
+    setSeleccion((s) => (s && (est.nivel === "distrito") !== s.startsWith("dis:") ? null : s));
+  }, [est.nivel]);
+
+  // Al elegir una zona (o volver a «toda la Comunidad»), el mapa la encuadra. Al abrir sin zona, no hace nada.
+  const zonaAnterior = useRef<string | null | undefined>(undefined);
+  useEffect(() => {
+    if (!territorios || !mapaMontado) return;
+    if (zonaAnterior.current === est.zona) return;
+    const primera = zonaAnterior.current === undefined;
+    zonaAnterior.current = est.zona;
+    if (primera && !est.zona) return;
+    const b = est.zona ? bboxZona(territorios, est.zona) : BBOX_COMUNIDAD;
+    if (b) mapaRef.current?.encuadrar(b);
+  }, [est.zona, territorios, mapaMontado]);
+
+  // Lo que «Tú decides» le pide al mapa.
+  const accionesMapa = useMemo(
+    () => ({
+      centroDelMapa: () => mapaRef.current?.centro() ?? null,
+      volarA: (lat: number, lon: number) => {
+        mapaRef.current?.volarA(lat, lon, 11.5);
+        if (window.matchMedia("(max-width: 760px)").matches) irAlMapa();
+      },
+      irAlMapa,
+      sinMapa,
+    }),
+    [irAlMapa, sinMapa],
+  );
+
+  // ---- «Empieza aquí»: escenas de un clic ----
+  /** Tras elegir «Pinto» hay que pedir el modelo cuando ya estén el servicio y los datos: se hace en un efecto, no en el clic. */
+  const [modeloPendiente, setModeloPendiente] = useState(false);
+  useEffect(() => {
+    if (!modeloPendiente || est.servicio !== "residencia" || !est.sim || !estado || estado.servicio !== "residencia") return;
+    setModeloPendiente(false);
+    tuDecides.pedirModelo();
+  }, [modeloPendiente, est.servicio, est.sim, estado, tuDecides]);
+
+  /** Lleva la vista al bloque del resultado cuando ya existe (la proyección o el modelo pueden tardar un poco): en el panel (escritorio) o en la página (móvil). */
+  const mostrarBloque = useCallback((selector: string) => {
+    let intentos = 0;
+    const reloj = window.setInterval(() => {
+      const el = document.querySelector(selector);
+      if (!el && ++intentos < 80) return;
+      window.clearInterval(reloj);
+      const sinMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      el?.scrollIntoView({ behavior: sinMovimiento ? "auto" : "smooth", block: "start" });
+    }, 100);
   }, []);
+
+  const elegirEscena = useCallback(
+    (escena: "pinto" | "2030" | "municipio") => {
+      if (escena === "municipio") {
+        elegirVista("municipio");
+        window.setTimeout(() => document.querySelector<HTMLInputElement>(".buscador__entrada")?.focus(), 120);
+        return;
+      }
+      // El lugar de una ficha anterior no pinta nada aquí: fuera de la URL.
+      const q = new URLSearchParams(window.location.search);
+      if (q.has("lugar")) {
+        q.delete("lugar");
+        window.history.replaceState(null, "", `${window.location.pathname}${q.toString() ? `?${q}` : ""}`);
+      }
+      const d = vivo.current.donde;
+      const comun = { servicio: "residencia" as const, radio_m: SERVICIOS.residencia.radioDefecto, zona: null, nivel: "municipio" as const, orden: "faltan" as const, referencia: referenciaPorDefecto() };
+      setSeleccion(null);
+      if (escena === "pinto") {
+        d.cambiar({ ...comun, anio: ANIO_HOY, sim: { lat: ESCENA_PINTO.lat, lon: ESCENA_PINTO.lon }, plazas: ESCENA_PINTO.plazas });
+        setModeloPendiente(true);
+        mapaRef.current?.volarA(ESCENA_PINTO.lat, ESCENA_PINTO.lon, 10.8);
+        mostrarBloque(".tudecides__resultado");
+      } else {
+        vivo.current.tuDecides.borrar();
+        d.cambiar({ ...comun, anio: ANIO_PROYECCION, sim: null, plazas: null });
+        mapaRef.current?.encuadrar(BBOX_COMUNIDAD);
+        mostrarBloque(".bloque--cifra");
+      }
+    },
+    [elegirVista, mostrarBloque],
+  );
+
+  // ---- el agente: lo que sabe hacer en pantalla ----
+  // Lo último que se ha pintado, para que las acciones lean el estado de ahora y no el de cuando se pidieron.
+  const vivo = useRef({ donde, tuDecides, vista, territorios });
+  vivo.current = { donde, tuDecides, vista, territorios };
+  const oyentes = useRef(new Set<() => void>());
+  useEffect(() => {
+    oyentes.current.forEach((f) => f());
+  });
+  const esperarA = useCallback((condicion: () => boolean, ms = 15000) => {
+    return new Promise<boolean>((resolver) => {
+      if (condicion()) return resolver(true);
+      const fin = (ok: boolean) => {
+        oyentes.current.delete(oyente);
+        clearTimeout(reloj);
+        resolver(ok);
+      };
+      const oyente = () => condicion() && fin(true);
+      const reloj = setTimeout(() => fin(false), ms);
+      oyentes.current.add(oyente);
+    });
+  }, []);
+
+  /** Pone el servicio (y el radio) pedidos, vuelve a la pestaña del simulador y espera a tener sus datos calculados. */
+  const asegurarServicio = useCallback(
+    async (servicio: ServicioId, radio?: number, anio?: AnioDonde) => {
+      if (vivo.current.vista !== "donde") elegirVista("donde");
+      const d = vivo.current.donde;
+      if (d.est.servicio !== servicio) d.elegirServicio(servicio);
+      if (radio !== undefined && radio !== vivo.current.donde.est.radio_m) vivo.current.donde.cambiar({ radio_m: radio });
+      // Las cifras del agente son de un año: la pantalla pasa a ese año para que lo que se ve cuadre con lo que dice.
+      if (anio !== undefined && anio !== vivo.current.donde.est.anio) vivo.current.donde.cambiar({ anio });
+      const ok = await esperarA(() => {
+        const x = vivo.current.donde;
+        return (
+          x.est.servicio === servicio &&
+          x.estado !== null &&
+          x.estado.servicio === servicio &&
+          x.estado.radio_m === x.est.radio_m &&
+          x.anioActivo === x.est.anio
+        );
+      });
+      if (!ok) throw new Error(`no se han podido cargar los datos de ${SERVICIOS[servicio].nombre.toLowerCase()}`);
+    },
+    [elegirVista, esperarA],
+  );
+
+  const destinoAgente = useMemo<Destino>(
+    () => ({
+      elegirServicio: (a) => asegurarServicio(a.servicio, a.radio_m, a.anio),
+      moverMapa: (a) => {
+        const m = mapaRef.current;
+        if (!m) throw new Error("el mapa todavía no está listo");
+        if (a.bbox) m.encuadrar(a.bbox);
+        else if (a.lat !== undefined && a.lon !== undefined) m.volarA(a.lat, a.lon, a.zoom ?? 11);
+        if (a.lugar && (a.lugar.startsWith("mun:") || a.lugar.startsWith("dis:"))) setSeleccion(a.lugar);
+        irAlMapa();
+      },
+      marcarPuntos: async (a) => {
+        await asegurarServicio(a.servicio);
+        const x = vivo.current;
+        if (a.origen === "simulacion") {
+          const p = a.puntos[0];
+          if (!p) return;
+          if (p.plazas !== undefined) x.donde.cambiar({ plazas: p.plazas });
+          if (!x.tuDecides.colocar(p.lat, p.lon)) throw new Error("el punto cae fuera de la Comunidad");
+        } else {
+          x.tuDecides.fijarModelo(a.servicio, a.puntos);
+        }
+        irAlMapa();
+      },
+      mostrarRanking: async (a) => {
+        await asegurarServicio(a.servicio);
+        vivo.current.donde.cambiar({ ...(a.nivel === "municipio" || a.nivel === "distrito" ? { nivel: a.nivel } : {}), zona: a.zona ?? null });
+      },
+      abrirFicha: (a) => abrirLugar(a.lugar),
+    }),
+    [asegurarServicio, abrirLugar, irAlMapa],
+  );
+  const agente = useAgente({ donde, vista, destino: destinoAgente, lugar: lugarValido, alias });
+
+  // Si se abre con un enlace que ya trae un punto (`?sim=`), el mapa se acerca a él una vez.
+  const simInicial = useRef(est.sim);
+  useEffect(() => {
+    const p = simInicial.current;
+    if (!mapaMontado || !p || vista !== "donde") return;
+    simInicial.current = null;
+    mapaRef.current?.volarA(p.lat, p.lon, 10.8);
+  }, [mapaMontado, vista]);
+
+  const invitacionDelMapa = estado ? invitacionMapa(estado) : null;
+  const estadoFicha = ficha.estados[servicioMapa] ?? null;
+  const avisoMapa =
+    vista === "municipio"
+      ? donde.base.fase === "cargando"
+        ? "Cargando los datos de la Comunidad…"
+        : donde.base.fase === "error"
+          ? "No se han podido cargar los datos"
+          : !lugarValido
+            ? "Elige un municipio o un distrito y lo verás aquí"
+            : !estadoFicha && !ficha.error
+              ? `Cargando: ${SERVICIOS[servicioMapa].nombre.toLowerCase()}…`
+              : null
+      : donde.base.fase === "cargando"
+      ? "Cargando los datos de la Comunidad…"
+      : donde.base.fase === "error" || donde.centros.fase === "error"
+        ? "No se han podido cargar los datos"
+        : donde.centros.fase === "cargando"
+          ? `Cargando: ${SERVICIOS[est.servicio].nombre.toLowerCase()}…`
+          : null;
 
   // Hueco que tapan los paneles, para que la cámara centre en la parte libre del mapa.
-  const margen = useMemo<PaddingOptions>(
-    () => (esMovil ? { top: 96, right: 18, left: 18, bottom: 70 } : { top: 24, bottom: 84, left: 24, right: ficha ? 440 : 24 }),
-    [esMovil, ficha],
-  );
+  const margen = useMemo<PaddingOptions>(() => {
+    if (esMovil) return { top: 24, right: 18, left: 18, bottom: agenteAbierto ? 290 : 70 };
+    if (hojaInferior) return { top: 70, bottom: agenteAbierto ? 300 : 24, left: 24, right: 24 };
+    return { top: 24, bottom: 24, left: 24, right: agenteAbierto ? 24 + 396 : 24 };
+  }, [esMovil, hojaInferior, agenteAbierto]);
 
-  // Al cambiar de municipio el mapa vuela allí. También al montarse el mapa (carga en diferido).
-  const municipioRef = useRef(municipio);
-  municipioRef.current = municipio;
-  const alMontarMapa = useCallback((m: MapaRef | null) => {
-    mapaRef.current = m;
-    if (m) m.volarA(municipioRef.current.lat, municipioRef.current.lon);
-  }, []);
-  const idMunicipio = municipio.id;
+  // Móvil: el mapa está debajo del panel. Un botón fijo lleva hasta él mientras no se ve, y el agente (hoja fija abajo) deja el mapa arriba.
   useEffect(() => {
-    if (vista !== "colegios") mapaRef.current?.volarA(municipioRef.current.lat, municipioRef.current.lon);
-  }, [idMunicipio, margen, vista]);
+    const el = document.getElementById("mapa");
+    if (!esMovil || !el || typeof IntersectionObserver === "undefined") {
+      setMapaALaVista(false);
+      return;
+    }
+    const o = new IntersectionObserver(([e]) => setMapaALaVista(Boolean(e?.isIntersecting)), { threshold: 0.3 });
+    o.observe(el);
+    return () => o.disconnect();
+  }, [esMovil]);
 
-  // Si el detalle está abierto, sigue al municipio.
+  const abrirAgente = useCallback(() => {
+    setAgenteAbierto(true);
+    irAlMapa();
+  }, [irAlMapa]);
+
+  // Un enlace con `?agente=1` en el móvil: cuando la página ya tiene su altura, el mapa se pone arriba, sobre la hoja del agente.
+  const agenteInicialListo = useRef(false);
   useEffect(() => {
-    setDetalleId((d) => (d ? idMarcador(municipioRef.current) : d));
-  }, [idMunicipio]);
-
-  const elegirMarcador = useCallback((id: string) => {
-    const m = municipioDeMarcador(id);
-    if (m) setPerfil((p) => ({ ...p, municipio: m.id }));
-  }, []);
-  const cambiarCapa = useCallback((capa: NombreCapa, visible: boolean) => {
-    setCapas((c) => ({ ...c, [capa]: visible }));
-  }, []);
-  const cerrarPanel = useCallback(() => {
-    setDetalleId(null);
-    requestAnimationFrame(() => document.querySelector<HTMLElement>(".respuesta__detalle")?.focus());
-  }, []);
-
-  const estadoRespuesta = fasePron;
+    if (agenteInicialListo.current || donde.base.fase !== "listo" || !agenteAbierto) return;
+    agenteInicialListo.current = true;
+    requestAnimationFrame(irAlMapa);
+  }, [donde.base.fase, agenteAbierto, irAlMapa]);
 
   return (
-    <div className={`app${ficha ? " app--con-panel" : ""}`}>
+    <div className="app">
       <a className="saltar" href="#mapa">
         Saltar al mapa
       </a>
 
       <main className="columna">
-        {fecha && <BandaHistorica fecha={fecha} dia={diaIndice} onVolver={() => elegirFecha(null)} />}
         <header className="marca">
-          <h1 className="marca__nombre">¿Salimos?</h1>
           <p className="marca__edicion">Comunidad de Madrid</p>
-          <p className="marca__lema">No te enseñamos datos: te decimos cuándo salir.</p>
-          <p className="marca__intro">
-            Con el aire, el polen y el viento de la Comunidad de Madrid, que se actualizan cada hora, te decimos a qué hora
-            puedes salir si tienes asma o alergia al polen, y si el recreo y la educación física de un colegio pueden ser al
-            aire libre.
-          </p>
-          <details className="como">
-            <summary className="como__titulo">¿Cómo funciona?</summary>
-            <ol className="como__pasos">
-              <li>
-                <strong>Dinos qué te afecta y dónde:</strong> asma o EPOC, alergia al polen o las dos, y tu municipio. Si
-                miras por un colegio, basta con buscar el centro.
-              </li>
-              <li>
-                <strong>Cruzamos tres fuentes:</strong> el aire que mide cada hora la red de la Comunidad de Madrid, el
-                polen de sus captadores y la previsión de aire, polen y viento para las próximas 48 h.
-              </li>
-              <li>
-                <strong>Te respondemos:</strong> en «Para ti», si hoy es buen día, la mejor hora para salir, qué evitar y,
-                si aquí no, dónde probar. En «Colegios», si el recreo y la educación física pueden ser al aire libre. En
-                «Casos», qué habría dicho en tres días señalados.
-              </li>
-            </ol>
-            <p className="como__nota">
-              Los niveles siguen umbrales oficiales (BOE y red PALINOCAM) y clínicos (Sociedad Española de Alergología).
-              Datos del{" "}
-              <a href="https://datos.comunidad.madrid/catalogo/" target="_blank" rel="noreferrer">
-                portal de datos abiertos de la Comunidad de Madrid
-              </a>{" "}
-              y Open-Meteo. Es orientativo: no sustituye el consejo médico.
-            </p>
-          </details>
+          <h1 className="marca__nombre">¿Dónde hace falta?</h1>
+          <p className="marca__lema">Qué cerca están los servicios públicos y dónde un centro nuevo ayudaría más.</p>
+          <div className="marca__enlaces">
+            <details className="como">
+              <summary className="como__titulo">¿Cómo funciona?</summary>
+              <p className="como__intro">
+                Cruzamos los registros oficiales de la Comunidad de Madrid con la población por edad para ver qué cobertura tienen los centros de salud, hospitales,
+                farmacias, colegios, desfibriladores y plazas para mayores, y dónde un centro nuevo ayudaría más.
+              </p>
+              <ol className="como__pasos">
+                <li>
+                  <strong>Elige un servicio:</strong> el mapa colorea cada zona según lo cerca que queda para la gente que lo necesita, o cuántas plazas tiene.
+                </li>
+                <li>
+                  <strong>Decide tú:</strong> coloca un centro nuevo en el mapa y mira cuántos vecinos ganan acceso (en residencias, cuántas plazas más cubre), frente a la
+                  ubicación que propone el modelo. También puedes preguntárselo a un agente.
+                </li>
+                <li>
+                  <strong>Mira tu municipio:</strong> en «Mi municipio» ves qué servicios tiene tu pueblo o distrito, cómo está frente a la media, dónde un centro nuevo ayudaría más y cómo está hoy el aire.
+                </li>
+              </ol>
+              <p className="como__nota">
+                Distancias en línea recta, no por carretera. Datos del{" "}
+                <a href="https://datos.comunidad.madrid/catalogo/" target="_blank" rel="noreferrer">
+                  portal de datos abiertos de la Comunidad de Madrid
+                </a>{" "}
+                y del INE. Todas las fuentes y los límites, en «Metodología y fuentes».
+              </p>
+            </details>
+            <Metodologia />
+          </div>
         </header>
 
         <Pestanas vista={vista} onElegir={elegirVista} />
 
         <div role="tabpanel" id={ID_PANEL_VISTA} aria-labelledby={idPestana(vista)}>
-
-          {vista === "para-ti" && (
-            <Respuesta
-              fechaHistorica={fecha}
-              perfil={perfil}
-              municipios={lugares.municipios}
-              municipio={municipio}
-              onPerfil={setPerfil}
-              ahora={ahoraVista}
-              estado={estadoRespuesta}
-              resultado={resultado}
-              sinPrevision={sinPrevision}
-              avisoPronostico={avisoPronostico}
-              generadoPronostico={historico ? null : (pronostico?.generado ?? null)}
-              origenPronostico={!historico && cargaPron.fase === "lista" ? cargaPron.origen : "red"}
-              aireMedido={aireMedido}
-              avisoEstado={!historico && carga.fase === "lista" ? { origen: carga.origen, generado: carga.estado.generado } : null}
-              onReintentar={() => {
-                if (fecha) cargarElDia(fecha);
-                else {
-                  void cargar();
-                  void cargarPron();
-                }
-              }}
-              onDetalle={() => setDetalleId(marcadorSeleccionado)}
-              alternativas={vecinos && <SiAquiNo vecinos={vecinos} dia={historico ? "historico" : resultado?.dia === "manana" ? "manana" : "hoy"} onElegir={elegirVecino} />}
-            />
+          {vista === "donde" && (
+            <section className="vista vista--donde" aria-label="¿Dónde hace falta?">
+              <EmpiezaAqui onElegir={elegirEscena} />
+              <PanelServicio donde={donde} seleccion={seleccion} onElegirLugar={elegirLugar} tuDecides={tuDecides} mapa={accionesMapa} />
+            </section>
           )}
 
-          {vista === "colegios" && (
-            <Colegios
-              centros={centros}
-              errorCentros={errorCentros}
-              indice={indiceCentros}
-              centro={centro}
-              estadoDatos={estadoColegios}
-              ev={evCentro}
-              evaluacion={evaluacionCentro}
-              resumen={resumenColegios}
-              lugares={lugares}
-              ahora={ahoraVista}
-              historico={historico}
-              tarde={tarde}
-              onTarde={setTarde}
-              onElegir={elegirCentro}
-              onReintentar={() => {
-                if (errorCentros) cargarCentros();
-                if (fecha) cargarElDia(fecha);
-                else {
-                  void cargar();
-                  void cargarPron();
-                }
-              }}
-            />
+          {vista === "municipio" && (
+            <section className="vista vista--municipio" aria-label="Mi municipio">
+              <PanelMunicipio
+                base={donde.baseHoy}
+                onReintentarBase={donde.reintentarBase}
+                alias={alias}
+                lugarId={lugarId}
+                datos={ficha}
+                onElegirLugar={abrirLugar}
+                onVerSimulador={verEnSimulador}
+                servicioMapa={servicioMapa}
+                onServicioMapa={setServicioMapa}
+                onIrAlMapa={irAlMapa}
+              />
+            </section>
           )}
-
-          {vista === "casos" && <Casos onVer={verCaso} />}
         </div>
       </main>
 
       <div className="zona-mapa">
-        <section id="mapa" className="lienzo" tabIndex={-1} aria-label={vista === "colegios" ? "Mapa de colegios: cada punto es un centro y su color, el nivel durante el recreo" : `Mapa de riesgo respiratorio, centrado en ${municipio.nombre}`}>
-          {estado ? (
-            <Suspense fallback={<EsqueletoMapa />}>
-              <Mapa
-                ref={alMontarMapa}
-                estado={estado}
-                lugares={lugares}
-                capas={capas}
-                vientoVigente={vigente}
-                seleccionado={marcadorSeleccionado}
-                onSeleccionar={elegirMarcador}
-                margen={margen}
-                forzarBase={baseForzada}
-                perfil={perfil}
-                modo={vista === "colegios" ? "colegios" : "para-ti"}
-                colegios={puntosColegios}
-                colegioSeleccionado={vista === "colegios" ? centroId : null}
-                onColegio={elegirCentro}
-              />
-            </Suspense>
-          ) : historico && diaError ? (
-            <div className="fallo-datos" role="alert">
-              <div className="tarjeta fallo-datos__caja">
-                <h2>No se ha podido cargar ese día</h2>
-                <p className="fallo-datos__detalle">{diaError}</p>
-                <button type="button" className="boton" onClick={() => elegirFecha(null)}>
-                  Volver a hoy
-                </button>
-              </div>
-            </div>
-          ) : !historico && carga.fase === "error" ? (
-            <div className="fallo-datos" role="alert">
-              <div className="tarjeta fallo-datos__caja">
-                <h2>No se han podido cargar las mediciones</h2>
-                <p>El mapa necesita la última actualización o la copia de respaldo, y ninguna ha respondido.</p>
-                <p className="fallo-datos__detalle">{carga.mensaje}</p>
-                <button type="button" className="boton" onClick={() => void cargar()}>
-                  Reintentar
-                </button>
-              </div>
-            </div>
-          ) : (
-            <EsqueletoMapa texto="Cargando el mapa…" />
-          )}
+        <section id="mapa" className="lienzo" tabIndex={-1} aria-label="Mapa de la Comunidad de Madrid">
+          <Suspense fallback={<EsqueletoMapa />}>
+            <Mapa
+              ref={mapaRef}
+              margen={margen}
+              forzarBase={baseForzada}
+              secciones={secciones}
+              territorios={territorios}
+              estado={vista === "municipio" ? (lugarValido ? estadoFicha : null) : donde.estado}
+              pintura={vista === "municipio" ? null : donde.pintura}
+              mostrarDatos={vista === "donde"}
+              modoFicha={vista === "municipio" && lugarValido !== null}
+              leyendaFicha={
+                lugarValido && territorios
+                  ? `Puntos: ${SERVICIOS[servicioMapa].nombre.toLowerCase()} de la Comunidad (${enteroEs(estadoFicha?.nCentros ?? 0)}). Contorno: ${
+                      territorios.municipios.find((m) => m.id === lugarValido)?.nombre ?? territorios.distritos.find((d) => d.id === lugarValido)?.nombre ?? ""
+                    }.`
+                  : null
+              }
+              seleccion={seleccion}
+              nivel={est.nivel}
+              aviso={avisoMapa}
+              invitacion={invitacionDelMapa}
+              tuDecides={vista === "donde" ? tuDecides : null}
+              onMontado={() => setMapaMontado(true)}
+              onFallo={() => setSinMapa(true)}
+            />
+          </Suspense>
         </section>
 
-        <div className="superior">
-          {vista === "colegios" ? (
-            <ResumenMapa resumen={resumenColegios} />
-          ) : sellos ? (
-            <SelloCapas sellos={sellos} visibles={capas} onCambiar={cambiarCapa} vientoVigente={vigente} ahora={ahoraVista} historico={historico} />
-          ) : (
-            fase === "cargando" && <SelloCapasEsqueleto />
-          )}
+        {esMovil && !mapaALaVista && !agenteAbierto && (
+          <button type="button" className="ir-mapa" onClick={irAlMapa}>
+            Ver el mapa
+          </button>
+        )}
+
+        <div className="hueco-agente" data-hueco="agente">
+          <PanelAgente agente={agente} abierto={agenteAbierto} onAbrir={abrirAgente} onCerrar={() => setAgenteAbierto(false)} />
         </div>
-
-        {ficha && <PanelLugar ficha={ficha} ahora={ahoraVista} historico={historico} onCerrar={cerrarPanel} onIrA={setDetalleId} />}
-
-        <div className="pie">
-          <Leyenda perfil={perfil} modo={vista === "colegios" ? "colegios" : "para-ti"} />
-        </div>
-
-        {/* Hueco reservado para el chat plegable (tarea 10). */}
-        <div className="hueco-chat" data-hueco="chat" />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
-/* Escritorio: la respuesta ocupa la columna izquierda (papel, con desplazamiento) y el mapa, que es de apoyo,
-   queda a la derecha. Móvil: la respuesta arriba y el mapa debajo, en una sola página que se desplaza. */
+/* Escritorio: el panel ocupa la columna izquierda (papel, con desplazamiento) y el mapa queda a la derecha.
+   Móvil: el panel arriba y el mapa debajo, en una sola página que se desplaza. */
 
 :root {
   --ancho-respuesta: 520px;
@@ -64,30 +64,58 @@
 /* --- cabecera: el nombre del periódico --- */
 
 .marca {
-  margin-bottom: 20px;
-  padding-bottom: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
   border-bottom: 2px solid var(--tinta);
 }
 
+/* La «edición» sobre el título, como en la cabecera de un periódico */
+.marca__edicion {
+  color: var(--tinta-2);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.09em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
 .marca__nombre {
+  margin-top: 4px;
   font-family: var(--fuente-titulo);
-  font-size: 30px;
+  font-size: 40px;
   font-weight: 600;
-  line-height: 1.05;
+  line-height: 1.02;
   letter-spacing: -0.015em;
 }
 
-.marca__intro {
-  margin-top: 10px;
+.marca__lema {
+  margin-top: 6px;
   color: var(--tinta-2);
+  font-family: var(--fuente-titulo);
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+/* Los dos desplegables en una sola fila; al abrir uno, ocupa todo el ancho debajo del otro */
+.marca__enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0 20px;
+  margin-top: 8px;
+}
+
+.marca__enlaces > details {
+  margin: 0;
   font-size: 14px;
   line-height: 1.45;
 }
 
-.como {
-  margin-top: 8px;
-  font-size: 14px;
-  line-height: 1.45;
+.marca__enlaces > details[open] {
+  flex: 1 1 100%;
+  order: 2;
 }
 
 .como__titulo {
@@ -104,6 +132,11 @@
   outline: 2px solid var(--acento);
   outline-offset: 2px;
   border-radius: 2px;
+}
+
+.como__intro {
+  margin-top: 6px;
+  color: var(--tinta-2);
 }
 
 .como__pasos {
@@ -126,89 +159,31 @@
   color: var(--acento);
 }
 
-.marca__nombre {
-  font-size: 40px;
-}
+/* --- huecos de las pantallas que se construyen después (F3, F5, F6) --- */
 
-/* La «edición» bajo el título, como en la cabecera de un periódico */
-.marca__edicion {
-  margin-top: 2px;
-  color: var(--tinta-2);
-  font-size: 12px;
-  font-weight: 650;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.marca__lema {
-  margin-top: 8px;
-  color: var(--tinta-2);
-  font-family: var(--fuente-titulo);
-  font-size: 16px;
-  font-style: italic;
-  line-height: 1.25;
-}
-
-/* --- capas del mapa: arriba a la izquierda del mapa --- */
-
-.superior {
-  position: absolute;
-  z-index: 10;
-  top: var(--margen);
-  left: var(--margen);
-  width: 250px;
+.hueco {
   display: grid;
-  gap: 8px;
+  gap: 6px;
+  padding: 16px;
+  border: 1px dashed var(--borde);
+  border-radius: var(--radio-s);
+  background: var(--superficie-2);
+  color: var(--tinta-2);
+  font-size: 14px;
+  line-height: 1.45;
 }
 
-.hueco-fecha:empty,
-.hueco-chat:empty {
-  display: none;
+.hueco__titulo {
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.15;
 }
 
-/* --- pie: leyenda centrada en la parte libre del mapa --- */
-
-.pie {
-  position: absolute;
-  z-index: 10;
-  bottom: var(--margen);
-  left: 50%;
-  max-width: calc(100% - 2 * var(--margen));
-  transform: translateX(-50%);
-  transition: left 0.35s cubic-bezier(0.2, 0.85, 0.25, 1);
-}
-
-.app--con-panel .pie {
-  left: var(--margen);
-  transform: none;
-  max-width: calc(100% - var(--ancho-panel) - 3 * var(--margen));
-}
-
-.app--con-panel .leyenda {
-  flex-wrap: wrap;
-  white-space: normal;
-}
-
-.app--con-panel .mapa .maplibregl-ctrl-bottom-right {
-  right: calc(var(--ancho-panel) + var(--margen) + 6px);
-}
-
-/* Con la columna de respuesta el mapa es más estrecho: la leyenda se queda en los niveles */
-.leyenda__simbolos {
-  display: none;
-}
-
-.app--con-panel .mapa .maplibregl-ctrl-bottom-right {
-  bottom: calc(var(--alto-pie) + var(--margen) - 14px);
-}
-
-/* Hueco del chat plegable (tarea 10): esquina inferior izquierda del mapa */
-.hueco-chat {
-  position: absolute;
-  z-index: 15;
-  left: var(--margen);
-  bottom: var(--margen);
-  width: 300px;
+/* El panel del agente (PanelAgente.css) se coloca solo; este contenedor no ocupa sitio. */
+.hueco-agente {
+  display: contents;
 }
 
 /* --- carga y error --- */
@@ -290,12 +265,11 @@
     padding: 18px 20px 28px;
   }
 
-  .superior {
-    width: 220px;
-  }
 }
 
-/* --- móvil: página que se desplaza, respuesta arriba y mapa debajo --- */
+/* --- móvil: página que se desplaza ---
+   La columna se «deshace» (display: contents) y sus bloques se ordenan con `order`: servicio, radio y cifra grande,
+   después el mapa y debajo la referencia, el ranking y los límites. Así se elige y se ve el resultado sin ir y volver. */
 @media (max-width: 760px) {
   body {
     overflow: auto;
@@ -303,20 +277,30 @@
 
   .app {
     position: static;
-    display: block;
+    display: flex;
+    flex-direction: column;
     overflow: visible;
+    background: var(--superficie);
   }
 
-  .columna {
-    overflow: visible;
-    padding: 16px 16px 24px;
-    border-right: 0;
-    border-bottom: 1px solid var(--tinta);
-    box-shadow: none;
+  .columna,
+  .columna > [role="tabpanel"],
+  .vista--donde,
+  .vista--donde .panel-servicio {
+    display: contents;
+  }
+
+  .marca,
+  .pestanas,
+  .panel-servicio .bloque,
+  .vista--municipio {
+    margin-inline: 16px;
   }
 
   .marca {
-    margin-bottom: 14px;
+    order: 0;
+    margin-top: 14px;
+    margin-bottom: 12px;
     padding-bottom: 8px;
   }
 
@@ -328,37 +312,82 @@
     font-size: 15px;
   }
 
+  .pestanas {
+    order: 1;
+  }
+
+  .vista--municipio,
+  .panel-servicio > .bloque {
+    order: 2;
+  }
+
+  .bloque--servicios {
+    order: 2 !important;
+  }
+  .bloque--radio {
+    order: 3 !important;
+  }
+  .bloque--cifra {
+    order: 4 !important;
+  }
+  .bloque--tudecides {
+    order: 5 !important;
+  }
+
   .zona-mapa {
-    height: min(78dvh, 640px);
-    min-height: 480px;
+    order: 10;
+    height: min(70dvh, 560px);
+    min-height: 440px;
+    border-top: 1px solid var(--tinta);
+    border-bottom: 1px solid var(--tinta);
   }
 
-  .superior {
-    right: var(--margen);
-    width: auto;
+  .bloque--referencia {
+    order: 11 !important;
+  }
+  .bloque--ranking {
+    order: 12 !important;
+  }
+  .bloque--limites {
+    order: 13 !important;
   }
 
-  /* El detalle es una hoja inferior fija sobre la página */
-  .app .panel {
+  .panel-servicio > .bloque:last-child,
+  .vista--municipio {
+    margin-bottom: 28px;
+  }
+
+  /* Deja sitio al final para que el botón fijo del agente no tape el último bloque. */
+  .app {
+    padding-bottom: 72px;
+  }
+
+  /* Botón fijo que lleva al mapa mientras no se ve (abajo a la izquierda; el del agente, a la derecha). */
+  .ir-mapa {
     position: fixed;
+    z-index: 40;
+    bottom: 12px;
+    left: 12px;
+    min-height: 44px;
+    padding: 6px 16px;
+    border: 1px solid var(--tinta);
+    border-radius: var(--radio);
+    background: var(--superficie);
+    color: var(--tinta);
+    font-size: 14px;
+    font-weight: 650;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 rgba(31, 35, 40, 0.35);
   }
 
-  .pie,
-  .app--con-panel .pie {
-    left: var(--margen);
-    right: var(--margen);
-    max-width: none;
-    transform: none;
-    display: flex;
-    justify-content: center;
+  /* Los controles del mapa (zoom y atribución) suben para que el botón fijo del agente no los tape. */
+  .zona-mapa .maplibregl-ctrl-bottom-right {
+    bottom: 56px;
   }
+}
 
-  .hueco-chat {
-    bottom: calc(var(--alto-pie) + var(--margen));
-    width: auto;
-  }
-
-  .app--con-panel .mapa .maplibregl-ctrl-bottom-right {
-    right: calc(var(--margen) - 10px);
+@media (min-width: 761px) {
+  .ir-mapa {
+    display: none;
   }
 }

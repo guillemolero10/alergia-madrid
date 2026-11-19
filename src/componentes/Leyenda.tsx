@@ -3,7 +3,6 @@ import "./Leyenda.css";
 import umbralesJson from "../../datos-estaticos/umbrales.json";
 import { lugares } from "../lib/datos";
 import { formatearNumero } from "../lib/formato";
-import { HORARIO_ORIENTATIVO, rangoTexto } from "../lib/colegios";
 import { nombrePolen, type Perfil } from "../lib/franja";
 import { nombreVariable } from "../lib/riesgo";
 import { IconoCerrar, IconoInfo, IconoPolen, IconoViento } from "./Iconos";
@@ -37,7 +36,7 @@ const CRITERIO: Record<string, string> = {
 
 const URL_PALINOCAM =
   "https://airedemadrid.madrid.es/UnidadesDescentralizadas/Sostenibilidad/CalidadAire/Portal/02_Actuaciones/02%20Ficheros/Informe_Analisis_Polen_Noviembre_2025.pdf";
-const URL_DATOS_MD = "https://github.com/guillemolero10/alergia-madrid/blob/main/DATOS.md";
+const URL_DATOS_MD = "https://github.com/guillemolero10/donde-hace-falta/blob/main/DATOS.md";
 
 const PROMEDIO: Record<string, string> = {
   hora: "Valor de la última hora",
@@ -77,7 +76,6 @@ const NIVELES = [
 
 interface PropsLeyenda {
   perfil: Pick<Perfil, "afecta" | "polenes">;
-  modo: "para-ti" | "colegios";
 }
 
 /** «Según tu perfil: asma o EPOC», «…alergia al polen (gramíneas, olivo)». */
@@ -89,16 +87,14 @@ export function textoPerfilLeyenda(perfil: Pick<Perfil, "afecta" | "polenes">): 
 }
 
 /** Tira con los niveles (siempre visible) y diálogo con el significado, los umbrales y las fuentes. */
-export function Leyenda({ perfil, modo }: PropsLeyenda) {
+export function Leyenda({ perfil }: PropsLeyenda) {
   const dialogoRef = useRef<HTMLDialogElement>(null);
 
   return (
     <>
       <section className="leyenda tarjeta" aria-label="Leyenda del mapa">
         <p className="leyenda__perfil">
-          {modo === "colegios"
-            ? `Un punto por centro, según el nivel en el recreo (${rangoTexto(HORARIO_ORIENTATIVO.recreo.infantilPrimaria)})`
-            : textoPerfilLeyenda(perfil)}
+          {textoPerfilLeyenda(perfil)}
         </p>
         <ul className="leyenda__niveles">
           {NIVELES.map((n) => (
@@ -109,11 +105,9 @@ export function Leyenda({ perfil, modo }: PropsLeyenda) {
           ))}
         </ul>
         <ul className="leyenda__simbolos">
-          {modo === "para-ti" && (
-            <li>
-              <IconoPolen tam={15} /> Captador de polen
-            </li>
-          )}
+          <li>
+            <IconoPolen tam={15} /> Captador de polen
+          </li>
           <li>
             <IconoViento tam={15} className="leyenda__viento" /> Viento
           </li>
@@ -151,8 +145,7 @@ export function Leyenda({ perfil, modo }: PropsLeyenda) {
           <div className="metodo__cuerpo">
             <p className="metodo__entrada">
               Cada estación se pinta con el peor nivel de lo que te afecta según tu perfil: el aire si tienes asma o EPOC,
-              los pólenes que has marcado si eres alérgico, o ambos. En la vista de colegios, cada punto es un centro y se
-              pinta con el nivel durante el recreo (con aire y todos los pólenes principales). Los niveles salen de reglas
+              los pólenes que has marcado si eres alérgico, o ambos. Los niveles salen de reglas
               fijas, no de una estimación de la IA.
             </p>
 

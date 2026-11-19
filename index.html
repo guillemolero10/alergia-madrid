@@ -3,26 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>¿Salimos? · Comunidad de Madrid</title>
+    <title>¿Dónde hace falta? Servicios públicos en la Comunidad de Madrid</title>
     <meta
       name="description"
-      content="¿Salimos? Te decimos a qué hora puedes salir si tienes asma o alergia al polen y si el recreo y la educación física de un colegio pueden ser al aire libre, con aire, polen y viento de la Comunidad de Madrid."
+      content="¿Dónde hace falta? Mapa de cobertura de los servicios públicos de la Comunidad de Madrid (salud, residencias, farmacias, colegios y desfibriladores), simulador para decidir dónde un centro nuevo ayudaría más y ficha de cada municipio, con datos abiertos."
     />
+    <link rel="canonical" href="__URL_PUBLICA__/" />
     <meta name="theme-color" content="#f3efe6" />
     <meta name="color-scheme" content="light" />
+
+    <!-- Vista previa del enlace (WhatsApp, redes, correo). la dirección se sustituye al construir (variable VITE_URL_PUBLICA, ver vite.config.ts). -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="¿Dónde hace falta?" />
+    <meta property="og:title" content="¿Dónde hace falta? Servicios públicos en la Comunidad de Madrid" />
+    <meta
+      property="og:description"
+      content="Qué cerca están las residencias, los centros de salud, las farmacias, los colegios y los desfibriladores, y dónde un centro nuevo ayudaría más. Coloca un centro en el mapa y compáralo con la mejor ubicación. Datos abiertos de la Comunidad de Madrid."
+    />
+    <meta property="og:url" content="__URL_PUBLICA__/" />
+    <meta property="og:image" content="__URL_PUBLICA__/og.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Mapa de la Comunidad de Madrid coloreado de naranja (menos plazas de residencia por mayor) a azul (más), con el título «¿Dónde hace falta?»" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="¿Dónde hace falta? Servicios públicos en la Comunidad de Madrid" />
+    <meta
+      name="twitter:description"
+      content="Qué cerca están los servicios públicos y dónde un centro nuevo ayudaría más."
+    />
+    <meta name="twitter:image" content="__URL_PUBLICA__/og.jpg" />
+    <meta name="twitter:image:alt" content="Mapa de la Comunidad de Madrid coloreado de naranja a azul, con el título «¿Dónde hace falta?»" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   </head>
   <body>
     <div id="raiz"></div>
     <noscript>
       <main style="font-family: system-ui, sans-serif; max-width: 40rem; margin: 3rem auto; padding: 0 1rem; color: #1f2328">
-        <h1>¿Salimos? Comunidad de Madrid</h1>
+        <h1>¿Dónde hace falta? Comunidad de Madrid</h1>
         <p>
-          No te enseñamos datos: te decimos cuándo salir. Respuesta personal para personas con asma o alergia al polen y
-          semáforo del recreo para 1.910 colegios de la Comunidad de Madrid, con calidad del aire, polen y viento.
-          Necesita JavaScript.
+          Qué cobertura tienen los servicios públicos (centros de salud, hospitales, residencias de mayores, farmacias, colegios y
+          desfibriladores) y dónde un centro nuevo ayudaría más, a partir de los registros oficiales de la Comunidad de
+          Madrid y la población por edad del INE. Necesita JavaScript.
         </p>
-        <p>Fuentes: Comunidad de Madrid (datos abiertos) y Open-Meteo, con licencia CC BY 4.0.</p>
+        <p>Fuentes: Comunidad de Madrid (datos abiertos, CC BY 4.0) e INE.</p>
       </main>
     </noscript>
     <script type="module" src="/src/main.tsx"></script>

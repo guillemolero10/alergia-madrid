@@ -12,3 +12,9 @@ __pycache__/
 docs/capturas/prueba-paleta-datos-simulados.png
 *.tsbuildinfo
 .gstack/
+
+# Capturas de trabajo (52 MB): solo se suben las elegidas para el README
+docs/capturas/*
+!docs/capturas/donde-hace-falta-*.png
+# Scripts de prueba con rutas locales
+pruebas/

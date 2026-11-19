@@ -15,7 +15,7 @@ import type {
 } from "./tipos";
 
 /** JSON que publica el workflow en la rama `datos` (CORS abierto, caché de 5 min). */
-export const URL_ESTADO = "https://raw.githubusercontent.com/guillemolero10/alergia-madrid/datos/estado_actual.json";
+export const URL_ESTADO = "https://raw.githubusercontent.com/guillemolero10/donde-hace-falta/datos/estado_actual.json";
 /** Copia empaquetada con la web por si falla la red o el JSON no valida. */
 export const URL_RESPALDO = `${import.meta.env.BASE_URL}respaldo/estado_actual.json`;
 
@@ -277,7 +277,7 @@ export function vientoVigente(estado: EstadoActual, origen: OrigenDatos, ahora: 
 
 // --- pronóstico de 48 h ---
 
-export const URL_PRONOSTICO = "https://raw.githubusercontent.com/guillemolero10/alergia-madrid/datos/pronostico.json";
+export const URL_PRONOSTICO = "https://raw.githubusercontent.com/guillemolero10/donde-hace-falta/datos/pronostico.json";
 export const URL_RESPALDO_PRONOSTICO = `${import.meta.env.BASE_URL}respaldo/pronostico.json`;
 /** Con más de 3 h el pronóstico se considera antiguo (el cron lo renueva cada hora). */
 export const PLAZO_PRONOSTICO_MS = 3 * HORA_MS;

@@ -1,0 +1,126 @@
+/* «Empieza aquí»: tres escenas de un clic. Mismo lenguaje que el resto del panel: papel, filete fino, serifa en el titular. */
+
+.empieza {
+  margin: 0 0 14px;
+}
+
+.empieza__cabecera {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.empieza__titulo {
+  margin: 0;
+}
+
+.empieza__cerrar,
+.empieza__abrir {
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  color: var(--acento);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.empieza__cerrar {
+  min-height: 32px;
+}
+
+.empieza--plegado {
+  margin-bottom: 8px;
+}
+
+.empieza__lista {
+  display: grid;
+  gap: 8px;
+}
+
+.empieza__ejemplo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 9px 14px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+  color: var(--tinta);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s, border-color 0.12s, box-shadow 0.12s;
+}
+
+.empieza__ejemplo:hover {
+  border-color: var(--tinta);
+  background: var(--superficie-2);
+  box-shadow: 2px 2px 0 rgba(31, 35, 40, 0.28);
+}
+
+.empieza__ejemplo:active {
+  box-shadow: none;
+  transform: translate(1px, 1px);
+}
+
+.empieza__texto {
+  display: grid;
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 1px;
+}
+
+.empieza__ejemplo-titulo {
+  font-family: var(--fuente-titulo);
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.empieza__detalle {
+  color: var(--tinta-2);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.empieza__flecha {
+  flex: none;
+  color: var(--tinta-2);
+}
+
+.empieza__ejemplo:hover .empieza__flecha {
+  color: var(--tinta);
+}
+
+@media (max-width: 760px) {
+  .empieza {
+    order: 1;
+    margin-inline: 16px;
+    margin-bottom: 12px;
+  }
+
+  .empieza__ejemplo {
+    min-height: 52px;
+    padding: 8px 12px;
+  }
+
+  .empieza__ejemplo-titulo {
+    font-size: 16px;
+  }
+
+  .empieza__detalle {
+    font-size: 12.5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .empieza__ejemplo {
+    transition: none;
+  }
+}

@@ -1,0 +1,607 @@
+{
+ "version": 2,
+ "generado": "2026-11-18",
+ "implementacion": "pipeline/donde/referencia.py (independiente del motor TypeScript; fuerza bruta con numpy)",
+ "proyeccion": {
+  "R_m": 6371008.8,
+  "lat_ref": 40.42,
+  "formula": "x = R*rad(lon)*cos(rad(lat_ref)); y = R*rad(lat)"
+ },
+ "datos": {
+  "secciones": 4518,
+  "anio_poblacion": 2025,
+  "poblacion_total": 7113886,
+  "mayores_65": 1342648
+ },
+ "caso1": {
+  "servicio": "centro_salud",
+  "radio_m": 2000.0,
+  "criterio": "distancia recta al centro mas cercano > radio",
+  "centros": 421,
+  "poblacion_total": 7113886,
+  "personas": 643170,
+  "pct": 9.041,
+  "secciones_en_deficit": 309,
+  "secciones_a_menos_de_10m_del_radio": 4,
+  "sensibilidad_personas": {
+   "radio_x0.99": 652604,
+   "radio_x1.01": 631748
+  }
+ },
+ "caso2": {
+  "servicio": "farmacia",
+  "radio_m": 1000.0,
+  "criterio": "distancia recta al centro mas cercano > radio",
+  "centros": 2954,
+  "poblacion_total": 7113886,
+  "personas": 832919,
+  "pct": 11.708,
+  "secciones_en_deficit": 416,
+  "secciones_a_menos_de_10m_del_radio": 7,
+  "sensibilidad_personas": {
+   "radio_x0.99": 842708,
+   "radio_x1.01": 826630
+  }
+ },
+ "caso3": {
+  "servicio": "residencia",
+  "d0_m": 10000.0,
+  "criterio": "2SFCA, A_i < media ponderada por mayores de 65",
+  "centros": 500,
+  "centros_con_plazas_null_tratados_como_0": 1,
+  "plazas_totales": 55195,
+  "mayores_total": 1342648,
+  "umbral_plazas_por_100_mayores": 4.110906,
+  "plazas_por_100_mayores_comunidad_simple": 4.110906,
+  "personas": 1053179,
+  "pct": 78.44,
+  "secciones_en_deficit": 3571,
+  "A_min": 0.0,
+  "A_max": 30.899657,
+  "umbrales": {
+   "media": 4.110906,
+   "mediana": 3.364512,
+   "imserso_espana": 4.05,
+   "imserso_madrid": 4.21
+  },
+  "plazas_faltan": {
+   "media": 10688.8043,
+   "mediana": 3834.0417,
+   "imserso_espana": 10048.1132,
+   "imserso_madrid": 11737.2283
+  },
+  "sensibilidad_personas": {
+   "umbral_x0.99": 1051480,
+   "umbral_x1.01": 1057357
+  }
+ },
+ "caso4": {
+  "servicio": "residencia",
+  "d0_m": 10000.0,
+  "plazas": 94,
+  "n": 1,
+  "zona_candidatos": "04",
+  "referencia": "media",
+  "umbral": 4.110906,
+  "candidatos": 842,
+  "criterio": "maximo de N = plazas que faltan antes - plazas que faltan despues, con el umbral fijo de hoy; candidatos = puntos de las secciones con mayores > 0 (de la zona, o de toda la Comunidad); N se cuenta en toda la Comunidad",
+  "seccion": "2807405017",
+  "municipio": "mun:28074",
+  "municipio_nombre": "Leganés",
+  "zona": "04",
+  "lat": 40.34272,
+  "lon": -3.74237,
+  "reduce_faltan": 93.82032,
+  "secciones_que_mejoran": 1582,
+  "r_nuevo": 0.00020441,
+  "faltan_antes": 10688.8043,
+  "faltan_despues": 10594.9839,
+  "pct_del_maximo_posible": 99.809,
+  "alternativas": [
+   {
+    "seccion": "2807405003",
+    "municipio": "mun:28074",
+    "municipio_nombre": "Leganés",
+    "zona": "04",
+    "lat": 40.34941,
+    "lon": -3.73913,
+    "reduce_faltan": 93.81704,
+    "secciones_que_mejoran": 1724,
+    "r_nuevo": 0.00018862
+   },
+   {
+    "seccion": "2807404005",
+    "municipio": "mun:28074",
+    "municipio_nombre": "Leganés",
+    "zona": "04",
+    "lat": 40.34011,
+    "lon": -3.7501,
+    "reduce_faltan": 93.815295,
+    "secciones_que_mejoran": 1528,
+    "r_nuevo": 0.00021013
+   },
+   {
+    "seccion": "2807405001",
+    "municipio": "mun:28074",
+    "municipio_nombre": "Leganés",
+    "zona": "04",
+    "lat": 40.33941,
+    "lon": -3.74675,
+    "reduce_faltan": 93.815214,
+    "secciones_que_mejoran": 1528,
+    "r_nuevo": 0.00021022
+   }
+  ],
+  "por_referencia": {
+   "media": {
+    "umbral": 4.110906,
+    "faltan_antes": 10688.8043,
+    "seccion": "2807405017",
+    "municipio": "mun:28074",
+    "municipio_nombre": "Leganés",
+    "zona": "04",
+    "lat": 40.34272,
+    "lon": -3.74237,
+    "reduce_faltan": 93.82032,
+    "secciones_que_mejoran": 1582,
+    "r_nuevo": 0.00020441
+   },
+   "mediana": {
+    "umbral": 3.364512,
+    "faltan_antes": 3834.0417,
+    "seccion": "2806504039",
+    "municipio": "mun:28065",
+    "municipio_nombre": "Getafe",
+    "zona": "04",
+    "lat": 40.32016,
+    "lon": -3.65356,
+    "reduce_faltan": 90.520983,
+    "secciones_que_mejoran": 961,
+    "r_nuevo": 0.00033789
+   },
+   "imserso_espana": {
+    "umbral": 4.05,
+    "faltan_antes": 10048.1132,
+    "seccion": "2806504029",
+    "municipio": "mun:28065",
+    "municipio_nombre": "Getafe",
+    "zona": "04",
+    "lat": 40.32553,
+    "lon": -3.66297,
+    "reduce_faltan": 93.781179,
+    "secciones_que_mejoran": 1209,
+    "r_nuevo": 0.00027734
+   },
+   "imserso_madrid": {
+    "umbral": 4.21,
+    "faltan_antes": 11737.2283,
+    "seccion": "2807405017",
+    "municipio": "mun:28074",
+    "municipio_nombre": "Leganés",
+    "zona": "04",
+    "lat": 40.34272,
+    "lon": -3.74237,
+    "reduce_faltan": 93.928046,
+    "secciones_que_mejoran": 1585,
+    "r_nuevo": 0.00020441
+   }
+  },
+  "nota": "el motor TS debe dar la misma seccion (o una alternativa con el mismo N, tolerancia relativa 1e-6) y el mismo N"
+ },
+ "caso4b": {
+  "servicio": "residencia",
+  "d0_m": 10000.0,
+  "plazas": 94,
+  "n": 1,
+  "zona_candidatos": null,
+  "referencia": "media",
+  "umbral": 4.110906,
+  "candidatos": 4518,
+  "criterio": "maximo de N = plazas que faltan antes - plazas que faltan despues, con el umbral fijo de hoy; candidatos = puntos de las secciones con mayores > 0 (de la zona, o de toda la Comunidad); N se cuenta en toda la Comunidad",
+  "seccion": "2807913014",
+  "municipio": "mun:28079",
+  "municipio_nombre": "Madrid",
+  "zona": "01",
+  "lat": 40.37746,
+  "lon": -3.68014,
+  "reduce_faltan": 94.0,
+  "secciones_que_mejoran": 2259,
+  "r_nuevo": 0.00014589,
+  "faltan_antes": 10688.8043,
+  "faltan_despues": 10594.8043,
+  "pct_del_maximo_posible": 100.0,
+  "alternativas": [
+   {
+    "seccion": "2807913028",
+    "municipio": "mun:28079",
+    "municipio_nombre": "Madrid",
+    "zona": "01",
+    "lat": 40.38018,
+    "lon": -3.67669,
+    "reduce_faltan": 94.0,
+    "secciones_que_mejoran": 2281,
+    "r_nuevo": 0.00014449
+   },
+   {
+    "seccion": "2807913026",
+    "municipio": "mun:28079",
+    "municipio_nombre": "Madrid",
+    "zona": "01",
+    "lat": 40.37901,
+    "lon": -3.67637,
+    "reduce_faltan": 94.0,
+    "secciones_que_mejoran": 2270,
+    "r_nuevo": 0.00014532
+   },
+   {
+    "seccion": "2807913029",
+    "municipio": "mun:28079",
+    "municipio_nombre": "Madrid",
+    "zona": "01",
+    "lat": 40.3819,
+    "lon": -3.67446,
+    "reduce_faltan": 94.0,
+    "secciones_que_mejoran": 2291,
+    "r_nuevo": 0.00014379
+   }
+  ],
+  "por_referencia": {
+   "media": {
+    "umbral": 4.110906,
+    "faltan_antes": 10688.8043,
+    "seccion": "2807913014",
+    "municipio": "mun:28079",
+    "municipio_nombre": "Madrid",
+    "zona": "01",
+    "lat": 40.37746,
+    "lon": -3.68014,
+    "reduce_faltan": 94.0,
+    "secciones_que_mejoran": 2259,
+    "r_nuevo": 0.00014589
+   },
+   "mediana": {
+    "umbral": 3.364512,
+    "faltan_antes": 3834.0417,
+    "seccion": "2806504039",
+    "municipio": "mun:28065",
+    "municipio_nombre": "Getafe",
+    "zona": "04",
+    "lat": 40.32016,
+    "lon": -3.65356,
+    "reduce_faltan": 90.520983,
+    "secciones_que_mejoran": 961,
+    "r_nuevo": 0.00033789
+   },
+   "imserso_espana": {
+    "umbral": 4.05,
+    "faltan_antes": 10048.1132,
+    "seccion": "2807913028",
+    "municipio": "mun:28079",
+    "municipio_nombre": "Madrid",
+    "zona": "01",
+    "lat": 40.38018,
+    "lon": -3.67669,
+    "reduce_faltan": 94.0,
+    "secciones_que_mejoran": 2281,
+    "r_nuevo": 0.00014449
+   },
+   "imserso_madrid": {
+    "umbral": 4.21,
+    "faltan_antes": 11737.2283,
+    "seccion": "2807913014",
+    "municipio": "mun:28079",
+    "municipio_nombre": "Madrid",
+    "zona": "01",
+    "lat": 40.37746,
+    "lon": -3.68014,
+    "reduce_faltan": 94.0,
+    "secciones_que_mejoran": 2259,
+    "r_nuevo": 0.00014589
+   }
+  }
+ },
+ "caso5": {
+  "punto": {
+   "lat": 40.242,
+   "lon": -3.7
+  },
+  "seccion_mas_cercana": "2811301001",
+  "municipio_mas_cercano": "Pinto",
+  "centro_salud": {
+   "radio_m": 2000.0,
+   "ganan": 2363,
+   "secciones_que_ganan": 1,
+   "deficit_antes": 643170,
+   "deficit_despues": 640807,
+   "margen_minimo_m": 149.9,
+   "distancia_al_centro_mas_cercano_actual_m": 205.8
+  },
+  "residencia": {
+   "d0_m": 10000.0,
+   "plazas": 94,
+   "referencia": "media",
+   "umbral": 4.110906,
+   "r_nuevo": 0.00095596,
+   "mayores_a_menos_de_d0": 98330,
+   "reduce_faltan": 64.153182,
+   "secciones_que_mejoran": 222,
+   "faltan_antes": 10688.8043,
+   "faltan_despues": 10624.6511,
+   "pct_del_maximo_posible": 68.248,
+   "pct_del_optimo_zona_04": 68.379,
+   "por_referencia": {
+    "media": {
+     "umbral": 4.110906,
+     "faltan_antes": 10688.8043,
+     "reduce_faltan": 64.153182,
+     "secciones_que_mejoran": 222,
+     "pct_del_optimo_zona_04": 68.379
+    },
+    "mediana": {
+     "umbral": 3.364512,
+     "faltan_antes": 3834.0417,
+     "reduce_faltan": 55.201487,
+     "secciones_que_mejoran": 189,
+     "pct_del_optimo_zona_04": 60.982
+    },
+    "imserso_espana": {
+     "umbral": 4.05,
+     "faltan_antes": 10048.1132,
+     "reduce_faltan": 63.385021,
+     "secciones_que_mejoran": 221,
+     "pct_del_optimo_zona_04": 67.588
+    },
+    "imserso_madrid": {
+     "umbral": 4.21,
+     "faltan_antes": 11737.2283,
+     "reduce_faltan": 64.629759,
+     "secciones_que_mejoran": 224,
+     "pct_del_optimo_zona_04": 68.808
+    }
+   }
+  }
+ },
+ "caso6": {
+  "servicio": "residencia",
+  "d0_m": 10000.0,
+  "nivel": "municipio",
+  "limite": 5,
+  "criterio": "objetivo = mayores de 65; en_deficit = mayores en secciones con A_i < umbral; pct = en_deficit / objetivo del municipio. Desempates: pct -> personas -> id (o al reves segun el orden)",
+  "por_pct": [
+   {
+    "lugar": "mun:28074",
+    "nombre": "Leganés",
+    "objetivo": 44465,
+    "en_deficit": 44465,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28007",
+    "nombre": "Alcorcón",
+    "objetivo": 40010,
+    "en_deficit": 40010,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28065",
+    "nombre": "Getafe",
+    "objetivo": 38119,
+    "en_deficit": 38119,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28049",
+    "nombre": "Coslada",
+    "objetivo": 19854,
+    "en_deficit": 19854,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28123",
+    "nombre": "Rivas-Vaciamadrid",
+    "objetivo": 12058,
+    "en_deficit": 12058,
+    "pct": 100.0
+   }
+  ],
+  "por_personas": [
+   {
+    "lugar": "mun:28079",
+    "nombre": "Madrid",
+    "objetivo": 701954,
+    "en_deficit": 699797,
+    "pct": 99.693
+   },
+   {
+    "lugar": "mun:28092",
+    "nombre": "Móstoles",
+    "objetivo": 49845,
+    "en_deficit": 47700,
+    "pct": 95.697
+   },
+   {
+    "lugar": "mun:28074",
+    "nombre": "Leganés",
+    "objetivo": 44465,
+    "en_deficit": 44465,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28007",
+    "nombre": "Alcorcón",
+    "objetivo": 40010,
+    "en_deficit": 40010,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28065",
+    "nombre": "Getafe",
+    "objetivo": 38119,
+    "en_deficit": 38119,
+    "pct": 100.0
+   }
+  ],
+  "zona_04_por_personas": [
+   {
+    "lugar": "mun:28092",
+    "nombre": "Móstoles",
+    "objetivo": 49845,
+    "en_deficit": 47700,
+    "pct": 95.697
+   },
+   {
+    "lugar": "mun:28074",
+    "nombre": "Leganés",
+    "objetivo": 44465,
+    "en_deficit": 44465,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28007",
+    "nombre": "Alcorcón",
+    "objetivo": 40010,
+    "en_deficit": 40010,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28065",
+    "nombre": "Getafe",
+    "objetivo": 38119,
+    "en_deficit": 38119,
+    "pct": 100.0
+   },
+   {
+    "lugar": "mun:28058",
+    "nombre": "Fuenlabrada",
+    "objetivo": 36611,
+    "en_deficit": 35996,
+    "pct": 98.32
+   }
+  ],
+  "por_plazas_faltan": [
+   {
+    "lugar": "mun:28079",
+    "nombre": "Madrid",
+    "objetivo": 701954,
+    "plazas_faltan": 5864.0803
+   },
+   {
+    "lugar": "mun:28074",
+    "nombre": "Leganés",
+    "objetivo": 44465,
+    "plazas_faltan": 900.0451
+   },
+   {
+    "lugar": "mun:28092",
+    "nombre": "Móstoles",
+    "objetivo": 49845,
+    "plazas_faltan": 880.8969
+   },
+   {
+    "lugar": "mun:28065",
+    "nombre": "Getafe",
+    "objetivo": 38119,
+    "plazas_faltan": 702.5949
+   },
+   {
+    "lugar": "mun:28007",
+    "nombre": "Alcorcón",
+    "objetivo": 40010,
+    "plazas_faltan": 585.5022
+   }
+  ],
+  "zona_04_por_plazas_faltan": [
+   {
+    "lugar": "mun:28074",
+    "nombre": "Leganés",
+    "objetivo": 44465,
+    "plazas_faltan": 900.0451
+   },
+   {
+    "lugar": "mun:28092",
+    "nombre": "Móstoles",
+    "objetivo": 49845,
+    "plazas_faltan": 880.8969
+   },
+   {
+    "lugar": "mun:28065",
+    "nombre": "Getafe",
+    "objetivo": 38119,
+    "plazas_faltan": 702.5949
+   },
+   {
+    "lugar": "mun:28007",
+    "nombre": "Alcorcón",
+    "objetivo": 40010,
+    "plazas_faltan": 585.5022
+   },
+   {
+    "lugar": "mun:28058",
+    "nombre": "Fuenlabrada",
+    "objetivo": 36611,
+    "plazas_faltan": 376.2587
+   }
+  ]
+ },
+ "caso7": {
+  "servicio": "residencia",
+  "d0_m": 10000.0,
+  "plazas": 94,
+  "n": 3,
+  "referencia": "media",
+  "umbral": 4.110906,
+  "criterio": "voraz sobre N: tras cada centro se suma 100*r_nuevo a A en su radio; una seccion elegida no se repite; para si N <= 0",
+  "zona_04": [
+   {
+    "seccion": "2807405017",
+    "municipio_nombre": "Leganés",
+    "lat": 40.34272,
+    "lon": -3.74237,
+    "reduce_faltan": 93.82032,
+    "acumulado": 93.82032
+   },
+   {
+    "seccion": "2806504029",
+    "municipio_nombre": "Getafe",
+    "lat": 40.32553,
+    "lon": -3.66297,
+    "reduce_faltan": 93.781179,
+    "acumulado": 187.601499
+   },
+   {
+    "seccion": "2807405003",
+    "municipio_nombre": "Leganés",
+    "lat": 40.34941,
+    "lon": -3.73913,
+    "reduce_faltan": 93.770026,
+    "acumulado": 281.371524
+   }
+  ],
+  "comunidad": [
+   {
+    "seccion": "2807913014",
+    "municipio_nombre": "Madrid",
+    "lat": 40.37746,
+    "lon": -3.68014,
+    "reduce_faltan": 94.0,
+    "acumulado": 94.0
+   },
+   {
+    "seccion": "2807913028",
+    "municipio_nombre": "Madrid",
+    "lat": 40.38018,
+    "lon": -3.67669,
+    "reduce_faltan": 94.0,
+    "acumulado": 188.0
+   },
+   {
+    "seccion": "2807913026",
+    "municipio_nombre": "Madrid",
+    "lat": 40.37901,
+    "lon": -3.67637,
+    "reduce_faltan": 94.0,
+    "acumulado": 282.0
+   }
+  ]
+ }
+}

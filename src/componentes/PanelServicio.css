@@ -1,0 +1,526 @@
+/* Panel de «¿Dónde hace falta?»: bloques separados por filetes, como las secciones de una página de periódico. */
+
+.panel-servicio {
+  display: grid;
+  gap: 0;
+}
+
+.bloque {
+  min-width: 0;
+  margin: 0;
+  padding: 14px 0 16px;
+  border: 0;
+  border-top: 1px solid var(--borde);
+}
+
+/* En un fieldset la leyenda se pinta sobre el filete de arriba: se saca del filete para que quede como un rótulo más */
+fieldset.bloque > legend {
+  float: left;
+  width: 100%;
+}
+
+fieldset.bloque > legend + * {
+  clear: both;
+}
+
+.bloque:first-child {
+  border-top: 0;
+  padding-top: 2px;
+}
+
+/* Rótulo de sección: pequeño, en negrita, como el antetítulo de una pieza */
+.rotulo-seccion {
+  display: block;
+  padding: 0;
+  margin-bottom: 9px;
+  color: var(--tinta-2);
+  font-family: var(--fuente-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.nota {
+  margin-top: 8px;
+  color: var(--tinta-3);
+  font-size: 12.5px;
+  line-height: 1.4;
+}
+
+.nota--tinta {
+  color: var(--tinta-2);
+  font-size: 13.5px;
+}
+
+/* --- opciones (radios nativos con aspecto de botón) --- */
+.opcion {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background-color 0.12s, border-color 0.12s;
+}
+
+.opcion input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.opcion:hover {
+  background: var(--superficie-3);
+  border-color: var(--tinta);
+}
+
+.opcion:has(input:checked) {
+  border-color: var(--tinta);
+  background: var(--tinta);
+  color: #fffdf8;
+}
+
+.opcion:has(input:focus-visible) {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+}
+
+.servicios {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.opcion--servicio svg {
+  flex: none;
+}
+
+.radios {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+}
+
+.opcion--radio {
+  justify-content: center;
+  border-radius: 0;
+  margin-left: -1px;
+}
+
+.opcion--radio:first-child {
+  margin-left: 0;
+  border-radius: var(--radio-s) 0 0 var(--radio-s);
+}
+
+.opcion--radio:last-child {
+  border-radius: 0 var(--radio-s) var(--radio-s) 0;
+}
+
+.opcion--radio:has(input:checked) {
+  z-index: 1;
+}
+
+.radios--chico {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.radios--chico .opcion {
+  min-height: 38px;
+  padding: 6px 8px;
+  font-size: 13px;
+}
+
+/* --- cifra grande --- */
+.cifra__frase {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+
+.cifra__antes,
+.cifra__despues {
+  color: var(--tinta-2);
+  font-family: var(--fuente-titulo);
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1;
+}
+
+.cifra__numero {
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 60px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+}
+
+.cifra__texto {
+  margin-top: 8px;
+  color: var(--tinta);
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* --- referencia --- */
+.referencias {
+  display: grid;
+  gap: 6px;
+}
+
+.opcion--referencia {
+  justify-content: space-between;
+  min-height: 42px;
+  font-weight: 500;
+}
+
+.opcion--referencia .opcion__texto {
+  flex: 1 1 auto;
+}
+
+.opcion--referencia .opcion__valor {
+  flex: none;
+  font-weight: 700;
+}
+
+.enlace-fuente {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  min-height: 24px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* --- ranking --- */
+.ranking__resumen {
+  margin-bottom: 0;
+  cursor: pointer;
+  list-style: none;
+}
+
+.ranking__resumen::-webkit-details-marker {
+  display: none;
+}
+
+.ranking__resumen::after {
+  content: " ▾";
+}
+
+.ranking:not([open]) .ranking__resumen::after {
+  content: " ▸";
+}
+
+.ranking__controles {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.campo {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.campo--nivel {
+  grid-column: 1 / -1;
+}
+
+.campo__etiqueta {
+  padding: 0;
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  font-weight: 650;
+}
+
+.campo select {
+  width: 100%;
+  min-height: 40px;
+  padding: 6px 8px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+  color: var(--tinta);
+  font-size: 14px;
+}
+
+.ranking__vacio {
+  padding: 12px;
+  border: 1px dashed var(--borde);
+  border-radius: var(--radio-s);
+  background: var(--superficie-2);
+  color: var(--tinta-2);
+  font-size: 14px;
+}
+
+.ranking__lista {
+  display: grid;
+  gap: 2px;
+}
+
+.fila {
+  position: relative;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "puesto nombre cifra"
+    "puesto detalle detalle"
+    "barra barra barra";
+  column-gap: 8px;
+  row-gap: 1px;
+  align-items: baseline;
+  width: 100%;
+  min-height: 52px;
+  padding: 8px 8px 6px;
+  border: 1px solid transparent;
+  border-radius: var(--radio-s);
+  background: transparent;
+  color: var(--tinta);
+  text-align: left;
+  cursor: pointer;
+}
+
+.fila:hover {
+  background: var(--superficie-2);
+  border-color: var(--borde);
+}
+
+.fila[aria-pressed="true"] {
+  border-color: var(--tinta);
+  background: var(--superficie-2);
+}
+
+.fila__puesto {
+  grid-area: puesto;
+  color: var(--tinta-3);
+  font-family: var(--fuente-titulo);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.fila__nombre {
+  grid-area: nombre;
+  overflow: hidden;
+  font-family: var(--fuente-titulo);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fila__cifra {
+  grid-area: cifra;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.fila__detalle {
+  grid-area: detalle;
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  line-height: 1.3;
+}
+
+.fila__barra {
+  grid-area: barra;
+  display: block;
+  height: 3px;
+  margin-top: 5px;
+  border-radius: 2px;
+  background: var(--superficie-3);
+}
+
+.fila__barra span {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: #c8661f;
+}
+
+/* --- límites --- */
+.limites summary {
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.limites__lista {
+  display: grid;
+  gap: 7px;
+  margin-top: 10px;
+  padding-left: 16px;
+  list-style: disc;
+  color: var(--tinta-2);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+/* --- estados --- */
+.esq {
+  border-radius: var(--radio-s);
+  background: linear-gradient(90deg, var(--superficie-3), var(--superficie-2), var(--superficie-3)) 0 0 / 200% 100%;
+  animation: brillo 1.4s ease-in-out infinite;
+}
+
+.esq--servicios {
+  height: 120px;
+  margin-bottom: 14px;
+}
+
+.esq--radios {
+  height: 52px;
+  margin-bottom: 14px;
+}
+
+.esq--cifra {
+  height: 86px;
+}
+
+@keyframes brillo {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.error-panel {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  color: var(--tinta-2);
+  font-size: 14px;
+}
+
+.error-panel h2 {
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.error-panel__detalle {
+  color: var(--tinta-3);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+/* --- móvil: servicios en una fila que se desplaza (icono sobre el nombre) --- */
+@media (max-width: 760px) {
+  .servicios {
+    display: flex;
+    gap: 8px;
+    margin-inline: -16px;
+    padding: 2px 16px 6px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .servicios::-webkit-scrollbar {
+    display: none;
+  }
+
+  .opcion--servicio {
+    flex: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    width: 104px;
+    min-height: 62px;
+    padding: 7px 6px;
+    font-size: 12.5px;
+    text-align: center;
+    scroll-snap-align: center;
+  }
+
+  .cifra__numero {
+    font-size: 52px;
+  }
+
+  .bloque--servicios {
+    padding-bottom: 10px;
+  }
+}
+
+/* Selector «Hoy / 2030» y su rótulo de proyección */
+.radios--dos {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.aviso-proyeccion {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--acento);
+  background: var(--superficie-3);
+}
+
+.aviso-proyeccion p + p {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--tinta-2);
+}
+
+.nota--aviso {
+  padding: 8px 10px;
+  border-left: 3px solid var(--acento);
+  background: var(--superficie-3);
+  color: var(--tinta-2);
+}
+
+.bloque--cifra {
+  scroll-margin-top: 10px;
+}
+
+/* Cobertura en positivo: la cifra grande va en azul (la escala «más cobertura») y su frase, justo debajo */
+.cifra__numero--cobertura {
+  color: #1d4f7c;
+}
+
+.cifra__frase .cifra__despues {
+  flex: 1 1 100%;
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+/* El margen de mejora queda en segundo plano: titular pequeño y texto corriente */
+.cifra__margen-titulo {
+  margin: 14px 0 0;
+  padding-top: 10px;
+  border-top: 1px dotted var(--borde-fuerte);
+  color: var(--tinta-2);
+  font-family: var(--fuente-ui);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.cifra__margen {
+  margin-top: 4px;
+  color: var(--tinta-2);
+  font-size: 14px;
+}
+
+.cifra__margen .dato {
+  color: var(--tinta);
+}

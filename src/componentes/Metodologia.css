@@ -1,0 +1,48 @@
+/* «Metodología y fuentes»: el mismo desplegable que «¿Cómo funciona?», con títulos de periódico (serifa) y texto compacto. */
+
+.metodologia__cuerpo {
+  margin-top: 8px;
+  padding: 4px 0 2px 12px;
+  border-left: 2px solid var(--borde);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--tinta);
+  overflow-wrap: anywhere;
+}
+
+.metodologia__h {
+  margin: 14px 0 6px;
+  font-family: var(--fuente-titulo, inherit);
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.metodologia__h:first-child {
+  margin-top: 2px;
+}
+
+.metodologia__p {
+  margin: 8px 0 4px;
+}
+
+.metodologia__lista {
+  margin: 0;
+  padding-left: 18px;
+  list-style: disc;
+}
+
+.metodologia__lista li + li {
+  margin-top: 5px;
+}
+
+.metodologia__cuerpo a {
+  color: var(--acento);
+  text-underline-offset: 2px;
+}
+
+.metodologia__cuerpo a:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 2px;
+  border-radius: 2px;
+}

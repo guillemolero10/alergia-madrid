@@ -9,6 +9,8 @@ interface Props {
   mejor: Ventana | null;
   /** Modo histórico: la marca se llama con la hora de referencia y los días se nombran por fecha. */
   historico?: boolean;
+  /** Título de la figura (por defecto, «Las próximas 48 horas»). */
+  titulo?: string;
 }
 
 const DIAS = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
@@ -30,7 +32,7 @@ function nombreDia(fecha: string, hoy: string, corto: boolean, historico = false
 }
 
 /** 48 barras, una por hora, coloreadas con el nivel combinado de lo que le afecta a la persona. */
-export function FranjaHoras({ horas, ahora, mejor, historico = false }: Props) {
+export function FranjaHoras({ horas, ahora, mejor, historico = false, titulo }: Props) {
   const hoy = partesLocales(ahora).fecha;
   const [activa, setActiva] = useState<number | null>(null);
   const [foco, setFoco] = useState(0);
@@ -87,7 +89,7 @@ export function FranjaHoras({ horas, ahora, mejor, historico = false }: Props) {
 
   return (
     <figure className="franja">
-      <figcaption className="franja__titulo">{historico ? "Las 48 horas de ese día y el siguiente" : "Las próximas 48 horas"}</figcaption>
+      <figcaption className="franja__titulo">{titulo ?? (historico ? "Las 48 horas de ese día y el siguiente" : "Las próximas 48 horas")}</figcaption>
       <div className="franja__cuerpo" style={{ ["--n" as string]: horas.length }} onPointerLeave={() => setActiva(null)}>
         <div className="franja__dias" aria-hidden="true">
           {tramos.map((t) => (

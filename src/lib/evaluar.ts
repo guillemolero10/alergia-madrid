@@ -10,7 +10,7 @@ import {
 } from "./franja";
 import type { EstadoActual, Lugares, Pronostico } from "./tipos";
 
-/** Estación de aire y captador de polen de los que sale el dato (los tiene un municipio y también un colegio). */
+/** Estación de aire y captador de polen de los que sale el dato (los tiene un municipio). */
 export interface FuenteDato {
   estacion: string;
   captador: string | null;

@@ -1,0 +1,206 @@
+/* «El aire hoy» en la ficha de «Mi municipio»: compacto, con el semáforo de nivel y la hora del dato siempre a la vista. */
+
+.aire__cuerpo {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.aire__veredicto {
+  display: grid;
+  gap: 4px;
+  padding-left: 14px;
+  border-left: 5px solid var(--c, var(--borde));
+}
+
+.aire__titular {
+  font-family: var(--fuente-titulo);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.aire__frase {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.aire__base {
+  color: var(--tinta-2);
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+/* --- lo medido --- */
+.aire__medidas-titulo {
+  margin-bottom: 6px;
+  color: var(--tinta-2);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.aire__medidas-titulo .dato {
+  color: var(--tinta);
+  font-weight: 500;
+}
+
+.aire__lista {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+  gap: 6px;
+}
+
+.aire__medida {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas:
+    "punto corto"
+    "valor valor"
+    "nivel nivel";
+  align-items: center;
+  gap: 0 6px;
+  padding: 7px 9px 8px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-s);
+  background: var(--superficie-2);
+}
+
+.aire__punto {
+  grid-area: punto;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--c);
+  outline: 1px solid var(--tinta);
+  outline-offset: -1px;
+}
+
+.aire__corto {
+  grid-area: corto;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.aire__nivel {
+  grid-area: nivel;
+  color: var(--ct);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.aire__valor {
+  grid-area: valor;
+  margin-top: 2px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.aire__unidad {
+  color: var(--tinta-2);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.aire__lista--antigua .aire__medida {
+  background: transparent;
+  border-style: dashed;
+}
+
+/* --- mejor hora / evita --- */
+.aire__horas {
+  display: grid;
+  gap: 2px;
+  padding: 8px 0;
+  border-top: 1px solid var(--borde);
+  border-bottom: 1px solid var(--borde);
+  font-size: 14.5px;
+  line-height: 1.4;
+}
+
+/* --- avisos (ámbar) --- */
+.aire__aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px 8px 12px;
+  border-radius: var(--radio);
+  border: 1px solid var(--aviso-borde);
+  background: var(--aviso-fondo);
+  color: var(--aviso-tinta);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.aire__aviso svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--aviso-icono);
+}
+
+.aire__aviso > span {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.aire__consejo {
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.aire__pequeno {
+  display: block;
+  margin-top: 2px;
+  color: var(--tinta-3);
+  font-size: 12px;
+}
+
+.aire__fuente {
+  color: var(--tinta-2);
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
+/* --- sin datos --- */
+.aire__sin {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  color: var(--tinta-2);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.esq--aire {
+  height: 150px;
+  border-radius: var(--radio-s);
+  background: linear-gradient(90deg, var(--superficie-3) 25%, var(--superficie-2) 50%, var(--superficie-3) 75%);
+  background-size: 200% 100%;
+  animation: aire-esq 1.4s linear infinite;
+}
+
+@keyframes aire-esq {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .esq--aire {
+    animation: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .aire__lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .aire__titular {
+    font-size: 22px;
+  }
+}

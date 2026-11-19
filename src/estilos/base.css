@@ -239,3 +239,15 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+/* Objetivo táctil: todos los desplegables se pueden pulsar con el dedo (44 px de alto como mínimo). */
+details > summary {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  min-height: 44px;
+  cursor: pointer;
+}
+details > summary.como__titulo {
+  display: inline-flex;
+}

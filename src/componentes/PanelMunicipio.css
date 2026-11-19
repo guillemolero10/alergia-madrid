@@ -1,0 +1,587 @@
+/* «Mi municipio»: buscador y ficha. Papel y filetes como el resto del panel; el semáforo usa los colores de nivel de la web
+   (rojo = por debajo, verde = por encima) y gris para «en la media», que es lo normal y no debe alarmar. */
+
+.municipio {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+/* --- buscador --- */
+.buscador {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 10px;
+}
+
+.buscador__etiqueta {
+  color: var(--tinta-2);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.buscador__fila {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.buscador__campo {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.buscador__entrada {
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 12px;
+  border: 1px solid var(--borde-fuerte);
+  border-radius: var(--radio-s);
+  background: #fff;
+  color: var(--tinta);
+  font-size: 16px; /* 16 px: el móvil no acerca la página al tocar el campo */
+}
+
+.buscador__entrada::placeholder {
+  color: var(--tinta-3);
+}
+
+.boton--buscar {
+  flex: none;
+  min-height: 46px;
+  padding-inline: 16px;
+  border-color: var(--tinta);
+  background: var(--tinta);
+  color: #fffdf8;
+}
+
+.boton--buscar:hover {
+  background: #343a42;
+}
+
+.buscador__lista {
+  position: absolute;
+  z-index: 20;
+  inset: calc(100% + 4px) 0 auto 0;
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid var(--tinta);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+}
+
+.buscador__lista[hidden] {
+  display: none;
+}
+
+.buscador__opcion {
+  display: grid;
+  gap: 1px;
+  min-height: 48px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--borde);
+  cursor: pointer;
+}
+
+.buscador__opcion:last-child {
+  border-bottom: 0;
+}
+
+.buscador__opcion[aria-selected="true"] {
+  background: var(--tinta);
+  color: #fffdf8;
+}
+
+.buscador__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.buscador__detalle {
+  color: var(--tinta-2);
+  font-size: 12.5px;
+}
+
+.buscador__opcion[aria-selected="true"] .buscador__detalle {
+  color: #e6e1d6;
+}
+
+.buscador__aviso {
+  padding: 10px 12px;
+  border: 1px solid var(--aviso-borde);
+  border-radius: var(--radio-s);
+  background: var(--aviso-fondo);
+  color: var(--aviso-tinta);
+  font-size: 14px;
+}
+
+.buscador__sugerencias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.buscador__sugerencias .boton {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0;
+  min-height: 44px;
+  text-align: left;
+}
+
+.buscador__sugerencias .buscador__detalle {
+  font-weight: 400;
+}
+
+/* --- sin lugar --- */
+.municipio__vacio {
+  display: grid;
+  gap: 10px;
+  padding: 16px 0 6px;
+  border-top: 1px solid var(--borde);
+  color: var(--tinta-2);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.municipio__titulo-chico {
+  color: var(--tinta);
+  font-family: var(--fuente-titulo);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.ejemplos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ejemplos__boton {
+  min-height: 44px;
+  padding-inline: 16px;
+  font-family: var(--fuente-titulo);
+  font-size: 17px;
+}
+
+/* --- cabecera de la ficha --- */
+.ficha {
+  display: grid;
+  gap: 0;
+  border-top: 2px solid var(--tinta);
+  padding-top: 14px;
+}
+
+.ficha__cabecera {
+  display: grid;
+  gap: 3px;
+  padding-bottom: 14px;
+}
+
+.ficha__tipo {
+  color: var(--tinta-2);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.ficha__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: 38px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.ficha__nombre:focus {
+  outline: none;
+}
+
+.ficha__nombre:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 4px;
+}
+
+.ficha__poblacion {
+  color: var(--tinta);
+  font-size: 15px;
+}
+
+.ficha__anio {
+  color: var(--tinta-2);
+}
+
+.ficha__ir-mapa {
+  display: none;
+  justify-self: start;
+  min-height: 44px;
+  margin-top: 8px;
+}
+
+/* --- lo que más le falta --- */
+.falta__lista {
+  display: grid;
+  gap: 10px;
+}
+
+.falta__item {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--tinta);
+  border-left-width: 5px;
+  border-left-color: var(--nivel-alto);
+  border-radius: var(--radio-s);
+  background: var(--superficie-2);
+}
+
+.falta__icono {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  color: var(--tinta);
+}
+
+.falta__nombre {
+  font-family: var(--fuente-titulo);
+  font-size: 21px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.falta__frase {
+  margin-top: 3px;
+  color: var(--tinta);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+.falta__plazas {
+  margin-top: 4px;
+  font-size: 14.5px;
+  font-weight: 700;
+}
+
+.boton--simulador {
+  margin-top: 10px;
+  min-height: 44px;
+  padding-inline: 16px;
+  border-color: var(--tinta);
+  background: var(--tinta);
+  color: #fffdf8;
+}
+
+.boton--simulador:hover {
+  background: #343a42;
+}
+
+.falta__nada {
+  padding: 12px;
+  border: 1px solid var(--borde);
+  border-left: 5px solid var(--nivel-bajo);
+  border-radius: var(--radio-s);
+  background: var(--superficie-2);
+  color: var(--tinta);
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+
+/* --- tarjetas de servicio --- */
+.servicios-ficha {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.servicio-ficha {
+  --sem: var(--nivel-sin-dato);
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px 12px 12px 14px;
+  border: 1px solid var(--borde);
+  border-left: 5px solid var(--sem);
+  border-radius: var(--radio-s);
+  background: var(--superficie);
+}
+
+.servicio-ficha--debajo {
+  --sem: var(--nivel-alto);
+}
+.servicio-ficha--encima {
+  --sem: var(--nivel-bajo);
+}
+.servicio-ficha--cubierto {
+  --sem: var(--acento);
+}
+
+.servicio-ficha__cabecera {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+}
+
+.servicio-ficha__icono {
+  display: grid;
+  place-items: center;
+  color: var(--tinta-2);
+}
+
+.servicio-ficha__nombre {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 1.15;
+}
+
+.semaforo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 9px 2px 8px;
+  border: 1px solid color-mix(in srgb, var(--sem) 55%, var(--superficie));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--sem) 10%, var(--superficie));
+  font-size: 12.5px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.semaforo--debajo {
+  --sem: var(--nivel-alto);
+  color: var(--nivel-alto-tinta);
+}
+.semaforo--media {
+  --sem: var(--nivel-sin-dato);
+  color: var(--nivel-sin-dato-tinta);
+  font-weight: 600;
+}
+.semaforo--encima {
+  --sem: var(--nivel-bajo);
+  color: var(--nivel-bajo-tinta);
+}
+.semaforo--cubierto {
+  --sem: var(--acento);
+  color: var(--acento);
+}
+
+.semaforo__punto {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--sem);
+}
+
+/* Formas distintas además del color: lleno = por debajo, anillo = en la media, cuadrado = por encima, rombo = cubierto */
+.semaforo--media .semaforo__punto {
+  background: none;
+  border: 2px solid var(--sem);
+}
+.semaforo--encima .semaforo__punto {
+  border-radius: 2px;
+}
+.semaforo--cubierto .semaforo__punto {
+  border-radius: 1px;
+  transform: rotate(45deg) scale(0.9);
+}
+
+.servicio-ficha__titular {
+  color: var(--tinta);
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.servicio-ficha__lineas {
+  display: grid;
+  gap: 5px;
+  padding-left: 16px;
+  list-style: disc;
+  color: var(--tinta-2);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.servicio-ficha__lineas li::marker {
+  color: var(--borde-fuerte);
+}
+
+.servicio-ficha__norma {
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.servicio-ficha__norma summary {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 32px;
+  color: var(--tinta);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.servicio-ficha__norma > p {
+  margin-top: 6px;
+  color: var(--tinta-2);
+}
+
+.buscador__sin {
+  margin-top: 6px;
+  color: var(--tinta-2);
+  font-size: 13px;
+}
+
+.ficha__nombre:focus {
+  outline: none;
+}
+
+.norma__sello {
+  padding: 0 7px;
+  border-radius: 4px;
+  border: 1px solid currentcolor;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.norma__sello--si {
+  color: var(--nivel-bajo-tinta);
+}
+
+.norma__sello--no {
+  color: var(--tinta-2);
+}
+
+.servicio-ficha__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  align-items: center;
+}
+
+.servicio-ficha__acciones .boton {
+  min-height: 44px;
+}
+
+.servicio-ficha__acciones .boton[aria-pressed="true"] {
+  border-color: var(--tinta);
+  background: var(--tinta);
+  color: #fffdf8;
+}
+
+.boton--texto-ficha {
+  border-color: transparent;
+  background: transparent;
+  color: var(--acento);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.servicio-ficha--pendiente {
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  min-height: 56px;
+  border-left-color: var(--borde);
+  color: var(--tinta-3);
+}
+
+.servicio-ficha__espera {
+  animation: latido 1.4s ease-in-out infinite;
+}
+
+@keyframes latido {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* --- otros servicios sociales --- */
+.otros {
+  display: grid;
+  gap: 0;
+  margin-top: 4px;
+  border-top: 1px solid var(--borde);
+}
+
+.otros__fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--borde);
+  font-size: 14px;
+}
+
+.otros__n {
+  flex: none;
+  font-weight: 700;
+  text-align: right;
+}
+
+.otros__plazas {
+  color: var(--tinta-2);
+  font-weight: 400;
+}
+
+/* --- esqueletos --- */
+.esq--buscador {
+  height: 74px;
+}
+.esq--ficha {
+  height: 260px;
+  margin-top: 14px;
+}
+.esq--falta {
+  height: 120px;
+}
+.esq--otros {
+  height: 90px;
+}
+
+@media (max-width: 760px) {
+  .ficha__nombre {
+    font-size: 34px;
+  }
+
+  .ficha__ir-mapa {
+    display: inline-flex;
+  }
+
+  .servicio-ficha__cabecera {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+
+  .servicio-ficha__cabecera .semaforo {
+    grid-column: 1 / -1;
+    justify-self: start;
+    text-align: left;
+  }
+
+  .falta__item {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .falta__icono {
+    display: none;
+  }
+}
