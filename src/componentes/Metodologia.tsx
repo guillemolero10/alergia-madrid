@@ -151,7 +151,7 @@ export function Metodologia() {
         <p className="metodologia__p">
           Modelo: <Enlace href="https://dev.meta.ai">Muse Spark</Enlace> (Meta), a través de la API de Meta (el código admite también Muse Spark Open, los pesos abiertos, en
           Baseten). Las preguntas se envían a Meta junto con los resultados de las herramientas (datos públicos), y Meta puede usarlas según sus condiciones; no
-          pidas ni escribas datos personales. Nosotros no guardamos el texto de las preguntas.
+          pidas ni escribas datos personales. Nosotros no guardamos el texto de las preguntas. Las visitas se cuentan con Vercel Web Analytics, sin cookies y sin la posición de lo que colocas en el mapa (Vercel ve el país, el navegador y la web desde la que llegas).
         </p>
 
         <h2 className="metodologia__h">Código y reproducibilidad</h2>

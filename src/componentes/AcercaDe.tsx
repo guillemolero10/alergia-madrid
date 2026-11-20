@@ -448,7 +448,7 @@ export function AcercaDe({ base, onVolver, onProbar, meta: metaFija }: Props) {
               </li>
               <li>
                 <strong>Privacidad.</strong> Sin datos personales: todo son registros públicos y población agregada por sección. Los servicios sociales sensibles (acogida, menores, pisos tutelados…) se
-                muestran sin nombre ni dirección. Nosotros no guardamos el texto de las preguntas al agente; con IA, se envía a Meta junto con los resultados de las herramientas (datos públicos) y Meta puede usarlo según sus condiciones. No escribas datos personales.
+                muestran sin nombre ni dirección. Nosotros no guardamos el texto de las preguntas al agente; con IA, se envía a Meta junto con los resultados de las herramientas (datos públicos) y Meta puede usarlo según sus condiciones. No escribas datos personales. Para saber cuánta gente usa la web contamos visitas con Vercel Web Analytics, sin cookies y sin la posición de lo que colocas en el mapa.
               </li>
               <li>
                 <strong>Uso de IA.</strong> El desarrollo se ha hecho con ayuda de asistentes de IA (permitido por las bases). En la app, el agente usa Muse Spark (Meta), y sus cifras las valida el servidor.
