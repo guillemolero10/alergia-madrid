@@ -33,7 +33,7 @@ describe("vista para el modelo", () => {
   });
   it("una ficha sin nadie lejos del centro lo dice en positivo (no «0 habitantes (0,0 %)»)", async () => {
     const { texto } = await ver("ficha_municipio", { lugar: "Parla" });
-    expect(texto).toContain("todos los habitantes viven a menos de 15 km de uno");
+    expect(texto).toContain("completa: todos los habitantes a menos de 15 km de uno");
     expect(texto).not.toContain("0,0 %");
     expect(texto).not.toMatch(/deficit|"url"|https?:/i);
   });

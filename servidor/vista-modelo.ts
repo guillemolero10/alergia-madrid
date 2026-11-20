@@ -132,7 +132,7 @@ function filaFicha(f: FilaFichaSalida): Objeto {
     ...base,
     ...(f.ratio !== null ? { habitantes_por_centro: enteroEs(f.ratio) } : {}),
     ...(f.personas_deficit === 0
-      ? { cobertura: `todos los ${SERVICIOS[s].grupoEtiqueta} viven a menos de ${radioEs(f.radio_m)} de uno` }
+      ? { cobertura: `completa: todos los ${SERVICIOS[s].grupoEtiqueta} a menos de ${radioEs(f.radio_m)} de uno` }
       : { personas_a_mas_de_la_distancia_maxima: `${personas(f.personas_deficit, s)} (${pctModelo(f.pct_deficit)}) viven a más de ${radioEs(f.radio_m)} del más cercano` }),
     ...(f.cubierto_desde_fuera ? { nota: "lo cubren los municipios de al lado" } : {}),
     comparado_con_municipios_de_su_tamano_o_la_media: f.comparacion === "por_debajo" ? "por debajo" : f.comparacion === "por_encima" ? "por encima" : "en la media",
