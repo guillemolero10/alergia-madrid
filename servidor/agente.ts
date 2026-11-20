@@ -20,15 +20,19 @@ import { redactarResultado } from "../src/lib/donde/plantillas";
 import { esServicioId, SERVICIOS } from "../src/lib/donde/servicios";
 import type { Accion, ContextoAgente, MensajeAgente, PasoAgente, PeticionAgente, RespuestaAgente } from "../src/lib/donde/tipos";
 import type { Cargador } from "./datos";
-import { PROMPT_VERSION, promptAgente } from "./prompts/agente-v3";
+import { PROMPT_VERSION, promptAgente } from "./prompts/agente-v4";
 import { ErrorPresupuesto, limiteIpDia, proximoReinicio, topeDiarioUsd, type Presupuesto } from "./presupuesto";
 import { ErrorProveedor, ErrorTiempo, llamarModelo, proveedorDesdeEntorno, type HerramientaModelo, type MensajeModelo } from "./proveedor";
 import { numerosPermitidos, paraElModelo, validarTexto } from "./validador";
+import { vistaParaModelo } from "./vista-modelo";
 
 export { PROMPT_VERSION };
 
-/** El servidor corta a los 25 s (la web espera 28 s y la función tiene `maxDuration` de 30 s). */
-export const TIEMPO_TURNO_MS = 25_000;
+/**
+ * El servidor corta a los 26 s (R5): la web espera 28 s y la función tiene `maxDuration` de 30 s. El reloj empieza después del
+ * arranque en frío y de leer el cuerpo, así que quedan ~2 s de margen frente a la web y ~4 s frente a Vercel.
+ */
+export const TIEMPO_TURNO_MS = 26_000;
 export const MAX_VUELTAS = 5;
 export const MAX_LLAMADAS_POR_VUELTA = 3;
 export const MAX_LLAMADAS_TOTALES = 6;
@@ -128,6 +132,14 @@ export function validarPeticion(x: unknown): PeticionValidada {
  * (el usuario arrastra un pin), pero el modelo debe indicar un lugar por su nombre: así ni un modelo equivocado ni una inyección de
  * prompt pueden colocar pines donde quieran (T4-9). El servidor además rechaza `lat`/`lon` si llegan en una llamada (`ejecutarLlamada`).
  */
+/** Descripciones neutras para el modelo (las del motor dicen «déficit» y el modelo las repite). */
+const DESCRIPCION_PARA_EL_MODELO: Record<string, string> = {
+  ranking_deficit: "Ranking de municipios (o distritos de Madrid) donde un centro nuevo ayudaría más, para un servicio. Devuelve cifras calculadas con datos oficiales, ya formateadas: cópialas tal cual.",
+  ubicacion_optima: "Mejor sitio (o los n mejores, hasta 3) para un centro nuevo de un servicio: en servicios por distancia, el que más personas acerca al centro; en residencias, el que más plazas pasa a cubrir. Lo calcula el modelo; no pongas cifras tú.",
+  simular_centro: "Qué consigue un centro nuevo en un lugar (personas que ganan acceso, o plazas que pasan a estar cubiertas en residencias), comparado con el mejor punto del modelo en su zona.",
+  ficha_municipio: "Qué servicios tiene un municipio o distrito de Madrid y dónde ayudaría más un centro nuevo, frente a la media y a municipios de su tamaño. Úsala también para comparar dos lugares (una llamada por lugar).",
+};
+
 export function esquemaParaElModelo(e: (typeof ESQUEMAS_HERRAMIENTAS)[number]): HerramientaModelo {
   const parametros = { ...(e.input_schema as unknown as Record<string, unknown>) };
   if (e.name === "simular_centro") {
@@ -135,7 +147,7 @@ export function esquemaParaElModelo(e: (typeof ESQUEMAS_HERRAMIENTAS)[number]): 
     parametros.properties = resto;
     parametros.required = ["servicio", "lugar"];
   }
-  return { type: "function", function: { name: e.name, description: e.description, parameters: parametros } };
+  return { type: "function", function: { name: e.name, description: DESCRIPCION_PARA_EL_MODELO[e.name] ?? e.description, parameters: parametros } };
 }
 
 export const HERRAMIENTAS_MODELO: HerramientaModelo[] = ESQUEMAS_HERRAMIENTAS.map(esquemaParaElModelo);
@@ -143,8 +155,7 @@ export const HERRAMIENTAS_MODELO: HerramientaModelo[] = ESQUEMAS_HERRAMIENTAS.ma
 const NOMBRES = new Set<string>(NOMBRES_HERRAMIENTAS);
 
 function resultadoParaModelo(r: ResultadoHerramienta): string {
-  const cuerpo = r.ok ? { ok: true, salida: paraElModelo(r.salida) } : { ok: false, error: r.error };
-  const t = JSON.stringify(cuerpo);
+  const t = JSON.stringify(paraElModelo(vistaParaModelo(r)));
   if (t.length <= MAX_RESULTADO_AL_MODELO) return t;
   return JSON.stringify({ ok: false, error: { codigo: "datos", mensaje: "El resultado es demasiado largo; pide menos filas o un ámbito más pequeño." } });
 }
@@ -215,6 +226,7 @@ export async function manejarAgente(entrada: EntradaHttp, deps: Dependencias): P
   const llamadasHerramienta: string[] = [];
   const resultados: ResultadoHerramienta[] = [];
   let validacion: string = "no_aplica";
+  let detalleValidacion: string | undefined;
   let modoFinal: "ia" | "reglas" = "ia";
 
   try {
@@ -330,7 +342,10 @@ export async function manejarAgente(entrada: EntradaHttp, deps: Dependencias): P
         restantes: cupo.restantes,
       };
     } else {
-      if (veredicto && !veredicto.ok) validacion = `rechazado_${veredicto.motivo}`;
+      if (veredicto && !veredicto.ok) {
+        validacion = `rechazado_${veredicto.motivo}`;
+        detalleValidacion = veredicto.detalle; // solo las cifras sobrantes que escribió el modelo (nunca el texto del usuario)
+      }
       modoFinal = "reglas";
       if (salidasOk.length > 0) {
         respuesta = {
@@ -352,6 +367,7 @@ export async function manejarAgente(entrada: EntradaHttp, deps: Dependencias): P
       prompt: PROMPT_VERSION,
       modo: modoFinal,
       validacion,
+      ...(detalleValidacion ? { validacion_detalle: detalleValidacion } : {}),
       herramientas: llamadasHerramienta,
       llamadas_modelo: gasto.llamadas,
       tokens_entrada: gasto.entrada,

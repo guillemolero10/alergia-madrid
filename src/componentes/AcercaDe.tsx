@@ -357,7 +357,7 @@ export function AcercaDe({ base, onVolver, onProbar, meta: metaFija }: Props) {
             <h3>El agente</h3>
             <p>
               Puedes preguntar en lenguaje natural («¿dónde pondrías una residencia en el sur?»). El agente solo puede usar las herramientas de cálculo de la propia web, mueve el mapa y
-              enseña los pasos que ha seguido. Tiene dos modos: <strong>con IA</strong> (Muse Spark Open, de Meta, servido por Baseten, cuando está activa), y <strong>sin IA</strong>, que
+              enseña los pasos que ha seguido. Tiene dos modos: <strong>con IA</strong> (Muse Spark, el modelo de Meta, a través de su API, cuando está activa), y <strong>sin IA</strong>, que
               interpreta la pregunta por reglas en tu navegador. En los dos, las cifras salen siempre del cálculo: un validador comprueba cada número del texto y, si alguno no sale de
               las herramientas, lo sustituye por una respuesta calculada.
             </p>
@@ -448,10 +448,10 @@ export function AcercaDe({ base, onVolver, onProbar, meta: metaFija }: Props) {
               </li>
               <li>
                 <strong>Privacidad.</strong> Sin datos personales: todo son registros públicos y población agregada por sección. Los servicios sociales sensibles (acogida, menores, pisos tutelados…) se
-                muestran sin nombre ni dirección. El texto de las preguntas al agente no se guarda.
+                muestran sin nombre ni dirección. Nosotros no guardamos el texto de las preguntas al agente; con IA, se envía a Meta junto con los resultados de las herramientas (datos públicos) y Meta puede usarlo según sus condiciones. No escribas datos personales.
               </li>
               <li>
-                <strong>Uso de IA.</strong> El desarrollo se ha hecho con ayuda de asistentes de IA (permitido por las bases). En la app, el agente usa Muse Spark Open, y sus cifras las valida el servidor.
+                <strong>Uso de IA.</strong> El desarrollo se ha hecho con ayuda de asistentes de IA (permitido por las bases). En la app, el agente usa Muse Spark (Meta), y sus cifras las valida el servidor.
               </li>
               <li>
                 <strong>Código reutilizado, declarado.</strong> El cliente del portal de datos (CKAN) del pipeline está basado en el servidor MCP del ponente Alberto Abella (

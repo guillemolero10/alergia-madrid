@@ -149,8 +149,9 @@ export function Metodologia() {
           moverlo, y cada respuesta enseña los pasos que ha seguido.
         </p>
         <p className="metodologia__p">
-          Modelo: <Enlace href="https://www.baseten.co">Muse Spark Open</Enlace> (Meta, pesos abiertos), servido por Baseten. Las preguntas se envían a ese servicio junto
-          con los resultados de las herramientas (datos públicos); no pidas ni escribas datos personales. No se guarda el texto de las preguntas.
+          Modelo: <Enlace href="https://dev.meta.ai">Muse Spark</Enlace> (Meta), a través de la API de Meta (el código admite también Muse Spark Open, los pesos abiertos, en
+          Baseten). Las preguntas se envían a Meta junto con los resultados de las herramientas (datos públicos), y Meta puede usarlas según sus condiciones; no
+          pidas ni escribas datos personales. Nosotros no guardamos el texto de las preguntas.
         </p>
 
         <h2 className="metodologia__h">Código y reproducibilidad</h2>

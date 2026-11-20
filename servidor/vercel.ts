@@ -4,12 +4,13 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { manejarAgente, MAX_CUERPO_CARACTERES, type SalidaHttp } from "./agente";
 import { crearCargadorNode } from "./datos";
 import { avisosDeConfiguracion, crearPresupuesto } from "./presupuesto";
+import { avisosProveedor } from "./proveedor";
 
 // Estado de la instancia (se conserva mientras siga caliente): datos cargados y contador de gasto en memoria.
 const cargador = crearCargadorNode(process.cwd(), import.meta.url);
 const presupuesto = crearPresupuesto();
 // Arranque de la instancia: avisa de variables mal escritas (se usa el valor por defecto en su lugar).
-for (const aviso of avisosDeConfiguracion(process.env)) console.warn(`[agente] ${aviso}`);
+for (const aviso of [...avisosProveedor(process.env), ...avisosDeConfiguracion(process.env)]) console.warn(`[agente] ${aviso}`);
 
 type PeticionVercel = IncomingMessage & { body?: unknown };
 

@@ -2,7 +2,7 @@
 import { Readable } from "node:stream";
 import { describe, expect, it } from "vitest";
 import { avisosDeConfiguracion, crearPresupuesto, diaMadrid, limiteIpDia, MAX_VISITANTES, proximoReinicio, topeDiarioUsd } from "./presupuesto";
-import { llamarModelo, proveedorDesdeEntorno, ErrorProveedor, ErrorTiempo } from "./proveedor";
+import { avisosProveedor, llamarModelo, proveedorDesdeEntorno, ErrorProveedor, ErrorTiempo } from "./proveedor";
 import { ipDe, leerCuerpo } from "./vercel";
 import { esPermitido, numerosDelTexto, numerosPermitidos, paraElModelo, validarTexto } from "./validador";
 
@@ -131,6 +131,25 @@ describe("proveedor", () => {
       razonamiento: "low",
       precio: { entrada: 1.25, salida: 4.25 },
     });
+  });
+
+  it("con META_API_KEY usa la API de Meta (muse-spark-1.3) y tiene prioridad sobre Baseten", () => {
+    const meta = { id: "meta", servicio: "Meta", baseUrl: "https://api.meta.ai/v1", modelo: "muse-spark-1.3", razonamiento: "low", precio: { entrada: 1.25, salida: 4.25 } };
+    expect(proveedorDesdeEntorno({ META_API_KEY: "m" })).toMatchObject({ ...meta, apiKey: "m" });
+    expect(proveedorDesdeEntorno({ META_API_KEY: "m", BASETEN_API_KEY: "b" })).toMatchObject({ ...meta, apiKey: "m" });
+    expect(proveedorDesdeEntorno({ META_API_KEY: "  ", BASETEN_API_KEY: "b" })).toMatchObject({ id: "baseten", apiKey: "b" });
+    expect(proveedorDesdeEntorno({ META_API_KEY: "m", META_MODEL: "otro", META_API_BASE_URL: "http://x/v1/" })).toMatchObject({ modelo: "otro", baseUrl: "http://x/v1" });
+  });
+
+  it("AGENTE_PROVEEDOR fuerza uno y, sin su clave, no pasa al otro; un valor mal escrito avisa y elige solo", () => {
+    expect(proveedorDesdeEntorno({ AGENTE_PROVEEDOR: "baseten", META_API_KEY: "m", BASETEN_API_KEY: "b" })).toMatchObject({ id: "baseten", apiKey: "b" });
+    expect(proveedorDesdeEntorno({ AGENTE_PROVEEDOR: " Meta ", META_API_KEY: "m", BASETEN_API_KEY: "b" })).toMatchObject({ id: "meta" });
+    expect(proveedorDesdeEntorno({ AGENTE_PROVEEDOR: "baseten", META_API_KEY: "m" })).toBeNull();
+    expect(proveedorDesdeEntorno({ AGENTE_PROVEEDOR: "meta", BASETEN_API_KEY: "b" })).toBeNull();
+    expect(proveedorDesdeEntorno({ AGENTE_PROVEEDOR: "openai", BASETEN_API_KEY: "b" })).toMatchObject({ id: "baseten" });
+    expect(avisosProveedor({ AGENTE_PROVEEDOR: "openai" })).toHaveLength(1);
+    expect(avisosProveedor({ AGENTE_PROVEEDOR: "meta" })).toEqual([]);
+    expect(avisosProveedor({})).toEqual([]);
   });
 
   const p = proveedorDesdeEntorno({ BASETEN_API_KEY: "k" })!;

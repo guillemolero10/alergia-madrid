@@ -55,7 +55,7 @@ export function avisoDeMotivo(m: MotivoRespaldo): string {
 /** Frase cuando el servidor ha descartado el texto del modelo por seguridad y da la respuesta calculada (`motivo: "revisada"`). */
 export const AVISO_RESPUESTA_REVISADA = "El agente propuso una cifra o un enlace que no sale del cálculo; te doy la respuesta calculada con los datos.";
 
-/** Tiempo máximo de espera: el servidor corta a los 25 s (504). */
+/** Tiempo máximo de espera: el servidor corta a los 26 s (504; `TIEMPO_TURNO_MS` en `servidor/agente.ts`). */
 export const TIEMPO_MAXIMO_MS = 28_000;
 /** Tras un fallo no se vuelve a pedir al servidor durante un rato (no se espera dos veces un tiempo agotado ni se pide algo que no existe). */
 export const ESPERA_SIN_API_MS = 10 * 60_000;

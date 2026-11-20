@@ -6,8 +6,6 @@ import { responderSinIA, PREGUNTAS_SUGERIDAS } from "../src/lib/donde/intencion"
 import { ALIAS_LUGARES } from "../src/lib/aliasLugares";
 import { datosReales } from "../src/lib/donde/datosPrueba";
 import { AVISO_2030 } from "../src/lib/donde/plantillas";
-import { enteroEs } from "../src/lib/donde/panelDonde";
-import { decimalCortoEs } from "../src/lib/donde/tuDecides";
 import type { Datos, PeticionAgente, RespuestaAgente } from "../src/lib/donde/tipos";
 import { HERRAMIENTAS_MODELO, MAX_LLAMADAS_POR_VUELTA, manejarAgente, validarPeticion, type Dependencias, type EntradaHttp } from "./agente";
 import { crearCargadorNode } from "./datos";
@@ -95,7 +93,7 @@ async function enReglas(p: PeticionAgente): Promise<RespuestaAgente> {
 describe("las 4 preguntas sugeridas dan lo mismo que el modo sin IA (acciones y pasos)", () => {
   it("«¿Dónde pondrías una residencia en el sur?»: Leganés, el punto del caso 4 (con la media de la Comunidad, la referencia de referencia.json)", async () => {
     const p = peticion(PREGUNTAS_SUGERIDAS[0]!, { servicio: "residencia", radio_m: 10000, referencia: "media" });
-    const sim = modeloQue(["ubicacion_optima", { servicio: "residencia", zona: "sur" }], (s) => `El mejor sitio para una residencia de ${s.plazas} plazas en el sur es ${s.puntos[0].municipio}: reduce en ${decimalCortoEs(s.puntos[0].reduce)} las plazas que faltan. ${s.criterio}`);
+    const sim = modeloQue(["ubicacion_optima", { servicio: "residencia", zona: "sur" }], (s) => `El mejor sitio para una residencia de ${s.plazas_del_centro} en el sur es ${s.puntos[0].municipio}: pasan a estar cubiertas ${s.puntos[0].plazas_que_pasan_a_estar_cubiertas}. ${s.criterio}`);
     const deps = montar({ fetch: sim.fetch });
     const { status, cuerpo } = await preguntar(p, deps);
     const reglas = await enReglas(p);
@@ -115,7 +113,7 @@ describe("las 4 preguntas sugeridas dan lo mismo que el modo sin IA (acciones y 
 
   it("«¿En qué municipios de la sierra ayudaría más un hospital?»: ranking con filas calculadas por el servidor", async () => {
     const p = peticion(PREGUNTAS_SUGERIDAS[1]!);
-    const sim = modeloQue(["ranking_deficit", { servicio: "hospital", zona: "sierra" }], (s) => `En la sierra, el más afectado es ${s.filas[0].nombre} (${decimalCortoEs(s.filas[0].pct)} % de su población en déficit). ${s.criterio}`);
+    const sim = modeloQue(["ranking_deficit", { servicio: "hospital", zona: "sierra" }], (s) => `En la sierra, el más afectado es ${s.filas[0].nombre} (${s.filas[0].porcentaje} de su población con margen de mejora). ${s.criterio}`);
     const { status, cuerpo } = await preguntar(p, montar({ fetch: sim.fetch }));
     const reglas = await enReglas(p);
     expect(status).toBe(200);
@@ -127,7 +125,7 @@ describe("las 4 preguntas sugeridas dan lo mismo que el modo sin IA (acciones y 
 
   it("«¿Y si la pongo en Pinto?» con la residencia de la pantalla: simulación", async () => {
     const p = peticion(PREGUNTAS_SUGERIDAS[2]!, { servicio: "residencia", radio_m: 10000 });
-    const sim = modeloQue(["simular_centro", { servicio: "residencia", lugar: "Pinto" }], (s) => `En ${s.municipio} reduciría en ${enteroEs(s.reduce)} las plazas que faltan; ${s.detalle}`);
+    const sim = modeloQue(["simular_centro", { servicio: "residencia", lugar: "Pinto" }], (s) => `En ${s.lugar} pasarían a estar cubiertas ${s.plazas_que_pasan_a_estar_cubiertas}; ${s.detalle}`);
     const { status, cuerpo } = await preguntar(p, montar({ fetch: sim.fetch }));
     const reglas = await enReglas(p);
     expect(status).toBe(200);
@@ -139,7 +137,7 @@ describe("las 4 preguntas sugeridas dan lo mismo que el modo sin IA (acciones y 
 
   it("«¿Qué le falta a Parla?»: ficha", async () => {
     const p = peticion(PREGUNTAS_SUGERIDAS[3]!);
-    const sim = modeloQue(["ficha_municipio", { lugar: "Parla" }], (s) => `${s.nombre} tiene ${enteroEs(s.poblacion)} habitantes. Le faltan ${s.faltan.length} servicios frente a la media.`);
+    const sim = modeloQue(["ficha_municipio", { lugar: "Parla" }], (s) => `${s.nombre} tiene ${s.habitantes} habitantes. Hay ${s.donde_mas_ayudaria_un_centro_nuevo.length} servicios donde ayudaría más un centro nuevo.`);
     const { status, cuerpo } = await preguntar(p, montar({ fetch: sim.fetch }));
     const reglas = await enReglas(p);
     expect(status).toBe(200);
@@ -221,11 +219,11 @@ describe("cifras inventadas", () => {
 describe("contexto de la pantalla", () => {
   it("con 2030 en el contexto calcula con la proyección y antepone el aviso", async () => {
     const p = peticion("¿Y si pongo una residencia en Pinto?", { servicio: "residencia", radio_m: 10000, anio: 2030 });
-    const sim = modeloQue(["simular_centro", { servicio: "residencia", lugar: "Pinto" }], (s) => `En ${s.municipio} reduciría en ${enteroEs(s.reduce)} las plazas que faltan.`);
+    const sim = modeloQue(["simular_centro", { servicio: "residencia", lugar: "Pinto" }], (s) => `En ${s.lugar} pasarían a estar cubiertas ${s.plazas_que_pasan_a_estar_cubiertas}.`);
     const { status, cuerpo } = await preguntar(p, montar({ fetch: sim.fetch }));
     expect(status).toBe(200);
     expect(sim.llamadas[1]!.cuerpo.messages[0]!.content as string).toMatch(/2030/);
-    expect(salidasRecibidas(sim.llamadas[1]!)[0]!.salida!.anio_poblacion).toBe(2030);
+    expect(salidasRecibidas(sim.llamadas[1]!)[0]!.salida!.anio).toBe(2030);
     expect(cuerpo.texto.startsWith(AVISO_2030)).toBe(true);
     // Las cifras de 2030 no son las de hoy.
     const hoy = await preguntar({ ...p, contexto: { ...p.contexto, anio: 2025 } }, montar({ fetch: modeloQue(["simular_centro", { servicio: "residencia", lugar: "Pinto" }], () => "Hecho.").fetch }));
@@ -234,9 +232,9 @@ describe("contexto de la pantalla", () => {
 
   it("la referencia elegida en el panel llega al motor (IMSERSO España = 4,05)", async () => {
     const p = peticion("¿Qué municipios están peor en residencias?", { servicio: "residencia", radio_m: 10000, referencia: "imserso_espana" });
-    const sim = modeloQue(["ranking_deficit", { servicio: "residencia" }], (s) => `Con la referencia de ${s.umbral} plazas por cada 100 mayores, el primero es ${s.filas[0].nombre}.`);
+    const sim = modeloQue(["ranking_deficit", { servicio: "residencia" }], (s) => `Con el criterio «${s.criterio}», el primero es ${s.filas[0].nombre}.`);
     const { cuerpo } = await preguntar(p, montar({ fetch: sim.fetch }));
-    expect(salidasRecibidas(sim.llamadas[1]!)[0]!.salida!.umbral).toBe(4.05);
+    expect(salidasRecibidas(sim.llamadas[1]!)[0]!.salida!.criterio).toMatch(/4,05/);
     expect(cuerpo.modo).toBe("ia");
   });
 
@@ -276,6 +274,17 @@ describe("el modelo solo puede usar las 5 herramientas", () => {
     const otro = simulado(() => texto("Hola."));
     await preguntar(peticion("hola"), montar({ fetch: otro.fetch, env: { ...ENV, BASETEN_MODEL: "otro/modelo" } }));
     expect(otro.llamadas[0]!.cuerpo.model).toBe("otro/modelo");
+  });
+
+  it("con META_API_KEY llama a la API de Meta con muse-spark-1.3, y la clave de Meta solo va en la cabecera", async () => {
+    const sim = simulado(() => texto("Hola."));
+    await preguntar(peticion("hola"), montar({ fetch: sim.fetch, env: { AGENTE_ACTIVO: "1", META_API_KEY: "clave-meta-no-real", BASETEN_API_KEY: "otra" } }));
+    const v = sim.llamadas[0]!;
+    expect(v.url).toBe("https://api.meta.ai/v1/chat/completions");
+    expect(v.cuerpo.model).toBe("muse-spark-1.3");
+    expect(v.cuerpo.reasoning_effort).toBe("low");
+    expect(v.cabeceras.Authorization).toBe("Bearer clave-meta-no-real");
+    expect(JSON.stringify(v.cuerpo)).not.toMatch(/clave-meta-no-real/);
   });
 
   it("una herramienta inventada, argumentos rotos o un servicio fuera del enum no se ejecutan: el modelo recibe el error y no salen acciones", async () => {
@@ -440,7 +449,7 @@ describe("fallos del proveedor", () => {
     expect(cuerpo.texto).toMatch(/^Parla tiene 138\.012 habitantes/);
   });
 
-  it("si el turno ya pasó de 25 s y hay algo calculado: plantilla, sin volver a llamar al proveedor", async () => {
+  it("si el turno ya pasó del límite y hay algo calculado: plantilla, sin volver a llamar al proveedor", async () => {
     let t = 0;
     const sim = simulado(() => {
       t += 26_000; // la primera respuesta llega tarde

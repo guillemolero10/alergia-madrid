@@ -341,7 +341,7 @@ describe("T4 coherencia con el motor y con el modo sin IA", () => {
       expect(Math.abs(marcar.puntos[0]!.lon - esperado.lon)).toBeLessThan(1e-4);
     }
     expect(salida.puntos[0].municipio).toBe("Leganés");
-    expect(salida.puntos[0].reduce).toBeCloseTo(93.82, 1);
+    expect(salida.puntos[0].plazas_que_pasan_a_estar_cubiertas).toBe("93,8 plazas");
   });
   it("caso 5 (Pinto, 94 plazas) por NOMBRE de lugar (el modelo ya no manda coordenadas): igual en el servidor que en el motor con cada referencia; media 64, IMSERSO España 63", async () => {
     const d = await cargador.datos(2025);
@@ -351,8 +351,8 @@ describe("T4 coherencia con el motor y con el modo sin IA", () => {
       const motor = await ejecutarHerramienta("simular_centro", { servicio: "residencia", lugar: "Pinto", plazas: 94 }, e);
       const sim = simulado((n) => (n === 0 ? herr(["simular_centro", { servicio: "residencia", lugar: "Pinto", plazas: 94 }]) : texto("Hecho.")));
       await preguntar(pet("¿Y si la pongo en Pinto?", ctx), montar({ fetch: sim.fetch }));
-      const delServidor = salidas(sim.vistos[1]!)[0]!.salida.reduce;
-      expect(motor.ok && (motor.salida as { reduce: number }).reduce, ref).toBe(delServidor);
+      const delServidor = Number(String(salidas(sim.vistos[1]!)[0]!.salida.plazas_que_pasan_a_estar_cubiertas).split(" ")[0]!.replace(",", "."));
+      expect(motor.ok && Math.round((motor.salida as { reduce: number }).reduce * 10) / 10, ref).toBe(delServidor);
       if (esperado !== null) expect(Math.round(delServidor), ref).toBe(esperado);
     }
   });

@@ -1,5 +1,8 @@
-// Cliente del modelo de IA del agente: Muse Spark Open (Meta, pesos abiertos) servido por Baseten con una API compatible
-// con OpenAI (`POST {base}/chat/completions`).
+// Cliente del modelo de IA del agente: Muse Spark (Meta), con una API compatible con OpenAI (`POST {base}/chat/completions`).
+// Dos proveedores, elegidos por variables de entorno:
+//  - **Meta** (por defecto): la Model API de Meta (`https://api.meta.ai/v1`, `muse-spark-1.3`), clave `META_API_KEY`.
+//  - **Baseten** (alternativa): Muse Spark Open, los pesos abiertos (`meta-models/muse-spark-open`), clave `BASETEN_API_KEY`.
+// `AGENTE_PROVEEDOR=meta|baseten` fuerza uno; sin ella se usa Meta si hay `META_API_KEY` y, si no, Baseten si hay `BASETEN_API_KEY`.
 //
 // Código reutilizado y declarado: la estructura (proveedor con clave solo por variable de entorno, `reasoning_effort` bajo y
 // margen en `max_tokens` porque Muse siempre razona, un reintento ante 429/5xx, error si la respuesta viene vacía, coste por
@@ -10,34 +13,94 @@
 // Sin DOM ni `import.meta.env`. La clave solo se lee de `process.env` en el servidor.
 import type { UsoLlamada } from "./presupuesto";
 
+export type IdProveedor = "meta" | "baseten";
+
 export interface Proveedor {
+  id: IdProveedor;
+  /** Modelo, para los registros y los avisos («Muse Spark», «Muse Spark Open»). */
   nombre: string;
+  /** Quién sirve el modelo («Meta», «Baseten»). */
+  servicio: string;
   baseUrl: string;
   apiKey: string;
   modelo: string;
-  /** Muse razona siempre; el esfuerzo bajo acorta el razonamiento (no lo apaga). */
+  /** Muse razona siempre; el esfuerzo bajo acorta el razonamiento (no lo apaga; «none» da 400 en Meta). */
   razonamiento: "low";
-  /** Dólares por millón de tokens (entrada y salida): Muse Spark, 1,25 / 4,25 (dev.meta.ai, comprobado en DockClerk el 31-oct-2026). */
+  /** Dólares por millón de tokens (entrada y salida): Muse Spark, 1,25 / 4,25 (dev.meta.ai/docs/pricing-rate-limits, comprobado en DockClerk el 31-oct-2026). */
   precio: { entrada: number; salida: number };
 }
 
-export const MODELO_POR_DEFECTO = "meta-models/muse-spark-open";
-export const BASE_POR_DEFECTO = "https://inference.baseten.co/v1";
+interface Configuracion {
+  nombre: string;
+  servicio: string;
+  base: string;
+  modelo: string;
+  varClave: string;
+  varBase: string;
+  varModelo: string;
+}
+
+export const PROVEEDORES: Record<IdProveedor, Configuracion> = {
+  meta: {
+    nombre: "Muse Spark",
+    servicio: "Meta",
+    base: "https://api.meta.ai/v1",
+    modelo: "muse-spark-1.3",
+    varClave: "META_API_KEY",
+    varBase: "META_API_BASE_URL",
+    varModelo: "META_MODEL",
+  },
+  baseten: {
+    nombre: "Muse Spark Open",
+    servicio: "Baseten",
+    base: "https://inference.baseten.co/v1",
+    // El id normal, no el «[HACKATHON]», que puede desaparecer.
+    modelo: "meta-models/muse-spark-open",
+    varClave: "BASETEN_API_KEY",
+    varBase: "BASETEN_BASE_URL",
+    varModelo: "BASETEN_MODEL",
+  },
+};
 
 type Entorno = Record<string, string | undefined>;
 
-/** El proveedor configurado, o null si falta la clave (el agente responde entonces 503 `sin_clave`). */
-export function proveedorDesdeEntorno(env: Entorno): Proveedor | null {
-  const apiKey = env.BASETEN_API_KEY?.trim();
+/** El valor de `AGENTE_PROVEEDOR` si es válido; si no (vacío o mal escrito), null = automático. */
+export function proveedorElegido(env: Entorno): IdProveedor | null {
+  const v = env.AGENTE_PROVEEDOR?.trim().toLowerCase();
+  return v === "meta" || v === "baseten" ? v : null;
+}
+
+function construir(id: IdProveedor, env: Entorno): Proveedor | null {
+  const c = PROVEEDORES[id];
+  const apiKey = env[c.varClave]?.trim();
   if (!apiKey) return null;
   return {
-    nombre: "Muse Spark Open",
+    id,
+    nombre: c.nombre,
+    servicio: c.servicio,
     apiKey,
-    baseUrl: (env.BASETEN_BASE_URL?.trim() || BASE_POR_DEFECTO).replace(/\/$/, ""),
-    modelo: env.BASETEN_MODEL?.trim() || MODELO_POR_DEFECTO,
+    baseUrl: (env[c.varBase]?.trim() || c.base).replace(/\/$/, ""),
+    modelo: env[c.varModelo]?.trim() || c.modelo,
     razonamiento: "low",
     precio: { entrada: 1.25, salida: 4.25 },
   };
+}
+
+/**
+ * El proveedor configurado, o null si falta su clave (el agente responde entonces 503 `sin_clave`).
+ * Con `AGENTE_PROVEEDOR` forzado y sin su clave, NO se pasa al otro: así no se gasta en una cuenta que no se ha elegido.
+ */
+export function proveedorDesdeEntorno(env: Entorno): Proveedor | null {
+  const elegido = proveedorElegido(env);
+  if (elegido) return construir(elegido, env);
+  return construir("meta", env) ?? construir("baseten", env);
+}
+
+/** Avisos de arranque sobre el proveedor (variable mal escrita). */
+export function avisosProveedor(env: Entorno): string[] {
+  const v = env.AGENTE_PROVEEDOR?.trim();
+  if (v && !proveedorElegido(env)) return [`AGENTE_PROVEEDOR="${v.slice(0, 20)}" no es «meta» ni «baseten»: se elige solo (Meta si hay META_API_KEY; si no, Baseten).`];
+  return [];
 }
 
 // ---------------------------------------------------------------- mensajes (formato OpenAI)
@@ -74,13 +137,19 @@ export class ErrorProveedor extends Error {
   }
 }
 
-/** Se agotó el tiempo del turno (504). */
+/** Se agotó el tiempo del turno (504). `enviada`: la petición ya había salido hacia el proveedor (puede cobrarla). */
 export class ErrorTiempo extends Error {
-  constructor() {
+  constructor(public enviada = false) {
     super("Se agotó el tiempo del turno");
     this.name = "ErrorTiempo";
   }
 }
+
+/**
+ * Coste que se apunta cuando una petición ya enviada se corta por tiempo (R5-I1): el proveedor puede cobrarla aunque no llegue la
+ * respuesta, así que cuenta en el tope del día y el cupo del visitante no se devuelve. Es la «llamada cara» de `presupuesto.ts`.
+ */
+export const COSTE_LLAMADA_CORTADA_USD = 0.025;
 
 /** Tokens que puede gastar Muse razonando, además de la respuesta. «low» no es un tope duro (se han visto de 25 a 800). */
 const MARGEN_RAZONAMIENTO = 2500;
@@ -102,6 +171,8 @@ export interface OpcionesLlamada {
   ahora?: () => number;
   espera?: (ms: number) => Promise<void>;
 }
+
+const esCorte = (e: unknown) => e instanceof Error && (e.name === "TimeoutError" || e.name === "AbortError");
 
 const dormir = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
@@ -126,6 +197,11 @@ export async function llamarModelo(p: Proveedor, mensajes: MensajeModelo[], o: O
   const f = o.fetch ?? fetch;
   const esperar = o.espera ?? dormir;
   const inicio = ahora();
+  /** La petición ya salió: se apunta como gastada (el proveedor puede cobrarla) y se corta el turno. */
+  const cortadaPorTiempo = (): never => {
+    o.despues?.({ entrada: 0, salida: 0, razonamiento: 0, costeUsd: COSTE_LLAMADA_CORTADA_USD, ms: ahora() - inicio });
+    throw new ErrorTiempo(true);
+  };
 
   for (let intento = 0; ; intento++) {
     const margen = MARGEN_RAZONAMIENTO * (intento + 1);
@@ -151,7 +227,7 @@ export async function llamarModelo(p: Proveedor, mensajes: MensajeModelo[], o: O
           signal: AbortSignal.timeout(queda),
         });
       } catch (e) {
-        if (ahora() >= o.limite - 50 || (e instanceof Error && (e.name === "TimeoutError" || e.name === "AbortError"))) throw new ErrorTiempo();
+        if (ahora() >= o.limite - 50 || esCorte(e)) cortadaPorTiempo();
         throw new ErrorProveedor("red", e instanceof Error ? e.message : "sin red");
       }
 
@@ -167,7 +243,9 @@ export async function llamarModelo(p: Proveedor, mensajes: MensajeModelo[], o: O
       let datos: CuerpoRespuesta;
       try {
         datos = (await res.json()) as CuerpoRespuesta;
-      } catch {
+      } catch (e) {
+        // Si el tiempo se agota mientras llega el cuerpo, la respuesta ya estaba pagada: es un corte por tiempo, no un fallo de formato.
+        if (esCorte(e) || ahora() >= o.limite - 50) cortadaPorTiempo();
         throw new ErrorProveedor("formato", `${p.nombre} no devolvió un JSON`);
       }
       const msg = datos.choices?.[0]?.message;

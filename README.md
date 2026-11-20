@@ -13,7 +13,7 @@ Cruza los registros oficiales de centros de la Comunidad de Madrid con la poblac
 - **Tú decides:** colocas un centro nuevo en el mapa (arrastrándolo, con el dedo o con el teclado) y ves al momento cuántos vecinos ganan acceso o, en residencias, cuántas plazas más se cubren.
 - **El modelo:** calcula la mejor ubicación (algoritmo voraz de máxima cobertura) y compara tu propuesta con ella («logra el 68 % del óptimo»).
 - **Madrid en 2030:** repite el cálculo con la población proyectada para 2030 (proyección oficial INE/Comunidad repartida por sección y validada con los años 2021-2025).
-- **Agente:** preguntas en lenguaje natural («¿dónde pondrías una residencia en el sur?»). El agente usa las mismas herramientas de cálculo, mueve el mapa y explica el resultado; cada cifra del texto sale de esas herramientas. Con IA (Muse Spark Open, de Meta, en Baseten) entiende preguntas libres; **sin clave, sin conexión o con el tope de gasto agotado responde en «Modo sin IA»** (interpreta la pregunta por reglas en el navegador, con las mismas herramientas). Cómo activarlo: [docs/I2-agente.md](docs/I2-agente.md).
+- **Agente:** preguntas en lenguaje natural («¿dónde pondrías una residencia en el sur?»). El agente usa las mismas herramientas de cálculo, mueve el mapa y explica el resultado; cada cifra del texto sale de esas herramientas. Con IA (Muse Spark, de Meta, a través de su API) entiende preguntas libres; **sin clave, sin conexión o con el tope de gasto agotado responde en «Modo sin IA»** (interpreta la pregunta por reglas en el navegador, con las mismas herramientas). Cómo activarlo: [docs/I2-agente.md](docs/I2-agente.md).
 
 **2. Mi municipio** (vista del ciudadano)
 - Buscas tu municipio o distrito y ves qué servicios tiene, cómo está frente a la media de la Comunidad, dónde un centro nuevo le ayudaría más y cómo está el aire hoy (red de estaciones de la Comunidad, actualizada varias veces al día).
@@ -84,7 +84,7 @@ Detalle de fuentes, decisiones y comprobaciones: [DATOS-DONDE.md](DATOS-DONDE.md
 ## Uso de IA
 El desarrollo se ha hecho con ayuda de asistentes de IA (permitido por las bases).
 
-**En la aplicación**, el agente de «¿Dónde hace falta?» usa [Muse Spark Open](https://www.baseten.co) (Meta, pesos abiertos) a través de Baseten, con la API compatible con OpenAI. El modelo solo puede llamar a 5 herramientas de cálculo del propio proyecto; cada cifra del texto se valida contra sus resultados y, si no coincide, se responde con una plantilla. Sin clave, el agente funciona en modo sin IA (reglas). Código en `servidor/` (función `api/agente.js`, generada con `npm run build:api`).
+**En la aplicación**, el agente de «¿Dónde hace falta?» usa [Muse Spark](https://dev.meta.ai) (`muse-spark-1.3`) a través de la API de Meta, compatible con OpenAI; con `AGENTE_PROVEEDOR=baseten` usa Muse Spark Open (pesos abiertos) en Baseten. El modelo solo puede llamar a 5 herramientas de cálculo del propio proyecto; cada cifra del texto se valida contra sus resultados y, si no coincide, se responde con una plantilla. Sin clave, el agente funciona en modo sin IA (reglas). Código en `servidor/` (función `api/agente.js`, generada con `npm run build:api`).
 
 **Código reutilizado (propio):** `servidor/proveedor.ts` (cliente del modelo: clave solo por variable de entorno, `reasoning_effort` bajo, reintentos, coste por llamada) y `servidor/presupuesto.ts` (tope de gasto diario) están adaptados del proyecto DockClerk de Guillermo Molero (`apps/meta-hackathon/dockclerk/src/lib/ai/`), escrito para el Meta Hackathon.
 

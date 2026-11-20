@@ -3,8 +3,8 @@
 // Adaptado de `apps/meta-hackathon/dockclerk/src/lib/ai/budget.ts` (proyecto propio de Guillermo Molero). Allí el total vive en una
 // base de datos (Prisma) compartida por todas las instancias; aquí no hay base de datos, así que el contador es por instancia de la
 // función. LIMITACIÓN DECLARADA: con varias instancias en caliente, o tras un arranque en frío, el contador vuelve a cero y el gasto
-// real puede superar el tope por un factor pequeño. El freno de fondo son los créditos prepagados de Baseten y el tope de la
-// organización en su panel. Si hiciera falta un contador global: Upstash Redis (Vercel Marketplace).
+// real puede superar el tope por un factor pequeño. El freno de fondo son los créditos prepagados del proveedor (Meta o Baseten) y
+// el tope de gasto de su panel. Si hiciera falta un contador global: Upstash Redis (Vercel Marketplace).
 //
 // Sin DOM ni `import.meta.env`.
 import { createHash } from "node:crypto";

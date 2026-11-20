@@ -1,30 +1,31 @@
 # I2: el agente con IA (`POST /api/agente`)
 
-Estado: **hecho y probado con el proveedor simulado**; falta la prueba con el modelo real (necesita la clave de Baseten de Guillermo).
+Estado: **hecho, probado con el proveedor simulado y con el modelo real** (prueba de humo e I3: 12/12, `docs/I3-informe.md`). **20-nov: proveedor por defecto = API de Meta** (`muse-spark-1.3`, clave `META_API_KEY`); Baseten queda como alternativa (`AGENTE_PROVEEDOR=baseten`), porque la cuenta de Baseten del hackathon quedó «en revisión».
 
 ## Qué hace
 La web llama a `POST /api/agente` con la conversación y lo que hay en pantalla (servicio, radio, año 2025/2030, referencia de plazas, zona, lugar). El servidor:
-1. Responde **503** limpio (y la web pasa al «Modo sin IA») si `AGENTE_ACTIVO` no es `1`, si falta `BASETEN_API_KEY` o si se ha superado el tope de gasto del día.
+1. Responde **503** limpio (y la web pasa al «Modo sin IA») si `AGENTE_ACTIVO` no es `1`, si falta la clave del proveedor (`META_API_KEY` o `BASETEN_API_KEY`) o si se ha superado el tope de gasto del día.
 2. Valida la petición (400 si algo no cuadra) y aplica el límite por visitante (429).
-3. Pregunta a **Muse Spark Open en Baseten** con 5 herramientas (las del motor de `src/lib/donde/herramientas.ts`, las mismas del modo sin IA). Bucle de hasta 5 vueltas, 3 herramientas por vuelta, 6 en total, 25 s de tiempo.
+3. Pregunta a **Muse Spark en la API de Meta** (o a Muse Spark Open en Baseten, si se elige) con 5 herramientas (las del motor de `src/lib/donde/herramientas.ts`, las mismas del modo sin IA). Bucle de hasta 5 vueltas, 3 herramientas por vuelta, 6 en total, 26 s de tiempo (`TIEMPO_TURNO_MS`).
 4. Valida el texto final (ver «Validador» abajo): cada cifra tiene que salir de los resultados de las herramientas de esta petición, de lo que escribió el usuario o del contexto de la pantalla; sin enlaces, código ni HTML. Si no pasa, responde con la plantilla del modo reglas (`modo: "reglas"`, mismas acciones y pasos) y `motivo: "revisada"`; la web lo etiqueta «Modo sin IA (respuesta revisada)» y explica que el texto del agente se descartó.
 5. Devuelve `{texto, acciones, pasos, modo, restantes, motivo?}` (`motivo` solo con `"revisada"`), el contrato de `src/lib/donde/tipos.ts` que ya entiende la web.
 
-Archivos: `servidor/agente.ts` (lógica), `proveedor.ts` (cliente del modelo), `presupuesto.ts` (tope y límite), `validador.ts`, `datos.ts` (carga de `public/donde/`), `prompts/agente-v2.ts` (prompt de sistema versionado; la v1 queda como historial), `vercel.ts` (adaptador), `vite.ts` (solo desarrollo). `api/agente.js` es el empaquetado de todo eso en un solo archivo (`npm run build:api`; `npm run build` lo regenera): Vercel lo ejecuta tal cual y no depende de cómo resuelva los imports del motor.
+Archivos: `servidor/agente.ts` (lógica), `proveedor.ts` (cliente del modelo), `presupuesto.ts` (tope y límite), `validador.ts`, `datos.ts` (carga de `public/donde/`), `prompts/agente-v4.ts` (prompt de sistema versionado; las anteriores quedan como historial), `vista-modelo.ts` (cómo ve el modelo los resultados), `vercel.ts` (adaptador), `vite.ts` (solo desarrollo). `api/agente.js` es el empaquetado de todo eso en un solo archivo (`npm run build:api`; `npm run build` lo regenera): Vercel lo ejecuta tal cual y no depende de cómo resuelva los imports del motor.
 
 ## Qué tiene que hacer Guillermo
-1. En [app.baseten.co](https://app.baseten.co) crear **una clave nueva solo para este proyecto** (no copiar la de DockClerk). Mirar el saldo de créditos y **si al acabarse cobra a la tarjeta**.
+1. En [dev.meta.ai](https://dev.meta.ai) crear **una clave nueva solo para este proyecto** (`donde-hace-falta`; no copiar la de DockClerk) y poner el **tope de gasto en Billing** (5 $): al acabarse los créditos cobra a la tarjeta.
 2. En `.env.local` (raíz de `alergia-madrid/`, no se sube):
    ```
-   BASETEN_API_KEY=<la clave nueva>
+   META_API_KEY=<la clave nueva>
    AGENTE_ACTIVO=1
    AI_DAILY_BUDGET_USD=3
+   AGENTE_LIMITE_IP_DIA=50
    ```
-   Opcionales: `BASETEN_MODEL` (por defecto `meta-models/muse-spark-open`; comprobar en Baseten que el id sigue existiendo), `BASETEN_BASE_URL` (por defecto `https://inference.baseten.co/v1`; solo para pruebas con un servidor falso) y `AGENTE_LIMITE_IP_DIA` (por defecto 10 preguntas con IA por visitante y día; **entero >= 1**: `0` o un valor no válido NO apaga el límite, vuelve a 10 y el arranque lo avisa en el log; para la demo del 26 conviene subirlo, p. ej. 50).
+   Elección del proveedor: sin `AGENTE_PROVEEDOR`, Meta si hay `META_API_KEY` y, si no, Baseten si hay `BASETEN_API_KEY`; `AGENTE_PROVEEDOR=meta|baseten` fuerza uno (si falta su clave, no se pasa al otro). Opcionales de Meta: `META_MODEL` (por defecto `muse-spark-1.3`) y `META_API_BASE_URL` (por defecto `https://api.meta.ai/v1`). Opcionales de Baseten: `BASETEN_API_KEY`, `BASETEN_MODEL` (por defecto `meta-models/muse-spark-open`; comprobar en Baseten que el id sigue existiendo), `BASETEN_BASE_URL` (por defecto `https://inference.baseten.co/v1`; solo para pruebas con un servidor falso) y `AGENTE_LIMITE_IP_DIA` (por defecto 10 preguntas con IA por visitante y día; **entero >= 1**: `0` o un valor no válido NO apaga el límite, vuelve a 10 y el arranque lo avisa en el log; para la demo del 26 conviene subirlo, p. ej. 50).
 3. Al publicar (solo con su visto bueno): las mismas variables en Vercel → Settings → Environment Variables (Production). Sin ellas, el agente responde 503 y la web funciona en modo sin IA.
 
 ## Cómo probarlo
-- **`npm run dev`** (el más simple): con `BASETEN_API_KEY` y `AGENTE_ACTIVO=1` en `.env.local`, Vite monta `/api/agente` (arranca diciendo «agente de IA: activo»). Sin esas variables, `/api` no existe y la web usa el modo sin IA, como antes. Pregunta en el panel del agente; la consola de Vite muestra una línea por pregunta (herramientas, tokens, coste y ms; nunca el texto).
+- **`npm run dev`** (el más simple): con la clave (`META_API_KEY` o `BASETEN_API_KEY`) y `AGENTE_ACTIVO=1` en `.env.local`, Vite monta `/api/agente` (arranca diciendo «agente de IA: activo»). Sin esas variables, `/api` no existe y la web usa el modo sin IA, como antes. Pregunta en el panel del agente; la consola de Vite muestra una línea por pregunta (herramientas, tokens, coste y ms; nunca el texto).
 - **`vercel dev`** (opcional, prueba la función empaquetada tal como irá a producción; necesita la CLI de Vercel y enlazar el proyecto, que es una acción de cuenta: no se ha hecho).
 - **`curl`** contra cualquiera de los dos (el plan lo usa como prueba final):
   ```
@@ -38,7 +39,7 @@ Archivos: `servidor/agente.ts` (lógica), `proveedor.ts` (cliente del modelo), `
 
 ## Decisiones
 - **Reglas primero, IA solo donde hace falta:** el modo sin IA cubre 4 patrones; la IA entiende preguntas libres («¿y si en vez de en Parla la pongo en Pinto?», «compara…») y explica el porqué. Los números siempre los pone el motor.
-- **Modelo:** Muse Spark Open (créditos del Meta Hackathon, 1,25 / 4,25 $ por millón de tokens de entrada y salida; confirmado en terceros: Baseten lista además 0,15 $ por millón de entrada en caché). `reasoning_effort: "low"` y `max_tokens` = 1.500 + 2.500 de margen para el razonamiento (Muse siempre razona; con poco margen devuelve vacío). Una respuesta vacía se reintenta una vez con más margen.
+- **Modelo:** Muse Spark `muse-spark-1.3` en la API de Meta (por defecto) o Muse Spark Open en Baseten (créditos del Meta Hackathon en los dos, 1,25 / 4,25 $ por millón de tokens de entrada y salida; confirmado en terceros: Baseten lista además 0,15 $ por millón de entrada en caché). `reasoning_effort: "low"` y `max_tokens` = 1.500 + 2.500 de margen para el razonamiento (Muse siempre razona; con poco margen devuelve vacío). Una respuesta vacía se reintenta una vez con más margen.
 - **Si el tool calling de Muse fallara** en la prueba real: alternativa Claude Haiku (clave de console.anthropic.com, de pago; lo decide Guillermo) o quedarse solo con el modo sin IA. `proveedor.ts` es el único sitio que habría que tocar.
 - **Datos en la función:** se leen de `public/donde/` con `fs` (incluidos con `vercel.json`: `includeFiles`, sin el GeoJSON de 2,5 MB). Arranque en frío: `secciones.json` + `territorios.json` (1,2 MB, ~40 ms); cada servicio al pedirlo; `secciones_2030.json` solo con 2030. Medido con el empaquetado: primera pregunta completa 115 ms (con proveedor simulado), siguientes 15-40 ms.
 - **Contexto de la pantalla:** se amplió `ContextoAgente` con `anio`, `referencia` y `zona` (opcionales; `useAgente.ts` los envía). Así el agente calcula con 2030 y con la referencia que ve el usuario.
@@ -69,11 +70,19 @@ Tamaños medidos con el empaquetado: prompt de sistema 2,3 kB + esquemas de las 
 | Típica (1 herramienta) | ~4.500-5.500 | ~700-1.500 | **≈ 0,01 $** |
 | Cara (3 herramientas, 5 vueltas) | ~15.000 | ~4.000 | ≈ 0,04 $ |
 
-Con el tope de 3 $/día caben unas 250-300 preguntas típicas; con los 100 $ de Baseten, unas 9.000. (El plan estimaba 0,025 $; esta cuenta sale por debajo porque el resultado de las herramientas es corto.) **El dato real hay que medirlo en la primera prueba con la clave:** cada pregunta escribe una línea con `tokens_entrada`, `tokens_salida` y `coste_usd`; anotar la media en `DATOS-DONDE.md`.
+Con el tope de 3 $/día caben unas 250-300 preguntas típicas; con los créditos de Meta (150 $), unas 13.000. (El plan estimaba 0,025 $; esta cuenta sale por debajo porque el resultado de las herramientas es corto.) **Medido con el modelo real (I3, 20-nov): 0,0107 $ por pregunta de media** (detalle en `DATOS-DONDE.md`). Cada pregunta escribe una línea de log con `tokens_entrada`, `tokens_salida` y `coste_usd`.
 
 ## Pendiente
-- Prueba con el modelo real (3 preguntas de humo) y medir el coste medio; I3 (12 preguntas de evaluación contra el modelo real, acierto objetivo ≥ 10 de 12).
+- ~~Prueba con el modelo real y medir el coste.~~ Hecha (20-nov): 0,011 $ por pregunta de media (0,004 la inyección, hasta 0,013 la más cara de la I3).
+- ~~I3: 12 preguntas contra el modelo real.~~ Hecha: **12/12** con `agente-v4` (la v3 sacaba 2/12). Informe y historial en `docs/I3-informe.md`; se relanza con `npm run evaluar` (el script se niega a correr sin clave o con `AGENTE_ACTIVO` distinto de 1; `-- --solo=3,5` para unas pocas, sin informe).
+- **Latencia:** 11-20 s por pregunta (I3: 11,6 s de media, 19,5 s de máximo). Alguna respuesta aislada pasa del límite (en la I3, la pregunta 8 de la pasada 4): con resultados ya calculados se responde con la plantilla sin IA; sin resultados, 504 y la web pasa al modo sin IA durante 60 s («Nueva conversación» lo reinicia). **Decidido en la R5: `TIEMPO_TURNO_MS` = 26 s**, la web espera 28 s y `maxDuration` es 30 s. El reloj del servidor empieza después del arranque en frío, así que quedan ~2 s de margen frente a la web.
+- **Coste de los cortes (R5-I1):** una petición que ya salió hacia Meta y se corta por tiempo cuenta 0,025 $ en el tope del día (`COSTE_LLAMADA_CORTADA_USD`) y no devuelve el cupo del visitante, porque Meta puede cobrarla.
+- **El día 26 (R5-I2):** en la wifi de la URJC todos comparten IP, y por tanto el límite por visitante. Presentar con los datos del móvil o subir `AGENTE_LIMITE_IP_DIA` (p. ej. a 150) solo ese día; el tope real es `AI_DAILY_BUDGET_USD`. Comprobar en dev.meta.ai → Billing que el tope de 5 $ corta las peticiones (si es solo un aviso, bajar `AI_DAILY_BUDGET_USD` a 2).
+- **Si se cambia a Baseten (R5-M3):** los textos de privacidad dicen «Meta» fijo. Cambiar a mano `src/componentes/PanelAgente.tsx`, `AcercaDe.tsx` y `Metodologia.tsx`.
 - `vercel dev` / despliegue: acciones de cuenta de Guillermo.
+
+## Lo que ve el modelo (I3)
+`servidor/vista-modelo.ts` convierte cada resultado de herramienta antes de dárselo al modelo: cifras ya en español y con unidad («93,8 plazas», «189.814 habitantes», «10 km», «67 %»), nombres sin «déficit», residencias en plazas (no personas), «todos los habitantes viven a menos de 15 km» cuando nadie queda lejos, filas «aproximadas» sin cifras y sin enlaces ni coordenadas. Es solo presentación: el validador sigue comparando el texto del modelo con las salidas crudas. Prompt `agente-v4` (`servidor/prompts/agente-v4.ts`; el log registra `prompt: agente-v4`; la v3 queda como historial). El log añade `validacion_detalle` (solo las cifras sobrantes) cuando el validador rechaza un texto.
 
 ## Arreglos de la revisión R2 (19-nov)
 R2 (`revisor`): APTO para commit, 0 bloqueantes. Arreglado (tests en `servidor/r2-arreglos.test.ts`):

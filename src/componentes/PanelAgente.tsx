@@ -192,7 +192,7 @@ export function PanelAgente({ agente, abierto, onAbrir, onCerrar }: Props) {
           </button>
         </div>
         <p id={idAyuda} className="agente__ayuda">
-          Las cifras salen siempre del cálculo, nunca las inventa el agente. Con IA, tu pregunta se envía a Baseten: no escribas datos personales.
+          Las cifras salen siempre del cálculo, nunca las inventa el agente. Con IA, tu pregunta se envía a Meta: no escribas datos personales.
         </p>
       </form>
     </section>

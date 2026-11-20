@@ -331,3 +331,14 @@ Leído el texto de la licencia (PDF, en español e inglés): **CC-BY 4.0** (Orde
 - **Servicios sociales (I1):** «Los centros de acogida, pisos tutelados, viviendas comunitarias y otros servicios para personas en situación vulnerable (mujeres víctimas de violencia, menores, personas sin hogar, refugiadas...) no se muestran con su dirección ni su nombre: solo los contamos por municipio y distrito, y su punto en el mapa es el centro de su sección censal. Las residencias de mayores sí aparecen con su ubicación, porque son servicios abiertos al público.»
 - **Desfibriladores (I2):** «En el registro de la Comunidad hay 13.680 desfibriladores, pero 3.135 están dados de alta en solo 6 direcciones (2.200 en una calle de Retiro): son equipos móviles registrados en una sede. Para que no distorsionen los ratios, contamos cada una de esas 6 direcciones como un solo punto (10.551 puntos en total). La cobertura por distancia no cambia.»
 - **Licencia del IGN:** «Obra derivada de Núcleos de población y Unidades administrativas (IGN-INE, 2025) CC-BY 4.0 ign.es».
+
+## Agente con IA: coste real medido (20-nov-2026)
+Prueba de humo en local (`npm run dev`) con la API de Meta (`muse-spark-1.3`, `reasoning_effort: low`, prompt `agente-v3`), 3 preguntas, las 3 en modo IA y con validación `ok`:
+
+| Pregunta | Herramientas | Llamadas al modelo | Tokens entrada / salida (razonamiento) | Coste | Tiempo |
+|---|---|---|---|---|---|
+| ¿Dónde pondrías una residencia en el sur? | `ubicacion_optima` | 2 | 4.643 / 1.205 (977) | 0,0109 $ | 17,5 s |
+| ¿Qué le falta a Fuenlabrada? | `ficha_municipio`, `mover_mapa` | 2 | 5.778 / 1.458 (1.166) | 0,0134 $ | 15,6 s |
+| ¿Y si pongo un centro de salud en Pinto…? | `simular_centro` | 2 | 4.643 / 865 (636) | 0,0095 $ | 10,8 s |
+
+**Media: 0,011 $ por pregunta** (lo estimado en I2 era ≈ 0,01 $). Con el tope de 3 $/día caben unas 270 preguntas; con los 150 $ de créditos de Meta, unas 13.000. Precio usado: 1,25 / 4,25 $ por millón de tokens (dev.meta.ai). Tiempo de 11 a 20 s por respuesta (I3: 11,6 s de media y 19,5 s de máximo; límite del turno, 26 s). Alguna respuesta aislada pasa del límite y sale con la plantilla sin IA.
