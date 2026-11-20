@@ -5467,13 +5467,13 @@ function topeDiarioUsd(env) {
 function limiteIpDia(env) {
 	const crudo = env.AGENTE_LIMITE_IP_DIA?.trim();
 	const v = crudo ? Number(crudo) : NaN;
-	return Number.isInteger(v) && v >= 1 ? v : 10;
+	return Number.isInteger(v) && v >= 1 ? v : 3;
 }
 /** Avisos de configuración para el log de arranque (valores que se ignoran y se sustituyen por el de por defecto). */
 function avisosDeConfiguracion(env) {
 	const avisos = [];
 	const ip = env.AGENTE_LIMITE_IP_DIA?.trim();
-	if (ip && limiteIpDia(env) !== Number(ip)) avisos.push(`AGENTE_LIMITE_IP_DIA="${ip.slice(0, 20)}" no es un entero >= 1: se usa 10 (el límite por visitante no se puede apagar con 0).`);
+	if (ip && limiteIpDia(env) !== Number(ip)) avisos.push(`AGENTE_LIMITE_IP_DIA="${ip.slice(0, 20)}" no es un entero >= 1: se usa 3 (el límite por visitante no se puede apagar con 0).`);
 	const tope = env.AI_DAILY_BUDGET_USD?.trim();
 	if (tope && !(Number.isFinite(Number(tope)) && Number(tope) >= 0)) avisos.push(`AI_DAILY_BUDGET_USD="${tope.slice(0, 20)}" no es un número >= 0: el agente queda APAGADO (tope 0 $). Vacío = 3 $.`);
 	return avisos;
@@ -6298,7 +6298,8 @@ async function manejarAgente(entrada, deps) {
 		status: 429,
 		cuerpo: {
 			error: "limite",
-			reinicio: proximoReinicio(ahora())
+			reinicio: proximoReinicio(ahora()),
+			limite
 		}
 	};
 	const devolverCupo = () => deps.presupuesto.devolverPregunta(entrada.ip);
@@ -6437,7 +6438,8 @@ async function manejarAgente(entrada, deps) {
 				acciones: deduplicar(salidasOk.flatMap((r) => r.acciones)),
 				pasos: salidasOk.map((r) => r.paso),
 				modo: "ia",
-				restantes: cupo.restantes
+				restantes: cupo.restantes,
+				limite
 			};
 		} else {
 			if (veredicto && !veredicto.ok) {
@@ -6451,12 +6453,14 @@ async function manejarAgente(entrada, deps) {
 				pasos: salidasOk.map((r) => r.paso),
 				modo: "reglas",
 				restantes: cupo.restantes,
+				limite,
 				...descartado ? { motivo: "revisada" } : {}
 			};
 			else respuesta = {
 				...await responderSinIA(peticion, entorno),
 				modo: "reglas",
 				restantes: cupo.restantes,
+				limite,
 				...descartado ? { motivo: "revisada" } : {}
 			};
 		}

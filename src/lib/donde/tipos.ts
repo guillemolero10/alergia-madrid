@@ -362,6 +362,8 @@ export interface RespuestaAgente {
   pasos: PasoAgente[];
   modo: "ia" | "reglas";
   restantes: number | null;
+  /** Preguntas con IA por visitante y día que admite el servidor (`AGENTE_LIMITE_IP_DIA`). Solo en respuestas del servidor. */
+  limite?: number;
   /** Solo con `modo: "reglas"` desde el servidor: el texto del modelo se ha descartado por seguridad (cifra o enlace que no salen del cálculo) y se da la respuesta calculada. */
   motivo?: "revisada";
 }

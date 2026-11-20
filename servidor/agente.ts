@@ -219,7 +219,7 @@ export async function manejarAgente(entrada: EntradaHttp, deps: Dependencias): P
   // ---- límite por visitante
   const limite = limiteIpDia(deps.env);
   const cupo = deps.presupuesto.consumirPregunta(entrada.ip, limite);
-  if (!cupo) return { status: 429, cuerpo: { error: "limite", reinicio: proximoReinicio(ahora()) } };
+  if (!cupo) return { status: 429, cuerpo: { error: "limite", reinicio: proximoReinicio(ahora()), limite } };
   const devolverCupo = () => deps.presupuesto.devolverPregunta(entrada.ip);
 
   const gasto = { entrada: 0, salida: 0, razonamiento: 0, costeUsd: 0, llamadas: 0 };
@@ -340,6 +340,7 @@ export async function manejarAgente(entrada: EntradaHttp, deps: Dependencias): P
         pasos: salidasOk.map((r): PasoAgente => r.paso),
         modo: "ia",
         restantes: cupo.restantes,
+        limite,
       };
     } else {
       if (veredicto && !veredicto.ok) {
@@ -354,12 +355,13 @@ export async function manejarAgente(entrada: EntradaHttp, deps: Dependencias): P
           pasos: salidasOk.map((r): PasoAgente => r.paso),
           modo: "reglas",
           restantes: cupo.restantes,
+          limite,
           ...(descartado ? { motivo: "revisada" as const } : {}),
         };
       } else {
         // Sin resultados que redactar: el intérprete por reglas responde a la pregunta entera, con el mismo motor.
         const r = await responderSinIA(peticion, entorno);
-        respuesta = { ...r, modo: "reglas", restantes: cupo.restantes, ...(descartado ? { motivo: "revisada" as const } : {}) };
+        respuesta = { ...r, modo: "reglas", restantes: cupo.restantes, limite, ...(descartado ? { motivo: "revisada" as const } : {}) };
       }
     }
     registrar({

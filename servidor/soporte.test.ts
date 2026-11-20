@@ -72,7 +72,7 @@ describe("presupuesto: reserva en vuelo (T4-11) y visitantes (T4-12)", () => {
   it("avisos de arranque: límite por IP no válido y tope no válido; nada si está bien o sin definir", () => {
     expect(avisosDeConfiguracion({})).toEqual([]);
     expect(avisosDeConfiguracion({ AGENTE_LIMITE_IP_DIA: "25", AI_DAILY_BUDGET_USD: "2" })).toEqual([]);
-    expect(avisosDeConfiguracion({ AGENTE_LIMITE_IP_DIA: "0" })[0]).toMatch(/AGENTE_LIMITE_IP_DIA.*se usa 10/);
+    expect(avisosDeConfiguracion({ AGENTE_LIMITE_IP_DIA: "0" })[0]).toMatch(/AGENTE_LIMITE_IP_DIA.*se usa 3/);
     expect(avisosDeConfiguracion({ AGENTE_LIMITE_IP_DIA: "abc" })).toHaveLength(1);
     expect(avisosDeConfiguracion({ AGENTE_LIMITE_IP_DIA: "2.5" })).toHaveLength(1);
     expect(avisosDeConfiguracion({ AI_DAILY_BUDGET_USD: "mucho" })[0]).toMatch(/AI_DAILY_BUDGET_USD.*APAGADO/);
@@ -89,9 +89,9 @@ describe("presupuesto", () => {
     expect(topeDiarioUsd({ AI_DAILY_BUDGET_USD: "-1" })).toBe(0);
     expect(topeDiarioUsd({ AI_DAILY_BUDGET_USD: "Infinity" })).toBe(0);
     expect(topeDiarioUsd({ AI_DAILY_BUDGET_USD: "" })).toBe(3);
-    expect(limiteIpDia({})).toBe(10);
+    expect(limiteIpDia({})).toBe(3);
     expect(limiteIpDia({ AGENTE_LIMITE_IP_DIA: "25" })).toBe(25);
-    expect(limiteIpDia({ AGENTE_LIMITE_IP_DIA: "0" })).toBe(10);
+    expect(limiteIpDia({ AGENTE_LIMITE_IP_DIA: "0" })).toBe(3);
   });
 
   it("el contador y los cupos se reinician a medianoche de Madrid", () => {

@@ -19,9 +19,9 @@ Archivos: `servidor/agente.ts` (lógica), `proveedor.ts` (cliente del modelo), `
    META_API_KEY=<la clave nueva>
    AGENTE_ACTIVO=1
    AI_DAILY_BUDGET_USD=3
-   AGENTE_LIMITE_IP_DIA=50
+   AGENTE_LIMITE_IP_DIA=3
    ```
-   Elección del proveedor: sin `AGENTE_PROVEEDOR`, Meta si hay `META_API_KEY` y, si no, Baseten si hay `BASETEN_API_KEY`; `AGENTE_PROVEEDOR=meta|baseten` fuerza uno (si falta su clave, no se pasa al otro). Opcionales de Meta: `META_MODEL` (por defecto `muse-spark-1.3`) y `META_API_BASE_URL` (por defecto `https://api.meta.ai/v1`). Opcionales de Baseten: `BASETEN_API_KEY`, `BASETEN_MODEL` (por defecto `meta-models/muse-spark-open`; comprobar en Baseten que el id sigue existiendo), `BASETEN_BASE_URL` (por defecto `https://inference.baseten.co/v1`; solo para pruebas con un servidor falso) y `AGENTE_LIMITE_IP_DIA` (por defecto 10 preguntas con IA por visitante y día; **entero >= 1**: `0` o un valor no válido NO apaga el límite, vuelve a 10 y el arranque lo avisa en el log; para la demo del 26 conviene subirlo, p. ej. 50).
+   Elección del proveedor: sin `AGENTE_PROVEEDOR`, Meta si hay `META_API_KEY` y, si no, Baseten si hay `BASETEN_API_KEY`; `AGENTE_PROVEEDOR=meta|baseten` fuerza uno (si falta su clave, no se pasa al otro). Opcionales de Meta: `META_MODEL` (por defecto `muse-spark-1.3`) y `META_API_BASE_URL` (por defecto `https://api.meta.ai/v1`). Opcionales de Baseten: `BASETEN_API_KEY`, `BASETEN_MODEL` (por defecto `meta-models/muse-spark-open`; comprobar en Baseten que el id sigue existiendo), `BASETEN_BASE_URL` (por defecto `https://inference.baseten.co/v1`; solo para pruebas con un servidor falso) y `AGENTE_LIMITE_IP_DIA` (por defecto 3 preguntas con IA por visitante y día: el agente está en beta y la web lo dice; **entero >= 1**: `0` o un valor no válido NO apaga el límite, vuelve a 3 y el arranque lo avisa en el log; para la demo del 26 conviene subirlo solo ese día, p. ej. a 150).
 3. Al publicar (solo con su visto bueno): las mismas variables en Vercel → Settings → Environment Variables (Production). Sin ellas, el agente responde 503 y la web funciona en modo sin IA.
 
 ## Cómo probarlo
@@ -97,6 +97,6 @@ R2 (`revisor`): APTO para commit, 0 bloqueantes. Arreglado (tests en `servidor/r
 - **M1:** aviso bajo el campo del agente: «Con IA, tu pregunta se envía a Baseten: no escribas datos personales».
 - **M2:** ninguna ruta del Mac en los tests.
 - **M8:** README corregido.
-- **M9:** `prompts/agente-v1.ts` marcado como «NO SE USA» (no se ha borrado sin permiso de Guillermo).
+- **M9:** `prompts/agente-v1.ts` marcado como «NO SE USA»; borrado el 20-nov con el permiso de Guillermo.
 - **M11:** `.gitattributes` marca `api/agente.js` como generado. Antes de cada commit, `npm run build` (el test `t4-empaquetado` avisa si el empaquetado está desfasado).
 - Pendiente de comprobar en el panel de Baseten: que Muse Spark Open cueste allí 1,25 / 4,25 $ por millón (es el precio de Meta). Si cuesta más, el tope real sube en proporción.

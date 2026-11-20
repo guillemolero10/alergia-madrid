@@ -178,3 +178,35 @@ describe("esRespuestaAgente y mensajesParaEnviar", () => {
     expect(largo[0]?.texto.length).toBe(500);
   });
 });
+
+describe("beta: textos del límite por visitante", () => {
+  it("el aviso del 429 dice que es una beta y cuántas preguntas hay", async () => {
+    const { avisoDeMotivo, PREGUNTAS_IA_BETA } = await import("./clienteAgente");
+    expect(PREGUNTAS_IA_BETA).toBe(3);
+    expect(avisoDeMotivo("limite")).toMatch(/beta/);
+    expect(avisoDeMotivo("limite")).toMatch(/3 preguntas con IA al día/);
+  });
+  it("singular y plural de las preguntas que quedan", async () => {
+    const { textoRestantes } = await import("./clienteAgente");
+    expect(textoRestantes(2)).toBe("te quedan 2 preguntas con IA hoy");
+    expect(textoRestantes(1)).toBe("te queda 1 pregunta con IA hoy");
+    expect(textoRestantes(0)).toBe("te quedan 0 preguntas con IA hoy");
+  });
+  it("si el servidor tiene otro límite (p. ej. 150 el día 26), el aviso del 429 usa el del servidor, no el 3 fijo", async () => {
+    const f = vi.fn(async () => json(429, { error: "limite", reinicio: "2099-01-01T00:00:00Z", limite: 150 }));
+    const { c } = cliente(f as unknown as typeof fetch);
+    expect((await c.preguntar(peticion)).aviso).toMatch(/150 preguntas con IA al día/);
+    // Lo recuerda en las siguientes, que ya no llaman al servidor.
+    expect((await c.preguntar(peticion)).aviso).toMatch(/150 preguntas/);
+    // Un límite no válido se ignora.
+    const { c: c2 } = cliente((async () => json(429, { error: "limite", limite: "mucho" })) as unknown as typeof fetch);
+    expect((await c2.preguntar(peticion)).aviso).toMatch(/3 preguntas/);
+  });
+  it("el límite también llega en el 200 y se usa si después salta el 429", async () => {
+    let n = 0;
+    const f = vi.fn(async () => (n++ === 0 ? json(200, { ...RESPUESTA_IA, limite: 20 }) : json(429, { error: "limite" })));
+    const { c } = cliente(f as unknown as typeof fetch);
+    expect((await c.preguntar(peticion)).via).toBe("api");
+    expect((await c.preguntar(peticion)).aviso).toMatch(/20 preguntas/);
+  });
+});

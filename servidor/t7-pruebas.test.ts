@@ -103,8 +103,8 @@ describe("T7: selección de proveedor y clave", () => {
     expect(topeDiarioUsd({ AI_DAILY_BUDGET_USD: "abc" })).toBe(0);
     expect(topeDiarioUsd({ AI_DAILY_BUDGET_USD: "0,5" })).toBe(0); // coma decimal: falla cerrado
     expect(limiteIpDia({ AGENTE_LIMITE_IP_DIA: "50" })).toBe(50);
-    expect(limiteIpDia({ AGENTE_LIMITE_IP_DIA: "0" })).toBe(10);
-    expect(limiteIpDia({ AGENTE_LIMITE_IP_DIA: "2.5" })).toBe(10);
+    expect(limiteIpDia({ AGENTE_LIMITE_IP_DIA: "0" })).toBe(3);
+    expect(limiteIpDia({ AGENTE_LIMITE_IP_DIA: "2.5" })).toBe(3);
   });
 
   it("el tope diario corta: con 0,05 $ de tope, la 2.ª pregunta recibe 503 presupuesto", async () => {

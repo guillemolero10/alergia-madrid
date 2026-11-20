@@ -10,7 +10,8 @@
 import { createHash } from "node:crypto";
 
 export const TOPE_POR_DEFECTO_USD = 3;
-export const LIMITE_IP_POR_DEFECTO = 10;
+/** Beta: 3 preguntas con IA por visitante y día (decidido por Guillermo el 20-nov). La web lo anuncia con `PREGUNTAS_IA_BETA`. */
+export const LIMITE_IP_POR_DEFECTO = 3;
 /**
  * Dólares que se reservan al empezar CADA llamada al proveedor y se cambian por el coste real al recibir la respuesta. Cubre una llamada
  * cara: ~6.000 tokens de entrada + 4.000 de salida (el máximo que se pide, razonamiento incluido) = 0,025 $. Así, con peticiones

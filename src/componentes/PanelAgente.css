@@ -74,6 +74,21 @@
   letter-spacing: -0.01em;
 }
 
+.agente__beta {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border: 1px solid var(--tinta-2);
+  border-radius: 3px;
+  color: var(--tinta-2);
+  font-family: var(--fuente-texto, inherit);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
 .agente__sub {
   margin-top: 2px;
   color: var(--tinta-2);

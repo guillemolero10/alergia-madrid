@@ -509,13 +509,13 @@ describe("T4 presupuesto", () => {
     const ok = await preguntar(pet("hola"), { ...r.deps, fetch: simulado(() => texto("Hola.")).fetch }, "9.9.9.9");
     expect(ok.status).toBe(200);
   });
-  it("el visitante 11.º recibe 429; la pregunta que falla en el proveedor no gasta cupo", async () => {
+  it("la 4.ª pregunta del visitante recibe 429 (beta: 3 por defecto); la pregunta que falla en el proveedor no gasta cupo", async () => {
     const ok = simulado(() => texto("Hola."));
     const deps = montar({ fetch: ok.fetch });
     const estados: number[] = [];
-    for (let i = 0; i < 11; i++) estados.push((await preguntar(pet(`p${i}`), deps)).status);
-    expect(estados.slice(0, 10).every((s) => s === 200)).toBe(true);
-    expect(estados[10]).toBe(429);
+    for (let i = 0; i < 4; i++) estados.push((await preguntar(pet(`p${i}`), deps)).status);
+    expect(estados.slice(0, 3).every((s) => s === 200)).toBe(true);
+    expect(estados[3]).toBe(429);
     const malo = montar({ fetch: (async () => json({}, 500)) as unknown as typeof fetch });
     for (let i = 0; i < 15; i++) expect((await preguntar(pet("x"), malo)).status).toBe(503);
   });

@@ -27,8 +27,16 @@ export interface ResultadoPregunta {
   aviso: string | null;
 }
 
+/** Preguntas con IA por visitante y día durante la beta. Igual que `LIMITE_IP_POR_DEFECTO` (servidor/presupuesto.ts). Solo se usa hasta que el servidor dice su límite real (`limite` en el 200 y en el 429). */
+export const PREGUNTAS_IA_BETA = 3;
+
+/** «te quedan 2 preguntas» / «te queda 1 pregunta». */
+export function textoRestantes(n: number): string {
+  return n === 1 ? "te queda 1 pregunta con IA hoy" : `te quedan ${n} preguntas con IA hoy`;
+}
+
 /** Frase que acompaña a «Modo sin IA» según el motivo. Sin tecnicismos. */
-export function avisoDeMotivo(m: MotivoRespaldo): string {
+export function avisoDeMotivo(m: MotivoRespaldo, limite: number = PREGUNTAS_IA_BETA): string {
   switch (m) {
     case "sin_api":
       return "El agente de IA no está disponible en esta versión; respondo con reglas.";
@@ -45,7 +53,7 @@ export function avisoDeMotivo(m: MotivoRespaldo): string {
     case "tiempo":
       return "El agente de IA ha tardado demasiado; respondo con reglas.";
     case "limite":
-      return "Has llegado al límite de preguntas con IA de hoy; respondo con reglas.";
+      return `El agente está en beta: cada conexión puede hacer ${limite} ${limite === 1 ? "pregunta" : "preguntas"} con IA al día y ya se han usado las de hoy. Sigo respondiendo con reglas, con los mismos datos.`;
     case "peticion":
     case "no_disponible":
       return "El agente de IA no está disponible ahora; respondo con reglas.";
@@ -63,6 +71,11 @@ export const ESPERA_TRAS_FALLO_MS = 60_000;
 
 const TIPOS_ACCION = new Set<Accion["tipo"]>(["elegir_servicio", "mover_mapa", "marcar_puntos", "mostrar_ranking", "abrir_ficha"]);
 
+/** Límite por visitante que manda el servidor: entero >= 1. */
+function esLimite(x: unknown): x is number {
+  return typeof x === "number" && Number.isInteger(x) && x >= 1;
+}
+
 /** ¿Es el JSON de una `RespuestaAgente`? Lo mínimo para no romper la pantalla; cada acción se valida otra vez al ejecutarla. */
 export function esRespuestaAgente(x: unknown): x is RespuestaAgente {
   if (typeof x !== "object" || x === null) return false;
@@ -71,6 +84,7 @@ export function esRespuestaAgente(x: unknown): x is RespuestaAgente {
   if (!Array.isArray(r.acciones) || !Array.isArray(r.pasos)) return false;
   if (r.modo !== "ia" && r.modo !== "reglas") return false;
   if (r.restantes !== null && r.restantes !== undefined && (typeof r.restantes !== "number" || !Number.isFinite(r.restantes))) return false;
+  if (r.limite !== undefined && !esLimite(r.limite)) return false;
   if (!r.acciones.every((a) => typeof a === "object" && a !== null && TIPOS_ACCION.has((a as { tipo: Accion["tipo"] }).tipo))) return false;
   return r.pasos.every((p) => typeof p === "object" && p !== null && typeof (p as { herramienta?: unknown }).herramienta === "string" && typeof (p as { resumen?: unknown }).resumen === "string");
 }
@@ -110,6 +124,8 @@ export function crearClienteAgente(o: OpcionesCliente): ClienteAgente {
   const ahora = o.ahora ?? (() => Date.now());
   let sinServidorHasta = 0;
   let ultimoMotivo: MotivoRespaldo | null = null;
+  /** Último límite por visitante que ha dicho el servidor (puede no ser 3 si se cambia `AGENTE_LIMITE_IP_DIA`). */
+  let limiteServidor: number | undefined;
 
   async function enLocal(peticion: PeticionAgente, motivo: MotivoRespaldo): Promise<ResultadoPregunta> {
     let respuesta: RespuestaAgente;
@@ -124,7 +140,7 @@ export function crearClienteAgente(o: OpcionesCliente): ClienteAgente {
         restantes: null,
       };
     }
-    return { respuesta: { ...respuesta, modo: "reglas" }, via: "local", motivo, aviso: avisoDeMotivo(motivo) };
+    return { respuesta: { ...respuesta, modo: "reglas" }, via: "local", motivo, aviso: avisoDeMotivo(motivo, limiteServidor) };
   }
 
   function recordar(motivo: MotivoRespaldo, reinicio?: unknown): void {
@@ -182,6 +198,7 @@ export function crearClienteAgente(o: OpcionesCliente): ClienteAgente {
           if (esRespuestaAgente(cuerpo)) {
             ultimoMotivo = null;
             sinServidorHasta = 0;
+            if (cuerpo.limite !== undefined) limiteServidor = cuerpo.limite;
             const revisada = cuerpo.modo === "reglas" && cuerpo.motivo === "revisada";
             return { respuesta: { ...cuerpo, restantes: cuerpo.restantes ?? null }, via: "api", motivo: null, aviso: revisada ? AVISO_RESPUESTA_REVISADA : null };
           }
@@ -200,6 +217,10 @@ export function crearClienteAgente(o: OpcionesCliente): ClienteAgente {
         else motivo = "proveedor";
         // Un 400 es un problema de esta pregunta, no del servidor: no se apaga el agente para las siguientes.
         if (motivo === "peticion") return await enLocal(peticion, motivo);
+        if (motivo === "limite" && typeof cuerpo === "object" && cuerpo !== null) {
+          const l = (cuerpo as { limite?: unknown }).limite;
+          if (esLimite(l)) limiteServidor = l;
+        }
         recordar(motivo, typeof cuerpo === "object" && cuerpo !== null ? (cuerpo as { reinicio?: unknown }).reinicio : undefined);
         return await enLocal(peticion, motivo);
       } finally {

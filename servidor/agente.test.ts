@@ -105,7 +105,7 @@ describe("las 4 preguntas sugeridas dan lo mismo que el modo sin IA (acciones y 
     expect(cuerpo.texto).toMatch(/93,8/);
     const marcar = cuerpo.acciones.find((a) => a.tipo === "marcar_puntos");
     expect(marcar && marcar.tipo === "marcar_puntos" && Math.abs(marcar.puntos[0]!.lat - referencia.caso4.lat)).toBeLessThan(1e-4);
-    expect(cuerpo.restantes).toBe(9);
+    expect(cuerpo.restantes).toBe(2); // beta: 3 por visitante y día
     // El modelo recibe el resultado sin coordenadas: nunca las escribe.
     const vistoPorElModelo = JSON.stringify(salidasRecibidas(sim.llamadas[1]!));
     expect(vistoPorElModelo).not.toMatch(/"lat"|"lon"/);
