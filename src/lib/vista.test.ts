@@ -9,6 +9,13 @@ describe("vista en la URL", () => {
     expect(vistaDeLaUrl("?vista=otra")).toBe("donde");
     expect(vistaDeLaUrl("")).toBe("donde");
   });
+  it("«Qué es» va en la URL y conserva lo demás", () => {
+    expect(vistaDeLaUrl("?vista=acerca")).toBe("acerca");
+    const b = busquedaConVista("?servicio=residencia&sim=40.242,-3.7", "acerca");
+    expect(vistaDeLaUrl(b)).toBe("acerca");
+    expect(new URLSearchParams(b).get("servicio")).toBe("residencia");
+    expect(busquedaConVista(b, "donde")).toBe("?servicio=residencia&sim=40.242%2C-3.7");
+  });
   it("conserva el resto de parámetros", () => {
     const b = busquedaConVista("?servicio=residencia&radio=10000", "municipio");
     const p = new URLSearchParams(b);

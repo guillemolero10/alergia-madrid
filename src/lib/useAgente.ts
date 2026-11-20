@@ -152,7 +152,7 @@ export function useAgente({ donde, vista, destino, lugar = null, alias }: Opcion
       const peticion: PeticionAgente = {
         mensajes: mensajesParaEnviar([...previos, usuario]),
         contexto: {
-          vista: v,
+          vista: v === "municipio" ? "municipio" : "donde",
           servicio: d.est.servicio,
           radio_m: d.est.radio_m,
           lugar: v === "municipio" ? l : null,

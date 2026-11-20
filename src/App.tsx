@@ -14,8 +14,9 @@ import { bboxLugar, bboxZona, enteroEs, invitacionMapa } from "./lib/donde/panel
 import { SERVICIOS } from "./lib/donde/servicios";
 import { ANIO_HOY, ANIO_PROYECCION, type AnioDonde } from "./lib/donde/proyeccion";
 import type { ServicioId } from "./lib/donde/tipos";
-import { busquedaConVista, vistaDeLaUrl, type Vista } from "./lib/vista";
+import { busquedaConVista, vistaDeLaUrl, type Vista, type VistaApp } from "./lib/vista";
 import { Metodologia } from "./componentes/Metodologia";
+import { AcercaDe } from "./componentes/AcercaDe";
 import { EmpiezaAqui } from "./componentes/EmpiezaAqui";
 import { referenciaPorDefecto } from "./lib/donde/urlDonde";
 import { useAliasLugares } from "./lib/useAliasLugares";
@@ -38,7 +39,20 @@ const BBOX_COMUNIDAD: [number, number, number, number] = [-4.58, 39.88, -3.05, 4
 const baseForzada = new URLSearchParams(window.location.search).get("base") === "raster" ? "raster" : undefined;
 
 export default function App() {
-  const [vista, setVista] = useState<Vista>(() => vistaDeLaUrl(window.location.search));
+  // `?vista=acerca` abre la página «Qué es» ENCIMA de la última pestaña: `vista` es siempre una pestaña y `acercaAbierta` dice si la página está delante.
+  const [vistaUrl, setVistaUrl] = useState<Vista>(() => vistaDeLaUrl(window.location.search));
+  const [vista, setVistaApp] = useState<VistaApp>(() => {
+    const v = vistaDeLaUrl(window.location.search);
+    return v === "acerca" ? "donde" : v;
+  });
+  const setVista = useCallback((v: Vista) => {
+    setVistaUrl(v);
+    if (v !== "acerca") setVistaApp(v);
+  }, []);
+  const acercaAbierta = vistaUrl === "acerca";
+  /** Si la página se abrió desde la app (y no con un enlace directo), «Volver» es ir atrás en el historial. */
+  const acercaDesdeApp = useRef(false);
+  const botonAcerca = useRef<HTMLButtonElement>(null);
   const mapaRef = useRef<MapaRef>(null);
   const esMovil = useMedia("(max-width: 760px)");
   /** Hasta 1100 px el mapa es estrecho: el agente se abre como hoja inferior y no como columna sobre él. */
@@ -68,12 +82,62 @@ export default function App() {
     };
     window.addEventListener("popstate", alRetroceder);
     return () => window.removeEventListener("popstate", alRetroceder);
-  }, []);
+  }, [setVista]);
 
   const elegirVista = useCallback((v: Vista) => {
     window.history.pushState(null, "", `${window.location.pathname}${busquedaConVista(window.location.search, v)}`);
     setVista(v);
-  }, []);
+  }, [setVista]);
+
+  // ---- «Qué es» ----
+  const abrirAcerca = useCallback(() => {
+    acercaDesdeApp.current = true;
+    elegirVista("acerca");
+  }, [elegirVista]);
+
+  /** Cierra «Qué es» y deja la app en `destino` (por defecto, la pestaña que había debajo). */
+  const cerrarAcerca = useCallback(
+    (destino?: VistaApp) => {
+      const v = destino ?? vista;
+      if (acercaDesdeApp.current && v === vista) window.history.back();
+      else elegirVista(v);
+      acercaDesdeApp.current = false;
+    },
+    [vista, elegirVista],
+  );
+
+  // Al cerrarse «Qué es» (Volver, Esc o Atrás), el foco vuelve al botón o a «Empieza aquí». Se hace aquí y no al pulsar porque
+  // `history.back()` es asíncrono y, hasta que se cierra, `.app` sigue `inert` y no acepta el foco.
+  const focoTrasAcerca = useRef<"boton" | "ejemplos">("boton");
+  const acercaAntes = useRef(acercaAbierta);
+  useEffect(() => {
+    const seCerro = acercaAntes.current && !acercaAbierta;
+    acercaAntes.current = acercaAbierta;
+    if (!seCerro) return;
+    const destino = focoTrasAcerca.current;
+    focoTrasAcerca.current = "boton";
+    requestAnimationFrame(() => {
+      if (destino === "boton") {
+        botonAcerca.current?.focus({ preventScroll: true });
+        return;
+      }
+      // «Empieza aquí» plegado: se despliega para enseñar los ejemplos.
+      document.querySelector<HTMLButtonElement>(".empieza--plegado .empieza__abrir")?.click();
+      requestAnimationFrame(() => {
+        const caja = document.querySelector<HTMLElement>(".empieza");
+        caja?.scrollIntoView({ block: "start" });
+        (caja?.querySelector<HTMLButtonElement>(".empieza__ejemplo") ?? caja?.querySelector<HTMLButtonElement>("button"))?.focus({ preventScroll: true });
+      });
+    });
+  }, [acercaAbierta]);
+
+  const volverDeAcerca = useCallback(() => cerrarAcerca(), [cerrarAcerca]);
+
+  /** «Probar los ejemplos»: vuelve a «¿Dónde hace falta?» con «Empieza aquí» a la vista. */
+  const probarEjemplos = useCallback(() => {
+    focoTrasAcerca.current = "ejemplos";
+    cerrarAcerca("donde");
+  }, [cerrarAcerca]);
 
   // En el móvil el mapa está debajo del panel: lleva la vista hasta él.
   const irAlMapa = useCallback(() => {
@@ -381,7 +445,8 @@ export default function App() {
   }, [donde.base.fase, agenteAbierto, irAlMapa]);
 
   return (
-    <div className="app">
+    <>
+    <div className="app" inert={acercaAbierta}>
       <a className="saltar" href="#mapa">
         Saltar al mapa
       </a>
@@ -392,6 +457,9 @@ export default function App() {
           <h1 className="marca__nombre">¿Dónde hace falta?</h1>
           <p className="marca__lema">Qué cerca están los servicios públicos y dónde un centro nuevo ayudaría más.</p>
           <div className="marca__enlaces">
+            <button ref={botonAcerca} type="button" className="como__titulo marca__acerca" onClick={abrirAcerca}>
+              Qué es
+            </button>
             <details className="como">
               <summary className="como__titulo">¿Cómo funciona?</summary>
               <p className="como__intro">
@@ -493,5 +561,7 @@ export default function App() {
         </div>
       </div>
     </div>
+    {acercaAbierta && <AcercaDe base={donde.baseHoy.fase === "listo" ? donde.baseHoy.valor : null} onVolver={volverDeAcerca} onProbar={probarEjemplos} />}
+    </>
   );
 }

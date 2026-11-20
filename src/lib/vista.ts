@@ -1,9 +1,12 @@
-// Pestañas de la columna y su estado en la URL: `?vista=donde` y `?vista=municipio`.
+// Pestañas de la columna y su estado en la URL: `?vista=donde`, `?vista=municipio` y `?vista=acerca` (la página «Qué es», que no es pestaña).
 // Los parámetros de cada pestaña (servicio, radio, lugar…) los añaden F3 y F6 sin tocar lo de aquí.
 
-export type Vista = "donde" | "municipio";
+export type Vista = "donde" | "municipio" | "acerca";
 
-const VISTAS: readonly Vista[] = ["donde", "municipio"];
+const VISTAS: readonly Vista[] = ["donde", "municipio", "acerca"];
+
+/** Las dos pestañas de la app; «acerca» se abre encima de una de ellas. */
+export type VistaApp = Exclude<Vista, "acerca">;
 
 /** `?vista=`; lo que falte o no se entienda es «¿Dónde hace falta?». */
 export function vistaDeLaUrl(search: string): Vista {

@@ -391,3 +391,13 @@
     display: none;
   }
 }
+
+/* «Qué es»: el mismo aspecto de enlace que «¿Cómo funciona?», pero es un botón que abre la página entera. */
+.marca__acerca {
+  margin: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.45;
+}

@@ -1,11 +1,10 @@
 import type { ReactNode } from "react";
 import { SERVICIOS } from "../lib/donde/servicios";
+import { COMUNIDAD, URL_REPO } from "../lib/fuentes";
 import "./Metodologia.css";
 
 // Fuentes y límites en la propia web: las bases del concurso piden citar los conjuntos y declarar el código reutilizado.
 // Las URLs salen de `fuente` de cada JSON de `public/donde/`, de DATOS-DONDE.md y de `pipeline/`.
-
-const CKAN = "https://datos.comunidad.madrid/catalogo/dataset/";
 
 function Enlace({ href, children }: { href: string; children: ReactNode }) {
   return (
@@ -15,19 +14,7 @@ function Enlace({ href, children }: { href: string; children: ReactNode }) {
   );
 }
 
-const COMUNIDAD: { id: string; nombre: string; uso: string }[] = [
-  { id: "centros_servicios_establecimientos_sanitarios", nombre: "Centros, servicios y establecimientos sanitarios", uso: "centros de salud, consultorios y hospitales generales" },
-  { id: "atencion_social_registro_centros", nombre: "Registro de centros de atención social", uso: "residencias de mayores (con sus plazas) y otros servicios sociales" },
-  { id: "oficinas_farmacia", nombre: "Oficinas de farmacia", uso: "farmacias" },
-  { id: "desfibriladores_externos_fuera_ambito_sanitario", nombre: "Desfibriladores externos fuera del ámbito sanitario", uso: "desfibriladores" },
-  { id: "centros_educativos", nombre: "Centros educativos", uso: "colegios e institutos" },
-  { id: "municipio_comunidad_madrid", nombre: "Municipios de la Comunidad de Madrid", uso: "lista y códigos de los 179 municipios" },
-  { id: "proyecciones_poblacion_por_sexo", nombre: "Proyecciones de población por sexo", uso: "población de 2030" },
-  { id: "calidad_aire_datos_dia", nombre: "Calidad del aire: datos del día", uso: "aire de hoy en «Mi municipio»" },
-  { id: "calidad_aire_estaciones", nombre: "Calidad del aire: estaciones", uso: "ubicación de las estaciones de aire" },
-];
-
-const LIMITES: ReactNode[] = [
+export const LIMITES: ReactNode[] = [
   <>
     <strong>Distancias en línea recta</strong>, no por carretera ni a pie: un río o una autopista no cuentan.
   </>,
@@ -99,7 +86,7 @@ export function Metodologia() {
         <ul className="metodologia__lista">
           {COMUNIDAD.map((c) => (
             <li key={c.id}>
-              <Enlace href={`${CKAN}${c.id}`}>{c.nombre}</Enlace>: {c.uso}.
+              <Enlace href={c.url}>{c.nombre}</Enlace>: {c.uso}.
             </li>
           ))}
         </ul>
@@ -169,7 +156,7 @@ export function Metodologia() {
         <h2 className="metodologia__h">Código y reproducibilidad</h2>
         <p className="metodologia__p">
           El código es abierto (licencia MIT) y los datos se regeneran con el pipeline del repositorio:{" "}
-          <Enlace href="https://github.com/guillemolero10/donde-hace-falta">github.com/guillemolero10/donde-hace-falta</Enlace>.
+          <Enlace href={URL_REPO}>github.com/guillemolero10/donde-hace-falta</Enlace>.
         </p>
         <p className="metodologia__p">
           <strong>Código reutilizado, declarado:</strong> el cliente del portal de datos (CKAN) del pipeline está basado en el servidor MCP del ponente Alberto
