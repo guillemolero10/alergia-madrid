@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "generado": "2026-11-20T22:26:40+01:00",
+  "generado": "2026-11-21T03:43:14+01:00",
   "modo": "tiempo_real",
-  "fecha_referencia": "2026-11-20T22:00:00+01:00",
+  "fecha_referencia": "2026-11-21T03:00:00+01:00",
   "capas": {
     "aire": {
-      "ultimo_dato": "2026-11-20T22:00:00+01:00",
+      "ultimo_dato": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "estado": "ok"
     },
@@ -15,7 +15,7 @@
       "estado": "ok"
     },
     "viento": {
-      "ultimo_dato": "2026-11-20T22:15:00+01:00",
+      "ultimo_dato": "2026-11-21T03:30:00+01:00",
       "fuente": "open-meteo:forecast",
       "estado": "ok"
     }
@@ -24,20 +24,15 @@
     {
       "lugar": "est:28005002",
       "variable": "no2",
-      "valor": 23,
+      "valor": 26,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 23,
+      "valor_regla": 26,
       "provisional": true,
       "serie": [
-        9,
-        null,
-        null,
-        5,
-        3,
         1,
         2,
         4,
@@ -56,26 +51,26 @@
         20,
         34,
         32,
-        23
+        23,
+        null,
+        null,
+        null,
+        23,
+        26
       ]
     },
     {
       "lugar": "est:28005002",
       "variable": "o3",
-      "valor": 28,
+      "valor": 10,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 45,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        60,
-        null,
-        null,
-        58,
-        60,
         63,
         60,
         56,
@@ -94,26 +89,26 @@
         44,
         22,
         21,
-        28
+        28,
+        null,
+        null,
+        null,
+        19,
+        10
       ]
     },
     {
       "lugar": "est:28005002",
       "variable": "pm10",
-      "valor": 17,
+      "valor": 13,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 11.8,
+      "valor_regla": 12.3,
       "provisional": true,
       "serie": [
-        9,
-        null,
-        null,
-        9,
-        7,
         12,
         7,
         7,
@@ -132,26 +127,26 @@
         10,
         13,
         20,
-        17
+        17,
+        null,
+        null,
+        null,
+        12,
+        13
       ]
     },
     {
       "lugar": "est:28005002",
       "variable": "pm25",
-      "valor": 10,
+      "valor": 6,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 5.6,
+      "valor_regla": 6,
       "provisional": true,
       "serie": [
-        4,
-        null,
-        null,
-        3,
-        4,
         5,
         6,
         6,
@@ -170,26 +165,26 @@
         4,
         3,
         6,
-        10
+        10,
+        null,
+        null,
+        null,
+        7,
+        6
       ]
     },
     {
       "lugar": "est:28006004",
       "variable": "no2",
-      "valor": 45,
+      "valor": 54,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 45,
+      "valor_regla": 54,
       "provisional": true,
       "serie": [
-        8,
-        null,
-        null,
-        6,
-        5,
         3,
         4,
         5,
@@ -208,26 +203,26 @@
         27,
         34,
         53,
-        45
+        45,
+        null,
+        null,
+        null,
+        60,
+        54
       ]
     },
     {
       "lugar": "est:28006004",
       "variable": "o3",
-      "valor": 19,
+      "valor": 1,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 35,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        61,
-        null,
-        null,
-        59,
-        58,
         60,
         58,
         54,
@@ -246,26 +241,26 @@
         40,
         30,
         13,
-        19
+        19,
+        null,
+        null,
+        null,
+        2,
+        1
       ]
     },
     {
       "lugar": "est:28006004",
       "variable": "pm10",
-      "valor": 16,
+      "valor": 35,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 18.4,
+      "valor_regla": 20.2,
       "provisional": true,
       "serie": [
-        12,
-        null,
-        null,
-        16,
-        17,
         21,
         14,
         15,
@@ -284,26 +279,26 @@
         9,
         6,
         13,
-        16
+        16,
+        null,
+        null,
+        null,
+        29,
+        35
       ]
     },
     {
       "lugar": "est:28007004",
       "variable": "no2",
-      "valor": 35,
+      "valor": 38,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 35,
+      "valor_regla": 38,
       "provisional": true,
       "serie": [
-        10,
-        null,
-        null,
-        6,
-        6,
         5,
         6,
         7,
@@ -322,26 +317,26 @@
         15,
         24,
         36,
-        35
+        35,
+        null,
+        null,
+        null,
+        35,
+        38
       ]
     },
     {
       "lugar": "est:28007004",
       "variable": "o3",
-      "valor": 29,
+      "valor": 22,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 50.9,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        62,
-        null,
-        null,
-        59,
-        53,
         55,
         56,
         54,
@@ -360,7 +355,12 @@
         55,
         43,
         28,
-        29
+        29,
+        null,
+        null,
+        null,
+        27,
+        22
       ]
     },
     {
@@ -368,18 +368,13 @@
       "variable": "pm25",
       "valor": 4,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 2.8,
+      "valor_regla": 3,
       "provisional": true,
       "serie": [
-        3,
-        null,
-        null,
-        3,
-        3,
         2,
         2,
         4,
@@ -398,26 +393,26 @@
         2,
         2,
         2,
+        4,
+        null,
+        null,
+        null,
+        5,
         4
       ]
     },
     {
       "lugar": "est:28009001",
       "variable": "no2",
-      "valor": 23,
+      "valor": 10,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 23,
+      "valor_regla": 10,
       "provisional": true,
       "serie": [
-        12,
-        null,
-        null,
-        6,
-        6,
         3,
         2,
         4,
@@ -436,26 +431,26 @@
         19,
         21,
         23,
-        23
+        23,
+        null,
+        null,
+        null,
+        14,
+        10
       ]
     },
     {
       "lugar": "est:28009001",
       "variable": "o3",
-      "valor": 43,
+      "valor": 50,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 51.9,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        60,
-        null,
-        null,
-        66,
-        62,
         65,
         66,
         62,
@@ -474,26 +469,26 @@
         49,
         44,
         42,
-        43
+        43,
+        null,
+        null,
+        null,
+        45,
+        50
       ]
     },
     {
       "lugar": "est:28009001",
       "variable": "pm25",
-      "valor": 16,
+      "valor": 6,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 6.8,
+      "valor_regla": 7.2,
       "provisional": true,
       "serie": [
-        7,
-        null,
-        null,
-        1,
-        6,
         6,
         3,
         3,
@@ -512,26 +507,26 @@
         8,
         9,
         22,
-        16
+        16,
+        null,
+        null,
+        null,
+        11,
+        6
       ]
     },
     {
       "lugar": "est:28013002",
       "variable": "no2",
-      "valor": 19,
+      "valor": 7,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 19,
+      "valor_regla": 7,
       "provisional": true,
       "serie": [
-        16,
-        null,
-        null,
-        10,
-        12,
         5,
         7,
         9,
@@ -550,26 +545,26 @@
         29,
         38,
         29,
-        19
+        19,
+        null,
+        null,
+        null,
+        8,
+        7
       ]
     },
     {
       "lugar": "est:28013002",
       "variable": "o3",
-      "valor": 23,
+      "valor": 21,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 47,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        53,
-        null,
-        null,
-        54,
-        53,
         62,
         59,
         57,
@@ -588,26 +583,26 @@
         42,
         25,
         21,
-        23
+        23,
+        null,
+        null,
+        null,
+        24,
+        21
       ]
     },
     {
       "lugar": "est:28013002",
       "variable": "pm10",
-      "valor": 24,
+      "valor": 15,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 14.5,
+      "valor_regla": 15.1,
       "provisional": true,
       "serie": [
-        10,
-        null,
-        null,
-        8,
-        11,
         12,
         12,
         14,
@@ -626,26 +621,26 @@
         16,
         22,
         24,
-        24
+        24,
+        null,
+        null,
+        null,
+        14,
+        15
       ]
     },
     {
       "lugar": "est:28014002",
       "variable": "no2",
-      "valor": 31,
+      "valor": 18,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 31,
+      "valor_regla": 18,
       "provisional": true,
       "serie": [
-        7,
-        null,
-        null,
-        4,
-        3,
         3,
         3,
         5,
@@ -664,26 +659,26 @@
         24,
         26,
         27,
-        31
+        31,
+        null,
+        null,
+        null,
+        20,
+        18
       ]
     },
     {
       "lugar": "est:28014002",
       "variable": "o3",
-      "valor": 18,
+      "valor": 23,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 44,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        61,
-        null,
-        null,
-        61,
-        59,
         62,
         62,
         58,
@@ -702,26 +697,26 @@
         40,
         29,
         22,
-        18
+        18,
+        null,
+        null,
+        null,
+        22,
+        23
       ]
     },
     {
       "lugar": "est:28014002",
       "variable": "pm10",
-      "valor": 15,
+      "valor": 20,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 31.5,
+      "valor_regla": 34,
       "provisional": true,
       "serie": [
-        12,
-        null,
-        null,
-        11,
-        17,
         12,
         11,
         16,
@@ -740,26 +735,26 @@
         20,
         20,
         15,
-        15
+        15,
+        null,
+        null,
+        null,
+        42,
+        20
       ]
     },
     {
       "lugar": "est:28016001",
       "variable": "no2",
-      "valor": 7,
+      "valor": 4,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 7,
+      "valor_regla": 4,
       "provisional": true,
       "serie": [
-        1,
-        null,
-        null,
-        2,
-        1,
         1,
         1,
         1,
@@ -778,26 +773,26 @@
         16,
         11,
         8,
-        7
+        7,
+        null,
+        null,
+        null,
+        4,
+        4
       ]
     },
     {
       "lugar": "est:28016001",
       "variable": "o3",
-      "valor": 51,
+      "valor": 49,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 48.2,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        80,
-        null,
-        null,
-        68,
-        72,
         82,
         71,
         67,
@@ -816,26 +811,26 @@
         47,
         48,
         48,
-        51
+        51,
+        null,
+        null,
+        null,
+        50,
+        49
       ]
     },
     {
       "lugar": "est:28016001",
       "variable": "pm10",
-      "valor": 9,
+      "valor": 5,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 5.9,
+      "valor_regla": 6.5,
       "provisional": true,
       "serie": [
-        3,
-        null,
-        null,
-        2,
-        1,
         2,
         1,
         3,
@@ -854,26 +849,26 @@
         13,
         12,
         10,
-        9
+        9,
+        null,
+        null,
+        null,
+        7,
+        5
       ]
     },
     {
       "lugar": "est:28016001",
       "variable": "pm25",
-      "valor": 6,
+      "valor": 4,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 4.5,
+      "valor_regla": 4.7,
       "provisional": true,
       "serie": [
-        4,
-        null,
-        null,
-        2,
-        4,
         3,
         2,
         2,
@@ -892,26 +887,26 @@
         6,
         5,
         4,
-        6
+        6,
+        null,
+        null,
+        null,
+        5,
+        4
       ]
     },
     {
       "lugar": "est:28045002",
       "variable": "no2",
-      "valor": 28,
+      "valor": 13,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 28,
+      "valor_regla": 13,
       "provisional": true,
       "serie": [
-        4,
-        null,
-        null,
-        4,
-        3,
         3,
         3,
         4,
@@ -930,7 +925,12 @@
         34,
         41,
         42,
-        28
+        28,
+        null,
+        null,
+        null,
+        16,
+        13
       ]
     },
     {
@@ -938,18 +938,13 @@
       "variable": "o3",
       "valor": 38,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 41.4,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        68,
-        null,
-        null,
-        61,
-        61,
         57,
         58,
         57,
@@ -968,26 +963,26 @@
         39,
         30,
         26,
+        38,
+        null,
+        null,
+        null,
+        34,
         38
       ]
     },
     {
       "lugar": "est:28045002",
       "variable": "pm10",
-      "valor": 23,
+      "valor": 20,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 15.5,
+      "valor_regla": 16.6,
       "provisional": true,
       "serie": [
-        8,
-        null,
-        null,
-        13,
-        15,
         14,
         13,
         12,
@@ -1006,26 +1001,26 @@
         18,
         19,
         22,
-        23
+        23,
+        null,
+        null,
+        null,
+        24,
+        20
       ]
     },
     {
       "lugar": "est:28047002",
       "variable": "no2",
-      "valor": 25,
+      "valor": 16,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 25,
+      "valor_regla": 16,
       "provisional": true,
       "serie": [
-        11,
-        null,
-        null,
-        3,
-        2,
         2,
         5,
         6,
@@ -1044,26 +1039,26 @@
         16,
         24,
         21,
-        25
+        25,
+        null,
+        null,
+        null,
+        15,
+        16
       ]
     },
     {
       "lugar": "est:28047002",
       "variable": "o3",
-      "valor": 26,
+      "valor": 34,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 41.8,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        62,
-        null,
-        null,
-        70,
-        69,
         67,
         63,
         63,
@@ -1082,26 +1077,26 @@
         43,
         33,
         34,
-        26
+        26,
+        null,
+        null,
+        null,
+        34,
+        34
       ]
     },
     {
       "lugar": "est:28047002",
       "variable": "pm25",
-      "valor": 5,
+      "valor": 6,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 2.5,
+      "valor_regla": 2.9,
       "provisional": true,
       "serie": [
-        1,
-        null,
-        null,
-        1,
-        1,
         1,
         1,
         1,
@@ -1120,26 +1115,26 @@
         1,
         8,
         6,
-        5
+        5,
+        null,
+        null,
+        null,
+        1,
+        6
       ]
     },
     {
       "lugar": "est:28049003",
       "variable": "no2",
-      "valor": 37,
+      "valor": 33,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 37,
+      "valor_regla": 33,
       "provisional": true,
       "serie": [
-        14,
-        null,
-        null,
-        5,
-        6,
         6,
         3,
         8,
@@ -1158,26 +1153,26 @@
         30,
         50,
         52,
-        37
+        37,
+        null,
+        null,
+        null,
+        36,
+        33
       ]
     },
     {
       "lugar": "est:28049003",
       "variable": "o3",
-      "valor": 22,
+      "valor": 6,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 35,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        53,
-        null,
-        null,
-        56,
-        52,
         52,
         55,
         50,
@@ -1196,26 +1191,26 @@
         37,
         17,
         14,
-        22
+        22,
+        null,
+        null,
+        null,
+        5,
+        6
       ]
     },
     {
       "lugar": "est:28049003",
       "variable": "pm10",
-      "valor": 16,
+      "valor": 22,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 14,
+      "valor_regla": 15.1,
       "provisional": true,
       "serie": [
-        12,
-        null,
-        null,
-        9,
-        10,
         10,
         11,
         10,
@@ -1234,26 +1229,26 @@
         8,
         10,
         13,
-        16
+        16,
+        null,
+        null,
+        null,
+        19,
+        22
       ]
     },
     {
       "lugar": "est:28049003",
       "variable": "pm25",
-      "valor": 7,
+      "valor": 8,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 5.6,
+      "valor_regla": 5.7,
       "provisional": true,
       "serie": [
-        5,
-        null,
-        null,
-        6,
-        6,
         4,
         4,
         3,
@@ -1272,26 +1267,26 @@
         7,
         6,
         11,
-        7
+        7,
+        null,
+        null,
+        null,
+        5,
+        8
       ]
     },
     {
       "lugar": "est:28058004",
       "variable": "no2",
-      "valor": 34,
+      "valor": 54,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 34,
+      "valor_regla": 54,
       "provisional": true,
       "serie": [
-        14,
-        null,
-        null,
-        6,
-        3,
         3,
         3,
         6,
@@ -1310,26 +1305,26 @@
         23,
         31,
         38,
-        34
+        34,
+        null,
+        null,
+        null,
+        47,
+        54
       ]
     },
     {
       "lugar": "est:28058004",
       "variable": "o3",
-      "valor": 34,
+      "valor": 11,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 49.1,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        51,
-        null,
-        null,
-        55,
-        58,
         60,
         58,
         55,
@@ -1348,26 +1343,26 @@
         47,
         37,
         31,
-        34
+        34,
+        null,
+        null,
+        null,
+        19,
+        11
       ]
     },
     {
       "lugar": "est:28058004",
       "variable": "pm10",
-      "valor": 14,
+      "valor": 20,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 10.6,
+      "valor_regla": 11.9,
       "provisional": true,
       "serie": [
-        9,
-        null,
-        null,
-        8,
-        8,
         8,
         9,
         10,
@@ -1386,26 +1381,26 @@
         8,
         10,
         12,
-        14
+        14,
+        null,
+        null,
+        null,
+        20,
+        20
       ]
     },
     {
       "lugar": "est:28065014",
       "variable": "no2",
-      "valor": 61,
+      "valor": 47,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 61,
+      "valor_regla": 47,
       "provisional": true,
       "serie": [
-        13,
-        null,
-        null,
-        4,
-        5,
         2,
         4,
         6,
@@ -1424,26 +1419,26 @@
         25,
         37,
         40,
-        61
+        61,
+        null,
+        null,
+        null,
+        52,
+        47
       ]
     },
     {
       "lugar": "est:28065014",
       "variable": "o3",
-      "valor": 9,
+      "valor": 13,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 47.8,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        60,
-        null,
-        null,
-        63,
-        62,
         68,
         64,
         59,
@@ -1462,7 +1457,12 @@
         50,
         36,
         28,
-        9
+        9,
+        null,
+        null,
+        null,
+        12,
+        13
       ]
     },
     {
@@ -1470,18 +1470,13 @@
       "variable": "pm10",
       "valor": 20,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 16.3,
+      "valor_regla": 16.9,
       "provisional": true,
       "serie": [
-        16,
-        null,
-        null,
-        14,
-        14,
         15,
         16,
         15,
@@ -1500,26 +1495,26 @@
         12,
         15,
         19,
+        20,
+        null,
+        null,
+        null,
+        21,
         20
       ]
     },
     {
       "lugar": "est:28065014",
       "variable": "pm25",
-      "valor": 8,
+      "valor": 6,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 3.4,
+      "valor_regla": 3.9,
       "provisional": true,
       "serie": [
-        5,
-        null,
-        null,
-        1,
-        2,
         2,
         2,
         3,
@@ -1538,26 +1533,26 @@
         2,
         5,
         3,
-        8
+        8,
+        null,
+        null,
+        null,
+        9,
+        6
       ]
     },
     {
       "lugar": "est:28067001",
       "variable": "no2",
-      "valor": 18,
+      "valor": 9,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 18,
+      "valor_regla": 9,
       "provisional": true,
       "serie": [
-        2,
-        null,
-        null,
-        3,
-        3,
         3,
         2,
         4,
@@ -1576,26 +1571,26 @@
         25,
         23,
         16,
-        18
+        18,
+        null,
+        null,
+        null,
+        12,
+        9
       ]
     },
     {
       "lugar": "est:28067001",
       "variable": "o3",
-      "valor": 18,
+      "valor": 38,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 41.6,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        72,
-        null,
-        null,
-        60,
-        49,
         48,
         60,
         54,
@@ -1614,26 +1609,26 @@
         34,
         32,
         28,
-        18
+        18,
+        null,
+        null,
+        null,
+        22,
+        38
       ]
     },
     {
       "lugar": "est:28067001",
       "variable": "pm10",
-      "valor": 14,
+      "valor": 18,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 9.7,
+      "valor_regla": 10.4,
       "provisional": true,
       "serie": [
-        7,
-        null,
-        null,
-        7,
-        9,
         7,
         9,
         7,
@@ -1652,26 +1647,26 @@
         11,
         15,
         17,
-        14
+        14,
+        null,
+        null,
+        null,
+        11,
+        18
       ]
     },
     {
       "lugar": "est:28074007",
       "variable": "no2",
-      "valor": 64,
+      "valor": 57,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 64,
+      "valor_regla": 57,
       "provisional": true,
       "serie": [
-        15,
-        null,
-        null,
-        6,
-        4,
         3,
         7,
         7,
@@ -1690,26 +1685,26 @@
         36,
         36,
         52,
-        64
+        64,
+        null,
+        null,
+        null,
+        65,
+        57
       ]
     },
     {
       "lugar": "est:28074007",
       "variable": "o3",
-      "valor": 7,
+      "valor": 3,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 42,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        58,
-        null,
-        null,
-        58,
-        60,
         61,
         56,
         56,
@@ -1728,26 +1723,26 @@
         40,
         37,
         19,
-        7
+        7,
+        null,
+        null,
+        null,
+        1,
+        3
       ]
     },
     {
       "lugar": "est:28074007",
       "variable": "pm10",
-      "valor": 16,
+      "valor": 21,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 11.2,
+      "valor_regla": 12.3,
       "provisional": true,
       "serie": [
-        12,
-        null,
-        null,
-        10,
-        9,
         13,
         11,
         10,
@@ -1766,26 +1761,26 @@
         6,
         8,
         14,
-        16
+        16,
+        null,
+        null,
+        null,
+        23,
+        21
       ]
     },
     {
       "lugar": "est:28074007",
       "variable": "pm25",
-      "valor": 6,
+      "valor": 7,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 3.5,
+      "valor_regla": 4,
       "provisional": true,
       "serie": [
-        5,
-        null,
-        null,
-        3,
-        1,
         1,
         1,
         2,
@@ -1804,26 +1799,26 @@
         2,
         4,
         4,
-        6
+        6,
+        null,
+        null,
+        null,
+        8,
+        7
       ]
     },
     {
       "lugar": "est:28080003",
       "variable": "no2",
-      "valor": 20,
+      "valor": 41,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 20,
+      "valor_regla": 41,
       "provisional": true,
       "serie": [
-        4,
-        null,
-        null,
-        3,
-        2,
         2,
         2,
         3,
@@ -1842,26 +1837,26 @@
         10,
         16,
         16,
-        20
+        20,
+        null,
+        null,
+        null,
+        42,
+        41
       ]
     },
     {
       "lugar": "est:28080003",
       "variable": "o3",
-      "valor": 34,
+      "valor": 9,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 53.1,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        70,
-        null,
-        null,
-        63,
-        64,
         64,
         63,
         60,
@@ -1880,26 +1875,26 @@
         55,
         35,
         40,
-        34
+        34,
+        null,
+        null,
+        null,
+        5,
+        9
       ]
     },
     {
       "lugar": "est:28080003",
       "variable": "pm10",
-      "valor": 12,
+      "valor": 16,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 9.5,
+      "valor_regla": 10.2,
       "provisional": true,
       "serie": [
-        6,
-        null,
-        null,
-        10,
-        11,
         11,
         7,
         7,
@@ -1918,26 +1913,26 @@
         4,
         6,
         8,
-        12
+        12,
+        null,
+        null,
+        null,
+        15,
+        16
       ]
     },
     {
       "lugar": "est:28092005",
       "variable": "no2",
-      "valor": 39,
+      "valor": 33,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 39,
+      "valor_regla": 33,
       "provisional": true,
       "serie": [
-        5,
-        null,
-        null,
-        3,
-        4,
         2,
         3,
         4,
@@ -1956,26 +1951,26 @@
         15,
         19,
         31,
-        39
+        39,
+        null,
+        null,
+        null,
+        37,
+        33
       ]
     },
     {
       "lugar": "est:28092005",
       "variable": "o3",
-      "valor": 19,
+      "valor": 24,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 52,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        70,
-        null,
-        null,
-        68,
-        62,
         66,
         60,
         59,
@@ -1994,26 +1989,26 @@
         54,
         47,
         27,
-        19
+        19,
+        null,
+        null,
+        null,
+        22,
+        24
       ]
     },
     {
       "lugar": "est:28092005",
       "variable": "pm10",
-      "valor": 21,
+      "valor": 25,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 14.2,
+      "valor_regla": 15.8,
       "provisional": true,
       "serie": [
-        10,
-        null,
-        null,
-        11,
-        12,
         11,
         13,
         12,
@@ -2032,64 +2027,64 @@
         13,
         12,
         15,
-        21
+        21,
+        null,
+        null,
+        null,
+        27,
+        25
       ]
     },
     {
       "lugar": "est:28102001",
       "variable": "no2",
-      "valor": 2,
+      "valor": 1,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 2,
+      "valor_regla": 1,
       "provisional": true,
       "serie": [
+        2,
+        2,
+        2,
+        2,
+        2,
         3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        2,
+        2,
         null,
         null,
+        null,
         2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        2,
-        3,
-        3,
-        3,
-        3,
-        3,
-        3,
-        2,
-        2,
-        2,
-        2,
-        2,
-        3,
-        2,
-        2
+        1
       ]
     },
     {
       "lugar": "est:28102001",
       "variable": "o3",
-      "valor": 62,
+      "valor": 55,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 67.9,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        63,
-        null,
-        null,
-        64,
-        63,
         66,
         64,
         64,
@@ -2108,26 +2103,26 @@
         70,
         69,
         63,
-        62
+        62,
+        null,
+        null,
+        null,
+        52,
+        55
       ]
     },
     {
       "lugar": "est:28102001",
       "variable": "pm10",
-      "valor": 6,
+      "valor": 3,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 7.2,
+      "valor_regla": 7.4,
       "provisional": true,
       "serie": [
-        6,
-        null,
-        null,
-        4,
-        2,
         13,
         12,
         16,
@@ -2146,26 +2141,26 @@
         1,
         1,
         4,
-        6
+        6,
+        null,
+        null,
+        null,
+        6,
+        3
       ]
     },
     {
       "lugar": "est:28106001",
       "variable": "no2",
-      "valor": 50,
+      "valor": 29,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 50,
+      "valor_regla": 29,
       "provisional": true,
       "serie": [
-        10,
-        null,
-        null,
-        5,
-        4,
         4,
         5,
         9,
@@ -2184,26 +2179,26 @@
         31,
         34,
         43,
-        50
+        50,
+        null,
+        null,
+        null,
+        38,
+        29
       ]
     },
     {
       "lugar": "est:28106001",
       "variable": "o3",
-      "valor": 18,
+      "valor": 32,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 48.8,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        62,
-        null,
-        null,
-        62,
-        62,
         63,
         61,
         56,
@@ -2222,26 +2217,26 @@
         43,
         37,
         31,
-        18
+        18,
+        null,
+        null,
+        null,
+        28,
+        32
       ]
     },
     {
       "lugar": "est:28106001",
       "variable": "pm25",
-      "valor": 8,
+      "valor": 7,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 6.6,
+      "valor_regla": 6.7,
       "provisional": true,
       "serie": [
-        7,
-        null,
-        null,
-        7,
-        6,
         5,
         6,
         7,
@@ -2260,26 +2255,26 @@
         6,
         7,
         7,
-        8
+        8,
+        null,
+        null,
+        null,
+        9,
+        7
       ]
     },
     {
       "lugar": "est:28115003",
       "variable": "no2",
-      "valor": 41,
+      "valor": 29,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 41,
+      "valor_regla": 29,
       "provisional": true,
       "serie": [
-        9,
-        null,
-        null,
-        4,
-        3,
         3,
         2,
         3,
@@ -2298,7 +2293,12 @@
         40,
         50,
         45,
-        41
+        41,
+        null,
+        null,
+        null,
+        37,
+        29
       ]
     },
     {
@@ -2306,18 +2306,13 @@
       "variable": "o3",
       "valor": 1,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 29.2,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        64,
-        null,
-        null,
-        58,
-        59,
         60,
         59,
         57,
@@ -2336,26 +2331,26 @@
         25,
         3,
         1,
+        1,
+        null,
+        null,
+        null,
+        1,
         1
       ]
     },
     {
       "lugar": "est:28115003",
       "variable": "pm25",
-      "valor": 12,
+      "valor": 11,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 5.3,
+      "valor_regla": 6,
       "provisional": true,
       "serie": [
-        7,
-        null,
-        null,
-        4,
-        3,
         4,
         4,
         4,
@@ -2374,27 +2369,27 @@
         4,
         4,
         8,
-        12
+        12,
+        null,
+        null,
+        null,
+        13,
+        11
       ]
     },
     {
       "lugar": "est:28120001",
       "variable": "no2",
-      "valor": 2,
+      "valor": 1,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 2,
+      "valor_regla": 1,
       "provisional": true,
       "serie": [
         1,
-        null,
-        null,
-        1,
-        1,
-        1,
         1,
         1,
         1,
@@ -2412,26 +2407,26 @@
         2,
         2,
         2,
-        2
+        2,
+        null,
+        null,
+        null,
+        1,
+        1
       ]
     },
     {
       "lugar": "est:28120001",
       "variable": "o3",
-      "valor": 68,
+      "valor": 84,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 63.1,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        82,
-        null,
-        null,
-        83,
-        82,
         83,
         84,
         85,
@@ -2450,7 +2445,12 @@
         49,
         46,
         56,
-        68
+        68,
+        null,
+        null,
+        null,
+        91,
+        84
       ]
     },
     {
@@ -2458,18 +2458,13 @@
       "variable": "pm10",
       "valor": 1,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 2.1,
+      "valor_regla": 2,
       "provisional": true,
       "serie": [
-        3,
-        null,
-        null,
-        1,
-        2,
         2,
         2,
         2,
@@ -2488,26 +2483,26 @@
         1,
         1,
         2,
+        1,
+        null,
+        null,
+        null,
+        1,
         1
       ]
     },
     {
       "lugar": "est:28120001",
       "variable": "pm25",
-      "valor": 2,
+      "valor": 1,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 5.4,
+      "valor_regla": 5.1,
       "provisional": true,
       "serie": [
-        7,
-        null,
-        null,
-        3,
-        2,
         3,
         5,
         7,
@@ -2526,26 +2521,26 @@
         3,
         2,
         3,
-        2
+        2,
+        null,
+        null,
+        null,
+        1,
+        1
       ]
     },
     {
       "lugar": "est:28123002",
       "variable": "no2",
-      "valor": 47,
+      "valor": 24,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 47,
+      "valor_regla": 24,
       "provisional": true,
       "serie": [
-        18,
-        null,
-        null,
-        11,
-        8,
         11,
         8,
         7,
@@ -2564,7 +2559,12 @@
         28,
         45,
         42,
-        47
+        47,
+        null,
+        null,
+        null,
+        26,
+        24
       ]
     },
     {
@@ -2572,18 +2572,13 @@
       "variable": "o3",
       "valor": 14,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 42.6,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        53,
-        null,
-        null,
-        53,
-        52,
         51,
         55,
         52,
@@ -2602,26 +2597,26 @@
         38,
         21,
         19,
+        14,
+        null,
+        null,
+        null,
+        15,
         14
       ]
     },
     {
       "lugar": "est:28123002",
       "variable": "pm10",
-      "valor": 27,
+      "valor": 22,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 17.3,
+      "valor_regla": 17.7,
       "provisional": true,
       "serie": [
-        22,
-        null,
-        null,
-        20,
-        18,
         14,
         18,
         16,
@@ -2640,26 +2635,26 @@
         12,
         15,
         22,
-        27
+        27,
+        null,
+        null,
+        null,
+        29,
+        22
       ]
     },
     {
       "lugar": "est:28127004",
       "variable": "no2",
-      "valor": 51,
+      "valor": 23,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 51,
+      "valor_regla": 23,
       "provisional": true,
       "serie": [
-        10,
-        null,
-        null,
-        4,
-        2,
         1,
         1,
         3,
@@ -2678,26 +2673,26 @@
         32,
         45,
         45,
-        51
+        51,
+        null,
+        null,
+        null,
+        22,
+        23
       ]
     },
     {
       "lugar": "est:28127004",
       "variable": "o3",
-      "valor": 14,
+      "valor": 24,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 39.5,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        61,
-        null,
-        null,
-        58,
-        60,
         61,
         58,
         54,
@@ -2716,26 +2711,26 @@
         36,
         22,
         21,
-        14
+        14,
+        null,
+        null,
+        null,
+        23,
+        24
       ]
     },
     {
       "lugar": "est:28127004",
       "variable": "pm10",
-      "valor": 16,
+      "valor": 12,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 11.4,
+      "valor_regla": 11.8,
       "provisional": true,
       "serie": [
-        12,
-        null,
-        null,
-        9,
-        8,
         9,
         9,
         9,
@@ -2754,26 +2749,26 @@
         9,
         12,
         14,
-        16
+        16,
+        null,
+        null,
+        null,
+        15,
+        12
       ]
     },
     {
       "lugar": "est:28133002",
       "variable": "no2",
-      "valor": 14,
+      "valor": 3,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 14,
+      "valor_regla": 3,
       "provisional": true,
       "serie": [
-        4,
-        null,
-        null,
-        2,
-        2,
         2,
         2,
         2,
@@ -2792,26 +2787,26 @@
         24,
         25,
         22,
-        14
+        14,
+        null,
+        null,
+        null,
+        4,
+        3
       ]
     },
     {
       "lugar": "est:28133002",
       "variable": "o3",
-      "valor": 30,
+      "valor": 57,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 42.4,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        69,
-        null,
-        null,
-        60,
-        61,
         62,
         58,
         51,
@@ -2830,26 +2825,26 @@
         35,
         27,
         25,
-        30
+        30,
+        null,
+        null,
+        null,
+        44,
+        57
       ]
     },
     {
       "lugar": "est:28133002",
       "variable": "pm10",
-      "valor": 20,
+      "valor": 7,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 9.6,
+      "valor_regla": 9.9,
       "provisional": true,
       "serie": [
-        8,
-        null,
-        null,
-        8,
-        8,
         9,
         7,
         8,
@@ -2868,26 +2863,26 @@
         7,
         12,
         16,
-        20
+        20,
+        null,
+        null,
+        null,
+        13,
+        7
       ]
     },
     {
       "lugar": "est:28134002",
       "variable": "no2",
-      "valor": 42,
+      "valor": 15,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 42,
+      "valor_regla": 15,
       "provisional": true,
       "serie": [
-        3,
-        null,
-        null,
-        3,
-        3,
         2,
         2,
         2,
@@ -2906,26 +2901,26 @@
         22,
         14,
         22,
-        42
+        42,
+        null,
+        null,
+        null,
+        20,
+        15
       ]
     },
     {
       "lugar": "est:28134002",
       "variable": "o3",
-      "valor": 4,
+      "valor": 1,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 35.9,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        69,
-        null,
-        null,
-        63,
-        61,
         61,
         60,
         59,
@@ -2944,26 +2939,26 @@
         44,
         29,
         11,
-        4
+        4,
+        null,
+        null,
+        null,
+        1,
+        1
       ]
     },
     {
       "lugar": "est:28134002",
       "variable": "pm10",
-      "valor": 4,
+      "valor": 23,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 14.4,
+      "valor_regla": 15,
       "provisional": true,
       "serie": [
-        15,
-        null,
-        null,
-        20,
-        17,
         17,
         16,
         14,
@@ -2982,26 +2977,26 @@
         13,
         11,
         6,
-        4
+        4,
+        null,
+        null,
+        null,
+        28,
+        23
       ]
     },
     {
       "lugar": "est:28148004",
       "variable": "no2",
-      "valor": 36,
+      "valor": 24,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 36,
+      "valor_regla": 24,
       "provisional": true,
       "serie": [
-        28,
-        null,
-        null,
-        13,
-        8,
         11,
         8,
         10,
@@ -3020,26 +3015,26 @@
         29,
         32,
         36,
-        36
+        36,
+        null,
+        null,
+        null,
+        25,
+        24
       ]
     },
     {
       "lugar": "est:28148004",
       "variable": "o3",
-      "valor": 10,
+      "valor": 5,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 35,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        35,
-        null,
-        null,
-        41,
-        42,
         38,
         41,
         40,
@@ -3058,26 +3053,26 @@
         31,
         25,
         12,
-        10
+        10,
+        null,
+        null,
+        null,
+        9,
+        5
       ]
     },
     {
       "lugar": "est:28148004",
       "variable": "pm10",
-      "valor": 43,
+      "valor": 24,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
       "valor_regla": 25.4,
       "provisional": true,
       "serie": [
-        33,
-        null,
-        null,
-        23,
-        24,
         20,
         20,
         18,
@@ -3096,26 +3091,26 @@
         28,
         34,
         42,
-        43
+        43,
+        null,
+        null,
+        null,
+        31,
+        24
       ]
     },
     {
       "lugar": "est:28148004",
       "variable": "pm25",
-      "valor": 16,
+      "valor": 7,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 6.5,
+      "valor_regla": 6.8,
       "provisional": true,
       "serie": [
-        9,
-        null,
-        null,
-        4,
-        5,
         6,
         4,
         4,
@@ -3134,26 +3129,26 @@
         15,
         14,
         17,
-        16
+        16,
+        null,
+        null,
+        null,
+        10,
+        7
       ]
     },
     {
       "lugar": "est:28161001",
       "variable": "no2",
-      "valor": 56,
+      "valor": 32,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 56,
+      "valor_regla": 32,
       "provisional": true,
       "serie": [
-        10,
-        null,
-        null,
-        6,
-        6,
         5,
         4,
         5,
@@ -3172,26 +3167,26 @@
         16,
         24,
         48,
-        56
+        56,
+        null,
+        null,
+        null,
+        36,
+        32
       ]
     },
     {
       "lugar": "est:28161001",
       "variable": "o3",
-      "valor": 3,
+      "valor": 25,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 46.1,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        58,
-        null,
-        null,
-        60,
-        60,
         61,
         63,
         59,
@@ -3210,26 +3205,26 @@
         55,
         41,
         8,
-        3
+        3,
+        null,
+        null,
+        null,
+        24,
+        25
       ]
     },
     {
       "lugar": "est:28161001",
       "variable": "pm25",
-      "valor": 14,
+      "valor": 10,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 4.7,
+      "valor_regla": 4.9,
       "provisional": true,
       "serie": [
-        10,
-        null,
-        null,
-        8,
-        6,
         5,
         5,
         5,
@@ -3248,26 +3243,26 @@
         4,
         7,
         11,
-        14
+        14,
+        null,
+        null,
+        null,
+        14,
+        10
       ]
     },
     {
       "lugar": "est:28171001",
       "variable": "no2",
-      "valor": 5,
+      "valor": 4,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 5,
+      "valor_regla": 4,
       "provisional": true,
       "serie": [
-        4,
-        null,
-        null,
-        3,
-        2,
         2,
         2,
         2,
@@ -3286,26 +3281,26 @@
         2,
         4,
         3,
-        5
+        5,
+        null,
+        null,
+        null,
+        5,
+        4
       ]
     },
     {
       "lugar": "est:28171001",
       "variable": "o3",
-      "valor": 33,
+      "valor": 12,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 56.1,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        62,
-        null,
-        null,
-        59,
-        57,
         59,
         57,
         56,
@@ -3324,26 +3319,26 @@
         62,
         50,
         44,
-        33
+        33,
+        null,
+        null,
+        null,
+        18,
+        12
       ]
     },
     {
       "lugar": "est:28171001",
       "variable": "pm10",
-      "valor": 8,
+      "valor": 10,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 9,
+      "valor_regla": 9.4,
       "provisional": true,
       "serie": [
-        8,
-        null,
-        null,
-        7,
-        7,
         7,
         8,
         8,
@@ -3362,7 +3357,12 @@
         6,
         7,
         8,
-        8
+        8,
+        null,
+        null,
+        null,
+        11,
+        10
       ]
     },
     {
@@ -3370,18 +3370,13 @@
       "variable": "pm25",
       "valor": 4,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
-      "valor_regla": 3.5,
+      "valor_regla": 3.8,
       "provisional": true,
       "serie": [
-        2,
-        null,
-        null,
-        2,
-        3,
         4,
         5,
         3,
@@ -3400,26 +3395,26 @@
         2,
         2,
         2,
+        4,
+        null,
+        null,
+        null,
+        5,
         4
       ]
     },
     {
       "lugar": "est:28180001",
       "variable": "no2",
-      "valor": 22,
+      "valor": 12,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "1h",
-      "valor_regla": 22,
+      "valor_regla": 12,
       "provisional": true,
       "serie": [
-        8,
-        null,
-        null,
-        5,
-        4,
         4,
         2,
         3,
@@ -3438,26 +3433,26 @@
         20,
         49,
         48,
-        22
+        22,
+        null,
+        null,
+        null,
+        9,
+        12
       ]
     },
     {
       "lugar": "est:28180001",
       "variable": "o3",
-      "valor": 37,
+      "valor": 40,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
-      "nivel": "bajo",
+      "nivel": "sin_dato",
       "regla": "media8h",
-      "valor_regla": 48.4,
+      "valor_regla": null,
       "provisional": true,
       "serie": [
-        62,
-        null,
-        null,
-        64,
-        66,
         67,
         70,
         67,
@@ -3476,26 +3471,26 @@
         50,
         17,
         13,
-        37
+        37,
+        null,
+        null,
+        null,
+        43,
+        40
       ]
     },
     {
       "lugar": "est:28180001",
       "variable": "pm25",
-      "valor": 10,
+      "valor": 2,
       "unidad": "µg/m³",
-      "hora": "2026-11-20T22:00:00+01:00",
+      "hora": "2026-11-21T03:00:00+01:00",
       "fuente": "ckan:calidad_aire_datos_dia",
       "nivel": "bajo",
       "regla": "media24h",
       "valor_regla": 2.1,
       "provisional": true,
       "serie": [
-        2,
-        null,
-        null,
-        2,
-        2,
         1,
         1,
         1,
@@ -3514,7 +3509,12 @@
         2,
         2,
         6,
-        10
+        10,
+        null,
+        null,
+        null,
+        2,
+        2
       ]
     },
     {
@@ -6276,7 +6276,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ALCA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28006004",
@@ -6285,7 +6285,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ALCO",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28007004",
@@ -6294,7 +6294,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:GETA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28009001",
@@ -6303,7 +6303,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ALCO",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28013002",
@@ -6312,7 +6312,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ARAN",
-      "polen_antiguedad_dias": 2
+      "polen_antiguedad_dias": 3
     },
     {
       "lugar": "est:28014002",
@@ -6321,7 +6321,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:COSL",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28016001",
@@ -6330,7 +6330,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ALCO",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28045002",
@@ -6339,7 +6339,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ALCO",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28047002",
@@ -6348,7 +6348,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:VILL",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28049003",
@@ -6357,7 +6357,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:COSL",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28058004",
@@ -6366,7 +6366,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:GETA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28065014",
@@ -6375,7 +6375,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:GETA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28067001",
@@ -6384,7 +6384,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ALCO",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28074007",
@@ -6393,7 +6393,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:GETA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28080003",
@@ -6402,7 +6402,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ROZA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28092005",
@@ -6411,7 +6411,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:GETA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28102001",
@@ -6420,7 +6420,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ALCA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28106001",
@@ -6429,7 +6429,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:GETA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28115003",
@@ -6438,7 +6438,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:FACF",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28120001",
@@ -6447,7 +6447,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:VILL",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28123002",
@@ -6456,7 +6456,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:COSL",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28127004",
@@ -6465,7 +6465,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ROZA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28133002",
@@ -6474,7 +6474,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:VILL",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28134002",
@@ -6483,7 +6483,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ALCO",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28148004",
@@ -6492,7 +6492,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:COSL",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28161001",
@@ -6501,7 +6501,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:GETA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28171001",
@@ -6510,7 +6510,7 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ROZA",
-      "polen_antiguedad_dias": 5
+      "polen_antiguedad_dias": 6
     },
     {
       "lugar": "est:28180001",
@@ -6519,261 +6519,261 @@
       "nivel_polen": "bajo",
       "peor_variable": "no2",
       "captador": "cap:ARAN",
-      "polen_antiguedad_dias": 2
+      "polen_antiguedad_dias": 3
     }
   ],
   "viento": [
     {
       "lat": 39.9,
       "lon": -4.55,
-      "velocidad_kmh": 1.8,
-      "direccion_grados": 79
+      "velocidad_kmh": 1.5,
+      "direccion_grados": 256
     },
     {
       "lat": 39.9,
       "lon": -4.3,
+      "velocidad_kmh": 3.0,
+      "direccion_grados": 346
+    },
+    {
+      "lat": 39.9,
+      "lon": -4.05,
       "velocidad_kmh": 2.2,
-      "direccion_grados": 9
-    },
-    {
-      "lat": 39.9,
-      "lon": -4.05,
-      "velocidad_kmh": 2.5,
-      "direccion_grados": 82
+      "direccion_grados": 90
     },
     {
       "lat": 39.9,
       "lon": -3.8,
-      "velocidad_kmh": 2.3,
-      "direccion_grados": 72
+      "velocidad_kmh": 4.5,
+      "direccion_grados": 119
     },
     {
       "lat": 39.9,
       "lon": -3.55,
-      "velocidad_kmh": 4.4,
-      "direccion_grados": 125
+      "velocidad_kmh": 6.4,
+      "direccion_grados": 164
     },
     {
       "lat": 39.9,
       "lon": -3.3,
-      "velocidad_kmh": 4.6,
-      "direccion_grados": 129
+      "velocidad_kmh": 6.2,
+      "direccion_grados": 170
     },
     {
       "lat": 39.9,
       "lon": -3.05,
-      "velocidad_kmh": 2.8,
-      "direccion_grados": 140
+      "velocidad_kmh": 4.2,
+      "direccion_grados": 160
     },
     {
       "lat": 40.15,
       "lon": -4.55,
-      "velocidad_kmh": 2.7,
-      "direccion_grados": 23
+      "velocidad_kmh": 3.1,
+      "direccion_grados": 21
     },
     {
       "lat": 40.15,
       "lon": -4.3,
-      "velocidad_kmh": 1.8,
-      "direccion_grados": 127
+      "velocidad_kmh": 2.1,
+      "direccion_grados": 59
     },
     {
       "lat": 40.15,
       "lon": -4.05,
-      "velocidad_kmh": 2.9,
-      "direccion_grados": 60
+      "velocidad_kmh": 1.5,
+      "direccion_grados": 76
     },
     {
       "lat": 40.15,
       "lon": -3.8,
+      "velocidad_kmh": 3.9,
+      "direccion_grados": 124
+    },
+    {
+      "lat": 40.15,
+      "lon": -3.55,
       "velocidad_kmh": 2.0,
-      "direccion_grados": 45
-    },
-    {
-      "lat": 40.15,
-      "lon": -3.55,
-      "velocidad_kmh": 2.3,
-      "direccion_grados": 39
+      "direccion_grados": 135
     },
     {
       "lat": 40.15,
       "lon": -3.3,
-      "velocidad_kmh": 2.6,
-      "direccion_grados": 106
+      "velocidad_kmh": 3.6,
+      "direccion_grados": 143
     },
     {
       "lat": 40.15,
       "lon": -3.05,
       "velocidad_kmh": 1.1,
-      "direccion_grados": 18
-    },
-    {
-      "lat": 40.4,
-      "lon": -4.55,
-      "velocidad_kmh": 5.8,
-      "direccion_grados": 173
-    },
-    {
-      "lat": 40.4,
-      "lon": -4.3,
-      "velocidad_kmh": 1.6,
-      "direccion_grados": 63
-    },
-    {
-      "lat": 40.4,
-      "lon": -4.05,
-      "velocidad_kmh": 2.3,
       "direccion_grados": 72
     },
     {
       "lat": 40.4,
-      "lon": -3.8,
-      "velocidad_kmh": 1.1,
-      "direccion_grados": 72
-    },
-    {
-      "lat": 40.4,
-      "lon": -3.55,
-      "velocidad_kmh": 1.9,
-      "direccion_grados": 68
-    },
-    {
-      "lat": 40.4,
-      "lon": -3.3,
-      "velocidad_kmh": 3.4,
-      "direccion_grados": 108
-    },
-    {
-      "lat": 40.4,
-      "lon": -3.05,
-      "velocidad_kmh": 2.3,
-      "direccion_grados": 141
-    },
-    {
-      "lat": 40.65,
       "lon": -4.55,
-      "velocidad_kmh": 14.3,
-      "direccion_grados": 137
+      "velocidad_kmh": 7.3,
+      "direccion_grados": 191
     },
     {
-      "lat": 40.65,
+      "lat": 40.4,
       "lon": -4.3,
-      "velocidad_kmh": 9.2,
-      "direccion_grados": 159
+      "velocidad_kmh": 3.6,
+      "direccion_grados": 84
     },
     {
-      "lat": 40.65,
+      "lat": 40.4,
       "lon": -4.05,
-      "velocidad_kmh": 1.1,
-      "direccion_grados": 18
+      "velocidad_kmh": 1.8,
+      "direccion_grados": 11
     },
     {
-      "lat": 40.65,
+      "lat": 40.4,
       "lon": -3.8,
-      "velocidad_kmh": 1.3,
-      "direccion_grados": 236
+      "velocidad_kmh": 1.0,
+      "direccion_grados": 135
     },
     {
-      "lat": 40.65,
+      "lat": 40.4,
       "lon": -3.55,
-      "velocidad_kmh": 2.7,
-      "direccion_grados": 157
-    },
-    {
-      "lat": 40.65,
-      "lon": -3.3,
-      "velocidad_kmh": 2.4,
+      "velocidad_kmh": 0.8,
       "direccion_grados": 207
     },
     {
-      "lat": 40.65,
-      "lon": -3.05,
-      "velocidad_kmh": 1.8,
-      "direccion_grados": 127
+      "lat": 40.4,
+      "lon": -3.3,
+      "velocidad_kmh": 4.2,
+      "direccion_grados": 149
     },
     {
-      "lat": 40.9,
+      "lat": 40.4,
+      "lon": -3.05,
+      "velocidad_kmh": 5.4,
+      "direccion_grados": 132
+    },
+    {
+      "lat": 40.65,
       "lon": -4.55,
-      "velocidad_kmh": 7.8,
+      "velocidad_kmh": 24.3,
+      "direccion_grados": 145
+    },
+    {
+      "lat": 40.65,
+      "lon": -4.3,
+      "velocidad_kmh": 13.7,
+      "direccion_grados": 166
+    },
+    {
+      "lat": 40.65,
+      "lon": -4.05,
+      "velocidad_kmh": 3.6,
+      "direccion_grados": 37
+    },
+    {
+      "lat": 40.65,
+      "lon": -3.8,
+      "velocidad_kmh": 3.8,
+      "direccion_grados": 311
+    },
+    {
+      "lat": 40.65,
+      "lon": -3.55,
+      "velocidad_kmh": 1.0,
+      "direccion_grados": 45
+    },
+    {
+      "lat": 40.65,
+      "lon": -3.3,
+      "velocidad_kmh": 0.7,
+      "direccion_grados": 180
+    },
+    {
+      "lat": 40.65,
+      "lon": -3.05,
+      "velocidad_kmh": 1.9,
       "direccion_grados": 158
     },
     {
       "lat": 40.9,
+      "lon": -4.55,
+      "velocidad_kmh": 12.6,
+      "direccion_grados": 177
+    },
+    {
+      "lat": 40.9,
       "lon": -4.3,
-      "velocidad_kmh": 9.0,
-      "direccion_grados": 182
+      "velocidad_kmh": 17.3,
+      "direccion_grados": 175
     },
     {
       "lat": 40.9,
       "lon": -4.05,
-      "velocidad_kmh": 8.5,
-      "direccion_grados": 152
+      "velocidad_kmh": 15.9,
+      "direccion_grados": 167
     },
     {
       "lat": 40.9,
       "lon": -3.8,
-      "velocidad_kmh": 6.8,
-      "direccion_grados": 183
+      "velocidad_kmh": 11.5,
+      "direccion_grados": 194
     },
     {
       "lat": 40.9,
       "lon": -3.55,
-      "velocidad_kmh": 4.7,
-      "direccion_grados": 148
+      "velocidad_kmh": 5.6,
+      "direccion_grados": 140
     },
     {
       "lat": 40.9,
       "lon": -3.3,
-      "velocidad_kmh": 2.5,
-      "direccion_grados": 172
+      "velocidad_kmh": 1.8,
+      "direccion_grados": 169
     },
     {
       "lat": 40.9,
       "lon": -3.05,
-      "velocidad_kmh": 1.8,
-      "direccion_grados": 180
+      "velocidad_kmh": 2.4,
+      "direccion_grados": 207
     },
     {
       "lat": 41.15,
       "lon": -4.55,
-      "velocidad_kmh": 5.1,
-      "direccion_grados": 184
+      "velocidad_kmh": 5.4,
+      "direccion_grados": 176
     },
     {
       "lat": 41.15,
       "lon": -4.3,
-      "velocidad_kmh": 3.3,
-      "direccion_grados": 167
+      "velocidad_kmh": 3.7,
+      "direccion_grados": 151
     },
     {
       "lat": 41.15,
       "lon": -4.05,
-      "velocidad_kmh": 3.1,
-      "direccion_grados": 111
+      "velocidad_kmh": 2.9,
+      "direccion_grados": 83
     },
     {
       "lat": 41.15,
       "lon": -3.8,
-      "velocidad_kmh": 7.2,
-      "direccion_grados": 143
+      "velocidad_kmh": 8.7,
+      "direccion_grados": 142
     },
     {
       "lat": 41.15,
       "lon": -3.55,
-      "velocidad_kmh": 10.8,
-      "direccion_grados": 184
+      "velocidad_kmh": 16.0,
+      "direccion_grados": 189
     },
     {
       "lat": 41.15,
       "lon": -3.3,
-      "velocidad_kmh": 7.8,
-      "direccion_grados": 193
+      "velocidad_kmh": 12.8,
+      "direccion_grados": 191
     },
     {
       "lat": 41.15,
       "lon": -3.05,
-      "velocidad_kmh": 7.9,
-      "direccion_grados": 204
+      "velocidad_kmh": 12.6,
+      "direccion_grados": 200
     }
   ]
 }
